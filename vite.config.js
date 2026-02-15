@@ -5,6 +5,9 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  build: {
+    chunkSizeWarningLimit: 1000, // 1000 KB
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
