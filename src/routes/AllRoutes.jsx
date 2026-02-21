@@ -1,7 +1,7 @@
+import CampaignerDetails from "@/pages/Campaigners/CampaignerDetails";
 import Campaigners from "@/pages/Campaigners/Campaigners";
 import Contact from "@/pages/Contact/Contact";
 import Home from "@/pages/Home/Home";
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 const AllRoutes = () => {
@@ -9,6 +9,10 @@ const AllRoutes = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/campaigners" element={<Campaigners />} />
+      <Route
+        path="/campaigner/:id/:campaignername"
+        element={<CampaignerDetails />}
+      />
       <Route path="/contact" element={<Contact />} />
     </Routes>
   );

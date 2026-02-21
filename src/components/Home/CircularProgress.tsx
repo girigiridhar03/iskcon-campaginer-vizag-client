@@ -1,37 +1,68 @@
 import React from "react";
 
 const CircularProgress = ({ value = 0 }) => {
-  const radius = 80;
+  const radius = 60; // base size (mobile)
+  const strokeWidth = 12;
+
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (value / 100) * circumference;
 
   return (
-    <div className="relative w-56 h-56 flex items-center justify-center">
-      <svg className="w-full h-full -rotate-90">
-        {/* Background Ring */}
+    <div
+      className="
+        relative flex items-center justify-center
+        w-40 h-40
+        md:w-48 md:h-48
+        lg:w-130 lg:h-60
+        xl:w-130 xl:h-72
+      "
+    >
+      <svg
+        viewBox="0 0 200 200"
+        className="
+          w-full h-full -rotate-90
+          lg:scale-110
+          xl:scale-125
+        "
+      >
+        {/* Background */}
         <circle
-          cx="50%"
-          cy="50%"
+          cx="100"
+          cy="100"
           r={radius}
-          strokeWidth="16"
-          className="fill-none stroke-primary/20"
+          strokeWidth={strokeWidth}
+          className="fill-none stroke-primary/30"
         />
 
-        {/* Progress Ring */}
+        {/* Progress */}
         <circle
-          cx="50%"
-          cy="50%"
+          cx="100"
+          cy="100"
           r={radius}
-          strokeWidth="16"
+          strokeWidth={strokeWidth}
           strokeDasharray={circumference}
           strokeDashoffset={offset}
           strokeLinecap="round"
-          className="fill-none stroke-primary transition-all duration-[1600ms] ease-out progress-glow"
+          className="
+            fill-none stroke-primary
+            transition-all duration-[1600ms] ease-out
+            progress-glow
+          "
         />
       </svg>
 
-      {/* Center Text */}
-      <span className="absolute text-3xl font-bold text-primary">{value}%</span>
+      {/* Center text */}
+      <span
+        className="
+          absolute font-bold text-primary
+          text-xl
+          md:text-2xl
+          lg:text-3xl
+          xl:text-4xl
+        "
+      >
+        {value}%
+      </span>
     </div>
   );
 };

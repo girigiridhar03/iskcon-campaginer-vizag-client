@@ -5,7 +5,7 @@ import ProgressBanner from '@/components/Home/ProgressBanner'
 
 const Home = () => {
   return (
-    <div className='container mx-auto'>
+    <div className='container mx-auto px-3'>
      <Banner1 />
      <ProgressBanner />
      <Banner />
