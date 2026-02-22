@@ -1,6 +1,7 @@
 import React from "react";
 import CustomCard from "../utils/CustomCard";
 import { Button } from "../ui/button";
+import CustomCardSkeleton from "../utils/CustomCardSkeleton";
 
 const CardSection = () => {
   return (
@@ -14,6 +15,7 @@ const CardSection = () => {
         <CustomCard />
         <CustomCard />
         <CustomCard />
+        {/* <CustomCardSkeleton /> */}
       </div>
 
       <div className="mt-6 flex justify-center">
