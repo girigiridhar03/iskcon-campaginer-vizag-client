@@ -9,6 +9,37 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import api from "@/api/api";
+
+const openRazorPay = async (payload) => {
+  const res = await api.post("/donations/create-order", payload);
+
+  const { orderId, amount, currency, key } = res.data.data;
+
+  const options = {
+    key,
+    amount,
+    currency,
+    order_id: orderId,
+    name: "ISKCON VIZAG CAMPAIGN",
+    description: "Donation",
+    prefill: {
+      name: payload.donorName,
+      contact: payload.donorPhone,
+      email: payload.email || "",
+    },
+    handler: function (res) {
+      console.log("razorpayresponse: ", res);
+      alert("Payment is being processed...");
+    },
+    theme: {
+      color: "#5B21B6",
+    },
+  };
+
+  const rzp = new window.Razorpay(options);
+  rzp.open();
+};
 
 export function DonationDialog({ open, onOpenChange, inputValue }) {
   const [formData, setFormData] = useState({
@@ -29,7 +60,7 @@ export function DonationDialog({ open, onOpenChange, inputValue }) {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors = {};
 
     if (!formData.name.trim()) {
@@ -46,8 +77,26 @@ export function DonationDialog({ open, onOpenChange, inputValue }) {
 
     setError(newErrors);
 
-    // Stop if errors exist
     if (Object.keys(newErrors).length > 0) return;
+
+    const payload = {
+      donorName: formData.name,
+      donorPhone: formData.phoneNumber,
+      amount: inputValue,
+      campaignId: "699bac2d874c2117f9c168f1",
+      campaignerId: "6999699444da0ca6c1b408cb",
+      isAnonymous: formData.anonymous,
+    };
+
+    if (formData.pan) {
+      payload.pan = formData.pan;
+    }
+
+    if (formData.email) {
+      payload.email = formData.email;
+    }
+
+    await openRazorPay(payload);
   };
 
   return (
@@ -71,7 +120,9 @@ export function DonationDialog({ open, onOpenChange, inputValue }) {
               value={formData.name}
               onChange={(e) => handleChange("name", e.target.value)}
             />
-            {error?.name && <p className="text-destructive pl-2 text-sm">{error?.name}</p>}
+            {error?.name && (
+              <p className="text-destructive pl-2 text-sm">{error?.name}</p>
+            )}
 
             <Input
               placeholder="Mobile Number *"
@@ -79,7 +130,9 @@ export function DonationDialog({ open, onOpenChange, inputValue }) {
               onChange={(e) => handleChange("phoneNumber", e.target.value)}
             />
             {error?.phoneNumber && (
-              <p className="text-destructive pl-2 text-sm">{error?.phoneNumber}</p>
+              <p className="text-destructive pl-2 text-sm">
+                {error?.phoneNumber}
+              </p>
             )}
 
             <Input
@@ -116,7 +169,9 @@ export function DonationDialog({ open, onOpenChange, inputValue }) {
                 value={formData.pan}
                 onChange={(e) => handleChange("pan", e.target.value)}
               />
-              {error?.pan && <p className="text-destructive pl-2 text-sm">{error?.pan}</p>}
+              {error?.pan && (
+                <p className="text-destructive pl-2 text-sm">{error?.pan}</p>
+              )}
             </>
           )}
 

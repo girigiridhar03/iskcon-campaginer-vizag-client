@@ -1,0 +1,53 @@
+import axios from "axios";
+import { toast } from "react-toastify";
+
+const api = axios.create({
+  baseURL: "http://localhost:2345/api",
+  timeout: 15000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+let isUnauthorizedHandled = false;
+const handleUnauthorized = () => {
+  if (isUnauthorizedHandled) return;
+
+  isUnauthorizedHandled = true;
+
+  toast.error("Session expired. Please sign in again.");
+
+  sessionStorage.removeItem("token");
+
+  setTimeout(() => {
+    window.location.replace("/signin");
+  }, 1500);
+};
+
+api.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem("token");
+    if (token && token !== "null" && token !== "undefined") {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (!error?.response) {
+      return Promise.reject({
+        message: "Network error",
+        originalError: error,
+      });
+    }
+
+    if (error.response.status === 401) {
+      handleUnauthorized();
+    }
+  },
+);
+
+export default api
