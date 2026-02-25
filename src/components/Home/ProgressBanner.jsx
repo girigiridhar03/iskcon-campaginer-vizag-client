@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import CircularProgress from "./CircularProgress";
+import { useSelector } from "react-redux";
 
 const ProgressBanner = () => {
-  const GOAL = 250000000; // ₹25 Cr
-  const ACHIEVED = 10000000; // ₹1 Cr
-  const PERCENT = Math.round((ACHIEVED / GOAL) * 100);
-
+  const { currentCampaign } = useSelector((state) => state.campaign);
   const [count, setCount] = useState(0);
   const [progress, setProgress] = useState(0);
 
@@ -19,14 +17,14 @@ const ProgressBanner = () => {
 
       const eased = 1 - Math.pow(1 - ratio, 3);
 
-      setCount(Math.floor(eased * ACHIEVED));
-      setProgress(Math.floor(eased * PERCENT));
+      setCount(Math.floor(eased * currentCampaign?.raisedAmount));
+      setProgress(Math.floor(eased * currentCampaign?.percentage));
 
       if (ratio < 1) requestAnimationFrame(animate);
     };
 
     requestAnimationFrame(animate);
-  }, []);
+  }, [currentCampaign]);
 
   return (
     <div className="relative w-full rounded-2xl drake-glow p-1.5 my-3">
@@ -34,11 +32,11 @@ const ProgressBanner = () => {
         {/* LEFT */}
         <div className="flex flex-col gap-2 justify-center items-center w-full">
           <div className="text-2xl xl:text-3xl font-semibold text-foreground">
-            GOAL: ₹{GOAL.toLocaleString("en-IN")}
+            GOAL: ₹{currentCampaign?.targetAmount?.toLocaleString("en-IN")}
           </div>
 
           <div className="text-2xl xl:text-3xl font-bold text-primary">
-            ₹{count.toLocaleString("en-IN")}
+            ₹{currentCampaign?.raisedAmount?.toLocaleString("en-IN")}
             <span className="text-2xl ml-2">ACHIEVED</span>
           </div>
         </div>

@@ -14,7 +14,7 @@ import api from "@/api/api";
 const openRazorPay = async (payload) => {
   const res = await api.post("/donations/create-order", payload);
 
-  const { orderId, amount, currency, key } = res.data.data;
+  const { orderId, amount, currency, key, donationId } = res.data.data;
 
   const options = {
     key,
@@ -27,6 +27,9 @@ const openRazorPay = async (payload) => {
       name: payload.donorName,
       contact: payload.donorPhone,
       email: payload.email || "",
+    },
+    notes: {
+      donationId,
     },
     handler: function (res) {
       console.log("razorpayresponse: ", res);
@@ -78,7 +81,7 @@ export function DonationDialog({ open, onOpenChange, inputValue }) {
     setError(newErrors);
 
     if (Object.keys(newErrors).length > 0) return;
-
+    onOpenChange(false);
     const payload = {
       donorName: formData.name,
       donorPhone: formData.phoneNumber,

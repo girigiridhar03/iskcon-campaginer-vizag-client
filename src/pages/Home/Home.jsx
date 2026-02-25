@@ -1,17 +1,35 @@
-import Banner from '@/components/Home/Banner'
-import Banner1 from '@/components/Home/Banner1'
-import CardSection from '@/components/Home/CardSection'
-import ProgressBanner from '@/components/Home/ProgressBanner'
+import Banner from "@/components/Home/Banner";
+import Banner1 from "@/components/Home/Banner1";
+import CardSection from "@/components/Home/CardSection";
+import ProgressBanner from "@/components/Home/ProgressBanner";
+import { getCurrentCampaign } from "@/store/campaign/campaign.service";
+import { getCampainer } from "@/store/campaigners/campaigners.service";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Home = () => {
-  return (
-    <div className='container mx-auto px-3'>
-     <Banner1 />
-     <ProgressBanner />
-     <Banner />
-     <CardSection />
-    </div>
-  )
-}
+  const { currentCampaign } = useSelector((state) => state.campaign);
+  const dispatch = useDispatch();
 
-export default Home
+  useEffect(() => {
+    dispatch(getCurrentCampaign());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!currentCampaign?._id) return;
+
+    dispatch(getCampainer(currentCampaign?._id));
+  }, [currentCampaign?._id, dispatch]);
+
+
+  return (
+    <div className="container mx-auto px-3">
+      <Banner1 />
+      <ProgressBanner />
+      <Banner />
+      <CardSection />
+    </div>
+  );
+};
+
+export default Home;
