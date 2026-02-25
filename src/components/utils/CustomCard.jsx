@@ -2,10 +2,31 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { MapPin } from "lucide-react";
 
-const CustomCard = () => {
-  const raised = 80002;
-  const goal = 1000000;
-  const percent = (raised / goal) * 100;
+const CustomCard = ({ campainer, index }) => {
+  const today = new Date();
+
+  const diffDays = campainer?.campaignId?.endDate
+    ? Math.max(
+        Math.ceil(
+          (new Date(campainer.campaignId.endDate) - today) /
+            (1000 * 60 * 60 * 24),
+        ),
+        0,
+      )
+    : 0;
+
+  const sevaBadges = [
+    "SEVA SHIROMANI", // Top 1
+    "SEVA RATNA", // Top 2
+    "SEVA BHUSHAN", // Top 3
+    "SEVA VIBHUSHAN", // Top 4
+    "SEVA VIBHAVA", // Top 5
+    "SEVA SHRESHTA", // Top 6
+    "SEVA PRAMUKH", // Top 7
+    "SEVA SAMARPIT", // Top 8
+    "SEVA SADHAK", // Top 9
+    "SEVA BANDHU", // Top 10
+  ];
 
   return (
     <Link to={"/campaigner/1/new"}>
@@ -14,7 +35,6 @@ const CustomCard = () => {
         relative 
         flex 
         flex-col 
-        overflow-hidden 
         rounded-2xl 
         bg-card 
         shadow-md 
@@ -25,33 +45,53 @@ const CustomCard = () => {
         py-0
       "
       >
+        {/* {index < 3 && (
+          <span
+            className={`
+      pointer-events-none
+      absolute inset-0
+      rounded-2xl
+      glow-border
+      ${index === 0 ? "glow-gold" : ""}
+      ${index === 1 ? "glow-silver" : ""}
+      ${index === 2 ? "glow-bronze" : ""}
+    `}
+          />
+        )} */}
+
         <div className="relative w-[96%] mx-auto mt-3 h-80 rounded-xl overflow-hidden bg-secondary">
-          <div className="absolute top-3 left-4 z-10 h-12 w-12 rounded-lg bg-primary flex items-center justify-center shadow-lg">
-            <span className="text-primary-foreground text-lg font-bold">1</span>
-          </div>
-          <div
-            className="
-            absolute 
-            top-3 
-            right-3 
-            z-10
-            rounded-full 
-            bg-linear-to-r 
-            from-primary 
-            to-secondary
-            px-4 
-            py-1.5 
-            text-xs 
-            font-bold 
-            text-primary-foreground 
-            shadow-md
-          "
-          >
-            SEVA SHIROMANI
-          </div>
+          {index < 10 && (
+            <div className="absolute top-3 left-4 z-10 h-12 w-12 rounded-lg bg-primary flex items-center justify-center shadow-lg">
+              <span className="text-primary-foreground text-lg font-bold">
+                {index + 1}
+              </span>
+            </div>
+          )}
+          {index < 10 && (
+            <div
+              className="
+      absolute 
+      top-3 
+      right-3 
+      z-10
+      rounded-full 
+      bg-linear-to-r 
+      from-primary 
+      to-secondary
+      px-4 
+      py-1.5 
+      text-xs 
+      font-bold 
+      text-primary-foreground 
+      shadow-md
+    "
+            >
+              {sevaBadges[index]}
+            </div>
+          )}
 
           <img
-            src="https://iskconmangalore.s3.ap-south-1.amazonaws.com/crowdfunding/Gunakara+Rama+Dasa.png"
+            src={campainer?.image?.url}
             alt="Campaigner"
             className="h-full w-full object-cover"
           />
@@ -61,13 +101,13 @@ const CustomCard = () => {
         <CardContent className="flex-1 px-5 py-1 space-y-2">
           <h3 className="text-sm font-medium leading-relaxed text-foreground">
             <span className="font-bold uppercase tracking-wide">
-              GUNAKARA RAMA DASA&apos;S
+              {campainer?.name}&apos;S
             </span>{" "}
-            campaign to build a{" "}
+            campaign to build a magnificent{" "}
             <span className="text-primary font-semibold">
-              Sri Radha Krishna Temple
+              Sri Srinivasa Govinda Temple
             </span>{" "}
-            and Centre for culture and education in Mangalore, Karnataka.
+            and cultural complex in Visakhapatnam
           </h3>
 
           <div className="flex items-center gap-2 text-sm">
@@ -107,7 +147,7 @@ const CustomCard = () => {
                   Raised
                 </div>
                 <div className="text-2xl font-bold">
-                  ₹{raised.toLocaleString("en-IN")}
+                  ₹{campainer?.raisedAmount?.toLocaleString("en-IN")}
                 </div>
               </div>
 
@@ -116,7 +156,7 @@ const CustomCard = () => {
                   Goal
                 </div>
                 <div className="text-xl font-semibold opacity-90">
-                  ₹{goal.toLocaleString("en-IN")}
+                  ₹{campainer?.targetAmount?.toLocaleString("en-IN")}
                 </div>
               </div>
             </div>
@@ -124,7 +164,7 @@ const CustomCard = () => {
               <div className="h-3 rounded-full bg-white/30 overflow-hidden">
                 <div
                   className="h-full rounded-full bg-primary"
-                  style={{ width: `${percent}%` }}
+                  style={{ width: `${campainer?.percentage}%` }}
                 />
               </div>
 
@@ -138,7 +178,7 @@ const CustomCard = () => {
             backdrop-blur-sm
           "
                 >
-                  {percent.toFixed(2)}%
+                  {campainer?.percentage?.toFixed(2)}%
                 </span>
 
                 <span
@@ -150,7 +190,7 @@ const CustomCard = () => {
             backdrop-blur-sm
           "
                 >
-                  37 Days
+                  {diffDays} Days
                 </span>
               </div>
             </div>

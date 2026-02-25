@@ -18,7 +18,9 @@ const CardSection = () => {
             <CustomCardSkeleton key={index} />
           ))
         ) : campaginers?.length > 0 ? (
-          campaginers?.map((campaginer) => <CustomCard key={campaginer?._id} />)
+          campaginers?.map((campaginer,index) => (
+            <CustomCard key={campaginer?._id} campainer={campaginer} index={index} />
+          ))
         ) : (
           <p>No Campaigners Found.</p>
         )}
