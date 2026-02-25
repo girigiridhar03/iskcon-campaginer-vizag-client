@@ -11,7 +11,7 @@ const Banner = () => {
       className="
         relative 
         w-full 
-        h-[70vh] sm:h-[78vh]
+        h-[50vh]  xl:h-[60vh]
         overflow-hidden
       "
     >
@@ -19,7 +19,7 @@ const Banner = () => {
       <img
         src={templeMainImage}
         alt="Temple"
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover xl:object-[50%_-120px]"
       />
 
       {/* Gradient Overlay */}
@@ -56,7 +56,7 @@ const Banner = () => {
           <h1
             className="
               text-white 
-              text-3xl sm:text-4xl md:text-6xl 
+              text-3xl sm:text-3xl lg:text-4xl xl:text-6xl 
               font-bold 
               leading-tight
             "

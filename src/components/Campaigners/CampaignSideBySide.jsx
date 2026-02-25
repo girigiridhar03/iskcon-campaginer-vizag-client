@@ -2,7 +2,7 @@ import CampaignDonatePanel from "./CampaignerDonatePanel";
 
 const CampaignSideBySide = () => {
   return (
-    <section className="py-9 w-full">
+    <section className="py-1 w-full">
       <div
         className="
           w-full mx-auto max-w-7xl
@@ -22,7 +22,7 @@ const CampaignSideBySide = () => {
             border border-border
           "
         >
-          <div className="relative h-105 bg-muted shrink-0">
+          <div className="relative h-95 bg-muted shrink-0">
             <div
               className="
                 absolute inset-0
@@ -39,7 +39,7 @@ const CampaignSideBySide = () => {
                 relative z-10
                 h-full w-full
                 object-contain
-                pt-1
+                pt-0
               "
             />
             <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-card to-transparent" />
