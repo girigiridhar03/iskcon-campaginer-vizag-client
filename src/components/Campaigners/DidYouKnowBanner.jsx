@@ -3,7 +3,7 @@ import { Badge } from "../ui/badge";
 
 export default function DidYouKnowBanner({ image }) {
   return (
-    <section className="px-4 pb-24">
+    <section className="px-4 pb-14">
       <div
         className="relative max-w-5xl mx-auto rounded-3xl overflow-hidden"
         style={{

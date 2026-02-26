@@ -414,7 +414,59 @@ body {
   }
 }
 
+/* Reusable smooth zoom in–out animation */
+.zoom-slow {
+  animation: zoomInOut 18s ease-in-out infinite;
+  will-change: transform;
+}
 
+/* Slightly stronger zoom (optional) */
+.zoom-medium {
+  animation: zoomInOutMedium 16s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Calm zoom (very subtle) */
+.zoom-soft {
+  animation: zoomInOutSoft 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes zoomInOut {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomInOutMedium {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomInOutSoft {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;

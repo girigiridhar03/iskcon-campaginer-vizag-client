@@ -1,0 +1,230 @@
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { BookOpen } from "lucide-react";
+
+export default function PowerOfGivingSection() {
+  const handleDonateClick = () => {
+    const el = document.getElementById("donation-card");
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  return (
+    <section className="space-y-14">
+      {/* ================= POWER OF GIVING ================= */}
+      <div className="text-center space-y-4 px-4">
+        <h2 className="text-3xl md:text-4xl font-bold">
+          The Power of <span className="text-primary">Giving</span>
+        </h2>
+
+        <p className="text-muted-foreground max-w-2xl mx-auto">
+          Sacred scriptures glorify those who support spiritual causes
+        </p>
+
+        <div className="grid gap-6 mt-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+          {[
+            {
+              title: "Garuda Purana",
+              text: "One who contributes to building a temple attains heaven and is honored by all.",
+              img: "https://cdn.hkmchennai.org/cdn-files/garuda_purana.mp4",
+            },
+            {
+              title: "Vishnu Purana (3.8.27)",
+              text: "One who donates towards the construction of a temple is liberated from all sins and attains the heavenly realms.",
+              img: "https://cdn.hkmchennai.org/cdn-files/vishnu_purana.mp4",
+            },
+            {
+              title: "Vamana Purana",
+              text: "One can attain the spiritual world (Vaikuntha) by helping construct or renovate a temple.",
+              img: "https://cdn.hkmchennai.org/cdn-files/vamana_purana.mp4",
+            },
+          ].map((item, i) => (
+            <Card
+              key={i}
+              className="relative h-80 overflow-hidden rounded-2xl group py-1"
+            >
+              <video
+                src={item.img}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div
+                className="absolute inset-x-0 bottom-0 h-[55%] 
+                  bg-linear-to-t from-black/90 via-black/90 to-transparent"
+              />
+              <div className="relative z-10 text-left p-6 flex flex-col justify-end h-full text-white">
+                <p className="text-primary font-semibold">{item.title}</p>
+                <p className="mt-2 text-sm leading-relaxed">{item.text}</p>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* ================= FAQ ================= */}
+      <div className="max-w-3xl mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center mb-8">
+          Frequently Asked <span className="text-primary">Questions</span>
+        </h2>
+
+        <Accordion type="single" collapsible className="space-y-3">
+          {[
+            {
+              q: "What is the goal of this campaign?",
+              a: "To raise donations for the construction of Dakshina Dwaraka Dham in Chennai.",
+            },
+            {
+              q: "How does my donation help?",
+              a: "Your contribution supports temple construction, education, and cultural programs.",
+            },
+            {
+              q: "Will I get 80G tax exemption?",
+              a: "Yes, eligible donors will receive 80G tax exemption certificates.",
+            },
+            {
+              q: "When will construction be completed?",
+              a: "Construction is progressing in phases and updates are shared regularly.",
+            },
+          ].map((item, i) => (
+            <AccordionItem
+              key={i}
+              value={`faq-${i}`}
+              className="bg-muted rounded-xl px-4"
+            >
+              <AccordionTrigger className="text-left font-semibold">
+                {item.q}
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                {item.a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+
+      <section className="px-4 md:px-10">
+        <div
+          className="
+          relative
+          max-w-7xl mx-auto
+          h-100
+          overflow-hidden
+          rounded-3xl
+          border border-primary
+        "
+        >
+          {/* Background Image */}
+          <img
+            src="https://cdn.hkmchennai.org/cdn-files/education_wing.jpg"
+            alt="Building Character"
+            className="absolute inset-0 w-full h-full object-cover zoom-medium"
+          />
+
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black/30" />
+
+          {/* Content */}
+          <div
+            className="
+            relative z-10
+            flex flex-col
+            items-center
+            justify-center
+            text-center
+            px-6
+            py-16
+            md:py-24
+            text-white
+          "
+          >
+            {/* Badge */}
+            <div
+              className="
+              inline-flex items-center gap-2
+              px-4 py-1.5
+              rounded-full
+              border border-primary/50
+              bg-black/40
+              text-primary
+              text-xs md:text-sm
+              font-semibold
+              tracking-wide
+              mb-6
+            "
+            >
+              <BookOpen className="h-4 w-4" />
+              NURTURING MINDS
+            </div>
+
+            {/* Heading */}
+            <h2 className="text-3xl md:text-5xl font-bold leading-tight">
+              Building <span className="text-primary">Character</span>
+            </h2>
+
+            {/* Divider */}
+            <div className="w-16 h-[2px] bg-primary my-6" />
+
+            {/* Description */}
+            <p className="max-w-3xl text-sm md:text-base text-white/85 leading-relaxed">
+              Four classrooms accommodating nearly 200 participants. Children
+              and adults learn the{" "}
+              <span className="font-semibold text-white">Bhagavad-gita</span>,
+              ethics, and values rooted in Vedic wisdom.
+            </p>
+
+            {/* CTA Text */}
+            <p className="mt-8 text-sm font-semibold tracking-widest text-primary">
+              INVEST IN KNOWLEDGE
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= FOUNDER ================= */}
+      <div className="text-center px-4 space-y-6">
+        <h2 className="text-3xl font-bold">Our Founder & Acharya</h2>
+
+        <img
+          src="https://cdn.hkmchennai.org/cdn-files/prabhupada.jpg"
+          alt="Srila Prabhupada"
+          className="h-40 w-40 rounded-full mx-auto object-cover shadow-lg"
+        />
+
+        <Card className="max-w-2xl mx-auto p-6 text-muted-foreground leading-relaxed">
+          His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada brought the
+          timeless teachings of Lord Krishna to the world and founded ISKCON,
+          inspiring millions to walk the path of devotion and service.
+        </Card>
+      </div>
+
+      {/* ================= DARK CTA ================= */}
+      <div className="relative bg-[#071f2f] rounded-3xl mx-4 md:mx-12 overflow-hidden">
+        <div className="relative z-10 text-center py-20 px-6 text-white space-y-6">
+          <p className="text-lg md:text-xl italic max-w-3xl mx-auto leading-relaxed">
+            “We are trying to give human society an opportunity for happiness,
+            peace of mind and good qualities through God Consciousness.”
+          </p>
+
+          <p className="text-sm opacity-80">— Srila Prabhupada</p>
+
+          <Button
+            size="lg"
+            className="rounded-full px-12 bg-primary text-primary-foreground font-semibold"
+            onClick={handleDonateClick}
+          >
+            ❤️ Contribute Now
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}

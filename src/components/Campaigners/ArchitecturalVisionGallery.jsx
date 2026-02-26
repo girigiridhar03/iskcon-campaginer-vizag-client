@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 
 export default function ArchitecturalVisionGallery() {
   return (
-    <section className="py-24 px-4">
+    <section className="py-14 px-4">
       <div className="text-center max-w-3xl mx-auto mb-14">
         <h2 className="text-3xl md:text-4xl font-bold">
           Architectural <span className="text-primary">Vision</span>

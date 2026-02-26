@@ -1,21 +1,21 @@
 export default function MajesticAltarsBanner() {
   return (
-    <section className="px-4 pb-24">
+    <section className="px-4 pb-14">
       <div
         className="
           relative
           max-w-7xl mx-auto
           rounded-3xl
           overflow-hidden
-          min-h-[280px] md:min-h-[360px]
+          min-h-70 md:min-h-90
           flex items-center justify-center
           bg-black
         "
       >
         <img
-          src="https://images.unsplash.com/photo-1600250395178-40fe752e5189"
+          src="	https://cdn.hkmchennai.org/cdn-files/majestic_altar.jpg"
           alt="Altars"
-          className="absolute inset-0 w-full h-full object-cover opacity-50"
+          className="absolute inset-0 w-full h-full object-cover opacity-40 zoom-medium"
         />
 
         <div className="relative z-10 text-center px-6">

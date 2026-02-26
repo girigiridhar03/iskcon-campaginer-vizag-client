@@ -4,32 +4,32 @@ const privileges = [
   {
     title: "Gift & Mahaprasadam",
     desc: "Donate and receive blessed Mahaprasadam and a spiritual gift as divine blessings.",
-    image: "https://images.unsplash.com/photo-1604152135912-04a022e23696",
+    image: "https://cdn.hkmchennai.org/cdn-files/gift.jpg",
     bg: "bg-blue-50",
   },
   {
     title: "80G Tax Exemption",
     desc: "Donors will receive an 80G certificate for tax exemption.",
-    image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae",
+    image: "https://cdn.hkmchennai.org/cdn-files/tax.jpg",
     bg: "bg-amber-50",
   },
   {
     title: "Special Puja",
     desc: "A special puja will be offered in your name at the temple inauguration.",
-    image: "https://images.unsplash.com/photo-1585909695284-32d2985ac9c0",
+    image: "https://cdn.hkmchennai.org/cdn-files/puja.jpg",
     bg: "bg-blue-50",
   },
   {
     title: "Vedic Literatures",
     desc: "A special gift set of spiritual books delivered to your doorstep.",
-    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
+    image: "https://cdn.hkmchennai.org/cdn-files/vedic_books.jpg",
     bg: "bg-amber-50",
   },
 ];
 
 export default function DonorPrivileges() {
   return (
-    <section className="py-24 px-6">
+    <section className="py-14 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold">
