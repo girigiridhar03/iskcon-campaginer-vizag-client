@@ -1,6 +1,9 @@
+import { useSelector } from "react-redux";
 import CampaignDonatePanel from "./CampaignerDonatePanel";
 
 const CampaignSideBySide = () => {
+  const { singleCampaignerDetails } = useSelector((state) => state.campaginer);
+
   return (
     <section className="py-1 w-full">
       <div
@@ -33,8 +36,8 @@ const CampaignSideBySide = () => {
               "
             />
             <img
-              src="https://iskconmangalore.s3.ap-south-1.amazonaws.com/crowdfunding/Gunakara+Rama+Dasa.png"
-              alt="Campaigner"
+              src={singleCampaignerDetails?.campaginers?.image?.url}
+              alt={`Campaigner-${singleCampaignerDetails?.campaginers?.image?.filename}`}
               className="
                 relative z-10
                 h-full w-full
@@ -46,16 +49,16 @@ const CampaignSideBySide = () => {
           </div>
           <div className="flex flex-col flex-1 p-8 space-y-2">
             <h3 className="text-2xl font-bold text-foreground tracking-tight">
-              Gunakara Rama Dasa
+              {singleCampaignerDetails?.campaginers?.name}
             </h3>
-            <p className="text-sm font-medium text-primary">
-              ISKCON • Campaign Leader
-            </p>
+            <p className="text-sm font-medium text-primary">ISKCON • DEVOTE</p>
             <p className="text-muted-foreground leading-relaxed">
               As a devoted well-wisher, I am leading this sacred campaign to
-              support the creation of a magnificent ISKCON Sri Radha Krishna
-              Temple and Cultural Complex in the Hubli–Dharwad region of
-              Karnataka.
+              support the creation of a magnificent ISKCON{" "}
+              <span className="text-primary font-semibold">
+                Sri Srinivasa Govinda Temple
+              </span>{" "}
+              and Cultural Complex in Visakhapatnam
             </p>
             <div className="mt-auto flex flex-wrap gap-3 pt-4">
               <span
@@ -66,7 +69,7 @@ const CampaignSideBySide = () => {
                   text-xs font-medium text-muted-foreground
                 "
               >
-                📍 Vishakapatnam
+                📍 Vishakapatnam, Gambirm
               </span>
 
               <span
@@ -83,7 +86,7 @@ const CampaignSideBySide = () => {
           </div>
         </div>
 
-        <CampaignDonatePanel />
+        <CampaignDonatePanel details={singleCampaignerDetails} />
       </div>
     </section>
   );

@@ -29,7 +29,7 @@ const CustomCard = ({ campainer, index }) => {
   ];
 
   return (
-    <Link to={"/campaigner/1/new"}>
+    <Link to={`/campaigner/${campainer?._id}/${campainer?.name}`}>
       <Card
         className="
         relative 
@@ -89,10 +89,9 @@ const CustomCard = ({ campainer, index }) => {
               {sevaBadges[index]}
             </div>
           )}
-
           <img
             src={campainer?.image?.url}
-            alt="Campaigner"
+            alt={`Campaigner-${campainer?.image?.filename}`}
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-card to-transparent" />
@@ -111,7 +110,7 @@ const CustomCard = ({ campainer, index }) => {
           </h3>
 
           <div className="flex items-center gap-2 text-sm">
-            <span className="font-medium text-secondary">ISKCON Vizag</span>
+            <span className="font-medium text-secondary">ISKCON VIZAG</span>
             <span className="text-muted-foreground">•</span>
             <div className="flex items-center gap-1 text-muted-foreground">
               <MapPin className="h-4 w-4" />

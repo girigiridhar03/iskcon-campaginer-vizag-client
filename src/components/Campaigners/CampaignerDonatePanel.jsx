@@ -4,13 +4,21 @@ import { Button } from "@/components/ui/button";
 import { DonationDialog } from "./DonationDialog";
 import { useState } from "react";
 
-const CampaignDonatePanel = () => {
-  const raised = 605351;
-  const goal = 5000000;
-  const percent = Math.min((raised / goal) * 100, 100);
-
+const CampaignDonatePanel = ({ details }) => {
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(0);
+
+  const today = new Date();
+
+  const diffDays = details?.campaginers?.campaignId?.endDate
+    ? Math.max(
+        Math.ceil(
+          (new Date(details?.campaginers?.campaignId.endDate) - today) /
+            (1000 * 60 * 60 * 24),
+        ),
+        0,
+      )
+    : 0;
 
   return (
     <>
@@ -48,7 +56,7 @@ const CampaignDonatePanel = () => {
                   Amount Raised
                 </p>
                 <p className="text-2xl font-bold mt-1">
-                  ₹{raised.toLocaleString("en-IN")}
+                  ₹{details?.campaginers?.raisedAmount?.toLocaleString("en-IN")}
                 </p>
               </div>
 
@@ -57,16 +65,19 @@ const CampaignDonatePanel = () => {
                   Campaign Goal
                 </p>
                 <p className="text-xl font-semibold mt-1">
-                  ₹{goal.toLocaleString("en-IN")}
+                  ₹{details?.campaginers?.targetAmount?.toLocaleString("en-IN")}
                 </p>
               </div>
             </div>
 
             {/* Progress */}
             <div className="space-y-2">
-              <Progress value={percent} className="h-3 bg-white/30" />
+              <Progress
+                value={details?.campaginers?.percentage}
+                className="h-3 bg-white/30"
+              />
               <p className="text-xs text-white/70">
-                {percent.toFixed(2)}% achieved
+                {details?.campaginers?.percentage?.toFixed(2)}% achieved
               </p>
             </div>
 
@@ -77,14 +88,14 @@ const CampaignDonatePanel = () => {
                   <p className="text-xs uppercase tracking-wide text-white/70">
                     Days Left
                   </p>
-                  <p className="text-3xl font-bold mt-2">37</p>
+                  <p className="text-3xl font-bold mt-2">{diffDays}</p>
                 </div>
 
                 <div>
                   <p className="text-xs uppercase tracking-wide text-white/70">
                     Funders
                   </p>
-                  <p className="text-3xl font-bold mt-2">5</p>
+                  <p className="text-3xl font-bold mt-2">{details?.count}</p>
                 </div>
               </div>
             </div>
