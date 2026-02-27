@@ -1,4 +1,3 @@
-import templeMainImage from "../../assets/Temple-Images/VIZAG-B_8 - Photo.jpg";
 
 const Banner = () => {
   const handleDonateClick = () => {
@@ -17,7 +16,9 @@ const Banner = () => {
     >
       {/* Image */}
       <img
-        src={templeMainImage}
+        src={
+          "https://storage.googleapis.com/campaigners-images/Temple%20Images/TempleHeader.jpg"
+        }
         alt="Temple"
         className="absolute inset-0 w-full h-full object-cover xl:object-[50%_-120px]"
       />

@@ -4,37 +4,44 @@ const spaces = [
   {
     title: "Divine Altar",
     desc: "Beautifully carved altar of Sri Rukmini Dwarkadish.",
-    image: "https://cdn.hkmchennai.org/cdn-files/altar.jpg",
+    image:
+      "https://storage.googleapis.com/campaigners-images/Temple%20Images/altar.jpg",
   },
   {
     title: "Cultural Hall",
     desc: "300-seater hall for devotional performances.",
-    image: "https://cdn.hkmchennai.org/cdn-files/kala_madhuryam.jpg",
+    image:
+      "https://storage.googleapis.com/campaigners-images/Temple%20Images/kala_madhuryam.jpg",
   },
   {
     title: "Prasadam Hall",
     desc: "A sacred hall serving Krishna-prasadam.",
-    image: "https://cdn.hkmchennai.org/cdn-files/annadanam_hall.jpg",
+    image:
+      "https://storage.googleapis.com/campaigners-images/Temple%20Images/annadanam_hall.jpg",
   },
   {
     title: "Festival Hall",
     desc: "A grand space for kirtans, festivals & cultural celebrations.",
-    image: "https://cdn.hkmchennai.org/cdn-files/festival_hall.jpg",
+    image:
+      "https://storage.googleapis.com/campaigners-images/Temple%20Images/festival_hall.jpg",
   },
   {
     title: "Harinam Mandap",
     desc: "A serene space for chanting & meditation.",
-    image: "https://cdn.hkmchennai.org/cdn-files/harinaam_mandap.jpg",
+    image:
+      "https://storage.googleapis.com/campaigners-images/Temple%20Images/harinaam_mandap.jpg",
   },
   {
     title: "ICVK Kids Program",
     desc: "Value-based cultural learning for children.",
-    image: "https://cdn.hkmchennai.org/cdn-files/icvk.jpg",
+    image:
+      "https://storage.googleapis.com/campaigners-images/Temple%20Images/icvk.jpg",
   },
   {
     title: "Gita Life Program",
     desc: "Transforming youth & families with Gita wisdom.",
-    image: "https://cdn.hkmchennai.org/cdn-files/gita_life.jpg",
+    image:
+      "https://storage.googleapis.com/campaigners-images/Temple%20Images/gita_life.jpg",
   },
 ];
 

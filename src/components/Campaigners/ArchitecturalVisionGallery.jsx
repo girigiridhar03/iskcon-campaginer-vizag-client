@@ -1,35 +1,115 @@
 import { Card } from "@/components/ui/card";
+import { Box } from "lucide-react";
 
 export default function ArchitecturalVisionGallery() {
   return (
-    <section className="py-14 px-4">
-      <div className="text-center max-w-3xl mx-auto mb-14">
-        <h2 className="text-3xl md:text-4xl font-bold">
+    <section className="py-24 px-6 bg-background">
+      {/* HEADER */}
+      <div className="text-center max-w-3xl mx-auto mb-20">
+        <h2 className="text-5xl font-bold tracking-tight">
           Architectural <span className="text-primary">Vision</span>
         </h2>
-        <p className="text-muted-foreground mt-3">
-          A fusion of Pallava craftsmanship and modern engineering.
+
+        <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
+          A fusion of traditional Pallava craftsmanship and modern engineering.
+          Explore the visualizations of Chennai's Dakshina Dwaraka Dham.
         </p>
       </div>
 
-      <div className="max-w-6xl mx-auto grid gap-6 md:grid-cols-3">
-        <Card className="md:col-span-2 overflow-hidden rounded-3xl">
+      {/* GRID */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* LEFT LARGE IMAGE */}
+        <Card className="relative lg:col-span-2 h-130 overflow-hidden rounded-3xl shadow-xl group py-0">
           <img
-            src="/images/front-view.jpg"
-            className="w-full h-full object-cover"
+            src="https://storage.googleapis.com/campaigners-images/Temple%20Images/frontview.jpg"
+            alt="Grand Front View"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          <p className="p-4 font-semibold">Grand Front View</p>
+
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent flex items-end">
+            <div className="p-8 flex items-center gap-4">
+              <div className="bg-white/20 backdrop-blur-md p-3 rounded-full">
+                <Box className="text-primary w-5 h-5" />
+              </div>
+              <h3 className="text-white text-xl font-semibold">
+                Grand Front View
+              </h3>
+            </div>
+          </div>
         </Card>
 
-        <div className="grid gap-6">
-          <Card className="overflow-hidden rounded-3xl">
-            <img src="/images/aerial.jpg" />
-            <p className="p-4 font-semibold">Aerial Perspective</p>
+        {/* RIGHT SIDE */}
+        <div className="flex flex-col gap-3">
+          {/* TOP RIGHT WIDE */}
+          <Card className="relative h-62.5 overflow-hidden rounded-3xl shadow-xl group py-0">
+            <img
+              src="https://storage.googleapis.com/campaigners-images/Temple%20Images/Aerial.jpg"
+              alt="Aerial"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent flex items-end">
+              <div className="p-6 flex items-center gap-3">
+                <div className="bg-white/20 backdrop-blur-md p-2 rounded-full">
+                  <Box className="text-primary w-4 h-4" />
+                </div>
+                <h3 className="text-white font-semibold">Aerial Perspective View</h3>
+              </div>
+            </div>
           </Card>
-          <Card className="overflow-hidden rounded-3xl">
-            <img src="/images/side.jpg" />
-            <p className="p-4 font-semibold">Side View</p>
+          <Card className="relative h-62.5 overflow-hidden rounded-3xl shadow-xl group py-0">
+            <img
+              src="https://storage.googleapis.com/campaigners-images/Temple%20Images/Exterior.jpg"
+              alt="Exterior"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent flex items-end">
+              <div className="p-6 flex items-center gap-3">
+                <div className="bg-white/20 backdrop-blur-md p-2 rounded-full">
+                  <Box className="text-primary w-4 h-4" />
+                </div>
+                <h3 className="text-white font-semibold">Exterior Perspective View</h3>
+              </div>
+            </div>
           </Card>
+
+          {/* BOTTOM TWO SMALL
+          <div className="grid grid-cols-2 gap-8">
+            <Card className="relative h-[240px] overflow-hidden rounded-3xl shadow-xl group py-0">
+              <img
+                src="https://storage.googleapis.com/campaigners-images/Temple%20Images/sideview.jpg"
+                alt="Beach View"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex items-end">
+                <div className="p-6 flex items-center gap-3">
+                  <div className="bg-white/20 backdrop-blur-md p-2 rounded-full">
+                    <Box className="text-primary w-4 h-4" />
+                  </div>
+                  <h3 className="text-white font-semibold">Beach View</h3>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="relative h-[240px] overflow-hidden rounded-3xl shadow-xl group py-0">
+              <img
+                src="https://storage.googleapis.com/campaigners-images/Temple%20Images/sideview.jpg"
+                alt="Side View"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex items-end">
+                <div className="p-6 flex items-center gap-3">
+                  <div className="bg-white/20 backdrop-blur-md p-2 rounded-full">
+                    <Box className="text-primary w-4 h-4" />
+                  </div>
+                  <h3 className="text-white font-semibold">Side View</h3>
+                </div>
+              </div>
+            </Card>
+          </div> */}
         </div>
       </div>
     </section>

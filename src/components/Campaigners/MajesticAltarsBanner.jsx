@@ -13,7 +13,7 @@ export default function MajesticAltarsBanner() {
         "
       >
         <img
-          src="	https://cdn.hkmchennai.org/cdn-files/majestic_altar.jpg"
+          src="https://storage.googleapis.com/campaigners-images/Temple%20Images/majestic_altar.jpg"
           alt="Altars"
           className="absolute inset-0 w-full h-full object-cover opacity-40 zoom-medium"
         />

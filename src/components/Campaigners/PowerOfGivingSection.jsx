@@ -31,17 +31,17 @@ export default function PowerOfGivingSection() {
             {
               title: "Garuda Purana",
               text: "One who contributes to building a temple attains heaven and is honored by all.",
-              img: "https://cdn.hkmchennai.org/cdn-files/garuda_purana.mp4",
+              img: "https://storage.googleapis.com/campaigners-images/Temple%20Images/garuda_purana.mp4",
             },
             {
               title: "Vishnu Purana (3.8.27)",
               text: "One who donates towards the construction of a temple is liberated from all sins and attains the heavenly realms.",
-              img: "https://cdn.hkmchennai.org/cdn-files/vishnu_purana.mp4",
+              img: "https://storage.googleapis.com/campaigners-images/Temple%20Images/vishnu_purana.mp4",
             },
             {
               title: "Vamana Purana",
               text: "One can attain the spiritual world (Vaikuntha) by helping construct or renovate a temple.",
-              img: "https://cdn.hkmchennai.org/cdn-files/vamana_purana.mp4",
+              img: "https://storage.googleapis.com/campaigners-images/Temple%20Images/vamana_purana.mp4",
             },
           ].map((item, i) => (
             <Card
@@ -124,7 +124,7 @@ export default function PowerOfGivingSection() {
         >
           {/* Background Image */}
           <img
-            src="https://cdn.hkmchennai.org/cdn-files/education_wing.jpg"
+            src="https://storage.googleapis.com/campaigners-images/Temple%20Images/education_wing.jpg"
             alt="Building Character"
             className="absolute inset-0 w-full h-full object-cover zoom-medium"
           />
@@ -171,7 +171,7 @@ export default function PowerOfGivingSection() {
             </h2>
 
             {/* Divider */}
-            <div className="w-16 h-[2px] bg-primary my-6" />
+            <div className="w-16 h-0.5 bg-primary my-6" />
 
             {/* Description */}
             <p className="max-w-3xl text-sm md:text-base text-white/85 leading-relaxed">
@@ -194,7 +194,7 @@ export default function PowerOfGivingSection() {
         <h2 className="text-3xl font-bold">Our Founder & Acharya</h2>
 
         <img
-          src="https://cdn.hkmchennai.org/cdn-files/prabhupada.jpg"
+          src="https://storage.googleapis.com/campaigners-images/Temple%20Images/prabhupada.jpg"
           alt="Srila Prabhupada"
           className="h-40 w-40 rounded-full mx-auto object-cover shadow-lg"
         />

@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "../ui/badge";
 
-export default function DidYouKnowBanner({ image }) {
+export default function DidYouKnowBanner() {
   return (
     <section className="px-4 pb-14">
       <div
         className="relative max-w-5xl mx-auto rounded-3xl overflow-hidden"
         style={{
-          backgroundImage: `url(https://cdn.hkmchennai.org/cdn-files/cultural_hall_bg.jpg)`,
+          backgroundImage: `url(https://storage.googleapis.com/campaigners-images/Temple%20Images/cultural_hall_bg.jpg)`,
         }}
       >
         <div className="absolute inset-0 bg-black/70" />
@@ -26,9 +26,7 @@ export default function DidYouKnowBanner({ image }) {
             To host divine programs, heritage arts, and festivals.
           </p>
 
-          <Badge className="mt-8">
-           Contribute to sustain our culture.
-          </Badge>
+          <Badge className="mt-8">Contribute to sustain our culture.</Badge>
         </div>
       </div>
     </section>
