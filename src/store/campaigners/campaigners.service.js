@@ -50,3 +50,46 @@ export const getLastestDonors = createAsyncThunk(
     }
   },
 );
+
+export const createCampaigner = createAsyncThunk(
+  "createCampaigner",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await api.post("/campaigner", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log(response);
+    } catch (error) {
+      return rejectWithValue(error?.message || "Internal Server error");
+    }
+  },
+);
+
+// Temple Devotes
+export const getTempleDevotesList = createAsyncThunk(
+  "devotesList",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/devote");
+      return response?.data?.data;
+    } catch (error) {
+      return rejectWithValue(error?.message || "Internal Server error");
+    }
+  },
+);
+
+// Media
+export const getMediaList = createAsyncThunk(
+  "mediaList",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/media");
+      return response?.data?.data;
+    } catch (error) {
+      return rejectWithValue(error?.message || "Internal Server error");
+    }
+  },
+);

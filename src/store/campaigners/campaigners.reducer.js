@@ -1,22 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  createCampaigner,
   getCampainer,
   getLastestDonors,
+  getMediaList,
   getSingleCampaignerDetails,
+  getTempleDevotesList,
   getTopDonors,
 } from "./campaigners.service";
 
 const initialState = {
-  error: null,
-  campaginers: [],
-  campainersCount: 0,
-  campainerLoading: false,
-  topDonorsArr: [],
   topDonorsLoading: false,
-  lastestDonorsArr: [],
+  campainerLoading: false,
   lastestDonorsLoading: false,
-  singleCampaignerDetails: {},
   singleCampaignerLoading: false,
+  templeDevotesLoading: false,
+  createCampaignerLoading: false,
+  mediaLoading: false,
+  campaginers: [],
+  topDonorsArr: [],
+  lastestDonorsArr: [],
+  templeDevotesList: [],
+  mediaList: [],
+  singleCampaignerDetails: {},
+  campainersCount: 0,
+  error: null,
 };
 
 const campaginersReducer = createSlice({
@@ -68,6 +76,38 @@ const campaginersReducer = createSlice({
       })
       .addCase(getSingleCampaignerDetails.rejected, (state, { payload }) => {
         state.singleCampaignerLoading = false;
+        state.error = payload;
+      })
+      .addCase(createCampaigner.pending, (state) => {
+        state.createCampaignerLoading = true;
+      })
+      .addCase(createCampaigner.fulfilled, (state) => {
+        state.createCampaignerLoading = false;
+      })
+      .addCase(createCampaigner.rejected, (state, { payload }) => {
+        state.createCampaignerLoading = false;
+        state.error = payload;
+      })
+      .addCase(getTempleDevotesList.pending, (state) => {
+        state.templeDevotesLoading = true;
+      })
+      .addCase(getTempleDevotesList.fulfilled, (state, { payload }) => {
+        state.templeDevotesLoading = false;
+        state.templeDevotesList = payload;
+      })
+      .addCase(getTempleDevotesList.rejected, (state, { payload }) => {
+        state.templeDevotesLoading = false;
+        state.error = payload;
+      })
+      .addCase(getMediaList.pending, (state) => {
+        state.mediaLoading = true;
+      })
+      .addCase(getMediaList.fulfilled, (state, { payload }) => {
+        state.mediaLoading = false;
+        state.mediaList = payload;
+      })
+      .addCase(getMediaList.rejected, (state, { payload }) => {
+        state.mediaLoading = false;
         state.error = payload;
       }),
 });
