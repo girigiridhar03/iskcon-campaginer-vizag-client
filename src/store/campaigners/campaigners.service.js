@@ -62,6 +62,7 @@ export const createCampaigner = createAsyncThunk(
       });
 
       console.log(response);
+      return response?.data;
     } catch (error) {
       return rejectWithValue(error?.message || "Internal Server error");
     }

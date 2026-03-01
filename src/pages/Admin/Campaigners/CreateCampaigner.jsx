@@ -18,26 +18,38 @@ import {
 } from "@/components/ui/select";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  createCampaigner,
   getMediaList,
   getTempleDevotesList,
 } from "@/store/campaigners/campaigners.service";
+import { getCurrentCampaign } from "@/store/campaign/campaign.service";
+import { toast } from "react-toastify";
 
 export default function CreateCampaigner() {
   const dispatch = useDispatch();
-  const { templeDevotesList, templeDevotesLoading } = useSelector(
-    (state) => state.campaginer,
-  );
+  const {
+    templeDevotesList,
+    templeDevotesLoading,
+    mediaList,
+    createCampaignerLoading,
+  } = useSelector((state) => state.campaginer);
+  const { currentCampaign } = useSelector((state) => state.campaign);
   const [formData, setFormData] = useState({
     name: "",
     phoneNumber: "",
-    campaignId: "",
     templeDevoteInTouch: "",
-    recentImage: "",
+    imageId: "",
+    targetAmount: 0,
   });
 
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectedImage, setSelectedImg] = useState(null);
+
+  useEffect(() => {
+    dispatch(getCurrentCampaign());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getTempleDevotesList());
@@ -46,18 +58,6 @@ export default function CreateCampaigner() {
   useEffect(() => {
     dispatch(getMediaList());
   }, [dispatch]);
-
-  const campaigns = [
-    { id: "1", name: "Temple Renovation" },
-    { id: "2", name: "Annadanam Seva" },
-  ];
-
-  const devotes = [
-    { id: "1", name: "Ramesh Das" },
-    { id: "2", name: "Krishna Prabhu" },
-  ];
-
-  const recentImages = ["recent1.jpg", "recent2.jpg", "recent3.jpg"];
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -73,28 +73,48 @@ export default function CreateCampaigner() {
       setPreview(URL.createObjectURL(file));
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    const data = new FormData();
+    try {
+      const data = new FormData();
 
-    Object.keys(formData).forEach((key) => {
-      data.append(key, formData[key]);
-    });
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value) {
+          data.append(key, value);
+        }
+      });
 
-    if (image) {
-      data.append("image", image);
+      if (currentCampaign?._id) {
+        data.append("campaignId", currentCampaign._id);
+      }
+
+      if (image) {
+        data.append("image", image);
+      }
+
+      const result = await dispatch(createCampaigner(data)).unwrap();
+
+      if (result?.success) {
+        toast.success("Campaigner Created Successfully!");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setFormData({
+        name: "",
+        phoneNumber: "",
+        templeDevoteInTouch: "",
+        recentImage: "",
+        targetAmount: 0,
+      });
+      setImage(null);
+      setPreview(null);
+      setSelectedImg(null);
     }
-
-    console.log("Submitting:", formData);
-
-    setTimeout(() => {
-      setLoading(false);
-      alert("Campaigner Created Successfully!");
-    }, 1000);
   };
+
+  console.log(mediaList);
 
   return (
     <div className="p-8 w-full max-w-6xl mx-auto space-y-8">
@@ -148,20 +168,37 @@ export default function CreateCampaigner() {
                 <Input
                   name="campaignId"
                   placeholder="Current Campaign"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
+                  value={currentCampaign?.title || ""}
                   required
+                  disabled
+                  className="cursor-not-allowed"
                 />
               </div>
+              <div className="space-y-2">
+                <Label>Target Amount</Label>
+                <Input
+                  name="targetAmount"
+                  type="number"
+                  placeholder="Enter targetAmount"
+                  value={formData?.targetAmount || ""}
+                  onChange={handleChange}
+                  required
+                  className="cursor-not-allowed"
+                />
+              </div>
+            </div>
 
+            {/* Row 3 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label>Select Devote In Touch</Label>
                 <Select
+                  value={formData.templeDevoteInTouch}
                   onValueChange={(value) =>
-                    setFormData({
-                      ...formData,
+                    setFormData((prev) => ({
+                      ...prev,
                       templeDevoteInTouch: value,
-                    })
+                    }))
                   }
                 >
                   <SelectTrigger className="w-full h-10">
@@ -182,64 +219,64 @@ export default function CreateCampaigner() {
                   </SelectContent>
                 </Select>
               </div>
-            </div>
 
-            {/* Row 3 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Recent Images */}
               <div className="space-y-2">
                 <Label>Recent Images</Label>
                 <Select
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, recentImage: value })
-                  }
+                  value={formData.recentImage}
+                  disabled={!!image}
+                  onValueChange={(value) => {
+                    setFormData({ ...formData, imageId: value });
+                    setSelectedImg(value);
+                  }}
                 >
                   <SelectTrigger className="w-full h-10">
                     <SelectValue placeholder="Select recent image" />
                   </SelectTrigger>
                   <SelectContent>
-                    {recentImages.map((img) => (
-                      <SelectItem key={img} value={img}>
-                        {img}
+                    {mediaList.map((img) => (
+                      <SelectItem key={img._id} value={img._id}>
+                        {img.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
+            </div>
 
-              {/* Upload Image */}
-              <div className="space-y-2">
-                <Label>Upload Image</Label>
+            <div className="space-y-2">
+              <Label>Upload Image</Label>
 
-                <div className="relative">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="absolute inset-0 opacity-0 cursor-pointer z-10"
-                  />
+              <div className="relative">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className={`absolute inset-0 opacity-0 ${!!selectedImage ? "cursor-not-allowed" : "cursor-pointer"} z-10`}
+                  disabled={!!selectedImage}
+                />
 
-                  <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:bg-muted transition-all duration-200">
-                    {preview ? (
-                      <img
-                        src={preview}
-                        alt="Preview"
-                        className="mx-auto h-28 object-cover rounded-md"
-                      />
-                    ) : (
-                      <span className="text-muted-foreground">
-                        Click to upload or drag image
-                      </span>
-                    )}
-                  </div>
+                <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:bg-muted transition-all duration-200">
+                  {preview ? (
+                    <img
+                      src={preview}
+                      alt="Preview"
+                      className="mx-auto h-28 object-cover rounded-md"
+                    />
+                  ) : (
+                    <span className="text-muted-foreground">
+                      Click to upload or drag image
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
 
             {/* Submit */}
             <div className="flex justify-end">
-              <Button type="submit" disabled={loading}>
-                {loading ? "Creating..." : "Create Campaigner"}
+              <Button type="submit" disabled={createCampaignerLoading}>
+                {createCampaignerLoading ? "Creating..." : "Create Campaigner"}
               </Button>
             </div>
           </form>

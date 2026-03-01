@@ -21,7 +21,6 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-
 const data = {
   user: {
     name: "shadcn",
@@ -47,19 +46,13 @@ const data = {
   ],
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-    },
-    {
       title: "Campaigns",
       url: "#",
       icon: Megaphone,
       items: [
         {
           title: "Create Campaign",
-          url: "#",
+          url: "/admin/create-campaign",
         },
         {
           title: "All Campaigns",
@@ -74,7 +67,7 @@ const data = {
       items: [
         {
           title: "Create Campaigner",
-          url: "#",
+          url: "/admin/create-campaigner",
         },
         {
           title: "All Campaigners",
