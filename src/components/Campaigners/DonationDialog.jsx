@@ -10,8 +10,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import api from "@/api/api";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { getSingleCampaignerDetails } from "@/store/campaigners/campaigners.service";
 
-const openRazorPay = async (payload) => {
+const openRazorPay = async (payload, navigate) => {
   const res = await api.post("/donations/create-order", payload);
 
   const { orderId, amount, currency, key, donationId } = res.data.data;
@@ -31,9 +34,16 @@ const openRazorPay = async (payload) => {
     notes: {
       donationId,
     },
-    handler: function (res) {
-      console.log("razorpayresponse: ", res);
-      alert("Payment is being processed...");
+    handler: async function (res) {
+      console.log(res);
+      const result = await api.post("/payment/verify", {
+        razorpay_order_id: res?.razorpay_order_id,
+        razorpay_payment_id: res?.razorpay_payment_id,
+        razorpay_signature: res?.razorpay_signature,
+      });
+      if (result?.status === 200) {
+        navigate("/thankyou");
+      }
     },
     theme: {
       color: "#5B21B6",
@@ -54,6 +64,10 @@ export function DonationDialog({ open, onOpenChange, inputValue }) {
     anonymous: false,
   });
   const [error, setError] = useState({});
+  const { currentCampaign } = useSelector((state) => state.campaign);
+  const { id: campaignerId } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
@@ -86,8 +100,8 @@ export function DonationDialog({ open, onOpenChange, inputValue }) {
       donorName: formData.name,
       donorPhone: formData.phoneNumber,
       amount: inputValue,
-      campaignId: "699bac2d874c2117f9c168f1",
-      campaignerId: "6999699444da0ca6c1b408cb",
+      campaignId: currentCampaign?._id,
+      campaignerId,
       isAnonymous: formData.anonymous,
     };
 
@@ -99,7 +113,7 @@ export function DonationDialog({ open, onOpenChange, inputValue }) {
       payload.email = formData.email;
     }
 
-    await openRazorPay(payload);
+    await openRazorPay(payload, navigate);
   };
 
   return (

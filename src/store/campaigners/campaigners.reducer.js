@@ -24,6 +24,7 @@ const initialState = {
   mediaList: [],
   singleCampaignerDetails: {},
   campainersCount: 0,
+  campaginerTotalPages: 0,
   error: null,
 };
 
@@ -39,6 +40,7 @@ const campaginersReducer = createSlice({
       .addCase(getCampainer.fulfilled, (state, { payload }) => {
         state.campainerLoading = false;
         state.campaginers = payload?.campaigners;
+        state.campaginerTotalPages = payload?.totalPages;
         state.campainersCount = payload?.count;
       })
       .addCase(getCampainer.rejected, (state, { payload }) => {

@@ -3,9 +3,19 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getCampainer = createAsyncThunk(
   "getCampaigner",
-  async (campaginId, { rejectWithValue }) => {
+  async ({ id, page, pageSize, search, sort, status }, { rejectWithValue }) => {
+    let url = `/campaigner/${id}?status=${status}&page=${page}&pageSize=${pageSize}`;
+
+    if (search) {
+      url += `&search=${search}`;
+    }
+
+    if (sort) {
+      url += `&sort=${sort}`;
+    }
+
     try {
-      const response = await api.get(`/campaigner/${campaginId}?status=active`);
+      const response = await api.get(url);
       return response?.data?.data;
     } catch (error) {
       return rejectWithValue(error?.message || "Internal Server error");

@@ -8,19 +8,84 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCampainer } from "@/store/campaigners/campaigners.service";
+import { getCurrentCampaign } from "@/store/campaign/campaign.service";
+import CustomPagination from "@/components/utils/CustomPagination";
+import { Funnel } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Field, FieldGroup } from "@/components/ui/field";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 
-export default function CampaignersTable({ campaigners }) {
+export default function CampaignersTable() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-
-  const filtered = campaigners?.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase()),
+  const dispatch = useDispatch();
+  const { campaginers, campaginerTotalPages } = useSelector(
+    (state) => state.campaginer,
   );
+  const { currentCampaign } = useSelector((state) => state.campaign);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("");
+  const [page, setPage] = useState(1);
+  const pageSize = 15;
 
+  useEffect(() => {
+    dispatch(getCurrentCampaign());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!currentCampaign?._id) return;
+
+    dispatch(
+      getCampainer({
+        id: currentCampaign?._id,
+        status: "active",
+        page,
+        pageSize,
+        sort,
+        search,
+      }),
+    );
+  }, [currentCampaign?._id, search, sort, page, dispatch]);
+
+  const CAMPAIGN_SORT_OPTIONS = [
+    {
+      label: "Highest Raised",
+      value: "raised_desc",
+    },
+    {
+      label: "Lowest Raised",
+      value: "raised_asc",
+    },
+    {
+      label: "Highest Target",
+      value: "target_desc",
+    },
+    {
+      label: "Lowest Target",
+      value: "target_asc",
+    },
+  ];
+
+  const handleCategoryChange = (id, checked) => {
+    setPage(1);
+    if (checked) {
+      setSort(id);
+    } else {
+      setSort(null);
+    }
+  };
   return (
     <div className="space-y-6">
       {/* FILTER BAR */}
@@ -31,8 +96,46 @@ export default function CampaignersTable({ campaigners }) {
           onChange={(e) => setSearch(e.target.value)}
           className="max-w-sm"
         />
+        <div className="flex items-center gap-3.5">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button size="icon-sm" className="relative">
+                <Funnel />
 
-        <Button variant="outline">Export CSV</Button>
+                {sort && (
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
+                )}
+              </Button>
+            </PopoverTrigger>{" "}
+            <PopoverContent>
+              <PopoverHeader>
+                <PopoverTitle>Sort by</PopoverTitle>
+                <FieldGroup className="gap-4 px-1 py-2">
+                  {CAMPAIGN_SORT_OPTIONS?.map((item) => (
+                    <Field
+                      key={item?.value}
+                      orientation="horizontal"
+                      className="gap-2"
+                    >
+                      <Checkbox
+                        id={item?.value}
+                        checked={sort === item?.value}
+                        onCheckedChange={(checked) => {
+                          handleCategoryChange(item?.value, checked);
+                        }}
+                      />
+                      <Label htmlFor={item?.value} className="capitalize">
+                        {item.label}
+                      </Label>
+                    </Field>
+                  ))}
+                </FieldGroup>
+              </PopoverHeader>
+            </PopoverContent>
+          </Popover>
+
+          <Button variant="outline">Export CSV</Button>
+        </div>
       </div>
 
       {/* TABLE */}
@@ -40,22 +143,22 @@ export default function CampaignersTable({ campaigners }) {
         <Table>
           <TableHeader className="bg-muted/50">
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Target</TableHead>
-              <TableHead>Raised</TableHead>
-              <TableHead>Progress</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Funders</TableHead>
+              <TableHead className="w-[20%]">Name</TableHead>
+              <TableHead className="w-[15%]">Phone</TableHead>
+              <TableHead className="w-[15%]">Target</TableHead>
+              <TableHead className="w-[15%]">Raised</TableHead>
+              <TableHead className="w-[20%]">Progress</TableHead>
+              <TableHead className="w-[10%] text-center">
+                Total Funders
+              </TableHead>
+              <TableHead className="w-[10%] text-center">
+                View Funders
+              </TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
-            {filtered?.map((item) => {
-              const percentage = Math.round(
-                (item.raisedAmount / item.targetAmount) * 100,
-              );
-
+            {campaginers?.map((item) => {
               return (
                 <TableRow
                   key={item._id}
@@ -73,29 +176,19 @@ export default function CampaignersTable({ campaigners }) {
                     ₹{item.raisedAmount.toLocaleString("en-IN")}
                   </TableCell>
 
-                  {/* PROGRESS */}
                   <TableCell className="w-40">
                     <div className="space-y-2">
-                      <Progress value={percentage} />
+                      <Progress value={item?.percentage} />
                       <span className="text-xs text-muted-foreground">
-                        {percentage}%
+                        {item?.percentage}%
                       </span>
                     </div>
                   </TableCell>
 
-                  {/* STATUS */}
-                  <TableCell>
-                    <Badge
-                      variant={
-                        item.status === "active" ? "default" : "secondary"
-                      }
-                      className="capitalize"
-                    >
-                      {item.status}
-                    </Badge>
+                  <TableCell className="w-32 text-center">
+                    {item?.funderCount}
                   </TableCell>
 
-                  {/* VIEW FUNDERS */}
                   <TableCell>
                     <Button
                       size="sm"
@@ -112,6 +205,15 @@ export default function CampaignersTable({ campaigners }) {
           </TableBody>
         </Table>
       </div>
+      {campaginerTotalPages > 1 && (
+        <div className="w-full">
+          <CustomPagination
+            totalPages={campaginerTotalPages}
+            currentPage={page}
+            onPageChange={setPage}
+          />
+        </div>
+      )}
     </div>
   );
 }

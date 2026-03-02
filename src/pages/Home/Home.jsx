@@ -18,9 +18,8 @@ const Home = () => {
   useEffect(() => {
     if (!currentCampaign?._id) return;
 
-    dispatch(getCampainer(currentCampaign?._id));
+    dispatch(getCampainer({ id: currentCampaign?._id, status: "active" }));
   }, [currentCampaign?._id, dispatch]);
-
 
   return (
     <div className="container mx-auto px-3">

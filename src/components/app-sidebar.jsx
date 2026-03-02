@@ -1,24 +1,16 @@
 "use client";
 
-import {
-  AudioWaveform,
-  Command,
-  GalleryVerticalEnd,
-  Megaphone,
-  SquareTerminal,
-  Users,
-  Wallet,
-} from "lucide-react";
+import { Megaphone, Users, Wallet } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 const data = {
@@ -27,23 +19,6 @@ const data = {
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
   navMain: [
     {
       title: "Campaigns",
@@ -71,7 +46,7 @@ const data = {
         },
         {
           title: "All Campaigners",
-          url: "#",
+          url: "/admin/campaigners",
         },
       ],
     },
@@ -84,11 +59,25 @@ const data = {
 };
 
 export function AppSidebar({ ...props }) {
+  const { state } = useSidebar();
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <div className="flex items-center justify-center p-3">
+          {state === "expanded" ? (
+            <img
+              src="https://storage.googleapis.com/campaigners-images/Temple%20Images/hkm%20logo%20png%20-%20black%20font.jpg"
+              alt="HKM Logo"
+              className="w-auto h-20 object-cover"
+            />
+          ) : (
+            <div className="w-9 h-9 shrink-0 flex items-center justify-center rounded-lg bg-primary text-primary-foreground font-semibold text-sm">
+              HK
+            </div>
+          )}
+        </div>
       </SidebarHeader>
+
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>

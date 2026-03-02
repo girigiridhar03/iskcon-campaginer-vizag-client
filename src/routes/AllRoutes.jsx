@@ -6,6 +6,7 @@ import Contact from "@/pages/Contact/Contact";
 import Home from "@/pages/Home/Home";
 import { Route, Routes } from "react-router-dom";
 import CreateCampaigner from "@/pages/Admin/Campaigners/CreateCampaigner";
+import ThankYouPage from "@/components/Campaigners/ThankYouPage";
 
 const AllRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AllRoutes = () => {
         element={<CampaignerDetails />}
       />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/thankyou" element={<ThankYouPage />} />
 
       <Route element={<Admin />}>
         <Route path="/admin/campaigners" element={<Campaigners />} />
