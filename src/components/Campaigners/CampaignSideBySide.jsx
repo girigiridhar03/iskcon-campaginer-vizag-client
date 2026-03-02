@@ -3,6 +3,7 @@ import CampaignDonatePanel from "./CampaignerDonatePanel";
 
 const CampaignSideBySide = () => {
   const { singleCampaignerDetails } = useSelector((state) => state.campaginer);
+  const { sevaList, sevaLoading } = useSelector((state) => state.seva);
 
   return (
     <section className="py-1 w-full">
@@ -86,7 +87,11 @@ const CampaignSideBySide = () => {
           </div>
         </div>
 
-        <CampaignDonatePanel details={singleCampaignerDetails} />
+        <CampaignDonatePanel
+          details={singleCampaignerDetails}
+          sevas={sevaList}
+          sevaLoading={sevaLoading}
+        />
       </div>
     </section>
   );
