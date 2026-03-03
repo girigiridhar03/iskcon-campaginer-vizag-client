@@ -10,7 +10,43 @@ export const getCurrentCampaign = createAsyncThunk(
       return response?.data?.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
-      return rejectWithValue(error.response?.data?.message || "Internal Server error");
+      return rejectWithValue(
+        error.response?.data?.message || "Internal Server error",
+      );
+    }
+  },
+);
+
+export const getCampaignsList = createAsyncThunk(
+  "campaginList",
+  async (obj, { rejectWithValue }) => {
+    const { page, pageSize, status, sort, search } = obj;
+    let url = `/campaign/all-campagins?page=${page}`;
+
+    if (pageSize) {
+      url += `&pageSize=${pageSize}`;
+    }
+
+    if (status) {
+      url += `&status=${status}`;
+    }
+
+    if (sort) {
+      url += `&sort=${sort}`;
+    }
+
+    if (search?.trim()) {
+      url += `&search=${search}`;
+    }
+
+    try {
+      const response = await api.get(url);
+      return response?.data?.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Internal Server Error");
+      return rejectWithValue(
+        error.response?.data?.message || "Internal Server error",
+      );
     }
   },
 );

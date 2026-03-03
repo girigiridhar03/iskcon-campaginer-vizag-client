@@ -192,9 +192,7 @@ export default function CampaignersTable() {
                   <TableCell>
                     <Button
                       size="sm"
-                      onClick={() =>
-                        navigate(`/admin/funders?campaignerId=${item._id}`)
-                      }
+                      onClick={() => navigate(`/admin/funders?id=${item?._id}`)}
                     >
                       View Funders
                     </Button>

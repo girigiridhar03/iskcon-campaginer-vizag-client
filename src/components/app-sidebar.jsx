@@ -67,7 +67,7 @@ const data = {
     },
     {
       title: "Funders",
-      url: "#",
+      url: "/admin/funders",
       icon: Wallet,
     },
   ],

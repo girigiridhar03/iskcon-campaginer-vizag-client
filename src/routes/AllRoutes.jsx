@@ -10,6 +10,7 @@ import ThankYouPage from "@/components/Campaigners/ThankYouPage";
 import AddNewSeva from "@/pages/Admin/Seva/AddNewSeva";
 import SevaList from "@/pages/Admin/Seva/SevaList";
 import NotFound from "@/pages/NotFound";
+import DonorsTable from "@/pages/Admin/Funders/DonorsTable";
 
 const AllRoutes = () => {
   return (
@@ -30,6 +31,7 @@ const AllRoutes = () => {
         <Route path="/admin/add-seva" element={<AddNewSeva />} />
         <Route path="/admin/seva-list" element={<SevaList />} />
         <Route path="/admin/seva/:id/:sevaname/edit" element={<AddNewSeva />} />
+        <Route path="/admin/funders" element={<DonorsTable />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

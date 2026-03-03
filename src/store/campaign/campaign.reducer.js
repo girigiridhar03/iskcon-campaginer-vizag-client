@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCurrentCampaign } from "./campaign.service";
+import { getCampaignsList, getCurrentCampaign } from "./campaign.service";
 
 const initialState = {
-  error: null,
-  currentCampaign: {},
   campainLoading: false,
+  campaginListLoading: false,
+  campaginListArr: [],
+  currentCampaign: {},
+  total: 0,
+  totalPages: 1,
+  error: null,
 };
 
 const campaignReducer = createSlice({
@@ -22,6 +26,19 @@ const campaignReducer = createSlice({
       })
       .addCase(getCurrentCampaign.rejected, (state, { payload }) => {
         state.campainLoading = false;
+        state.error = payload;
+      })
+      .addCase(getCampaignsList.pending, (state) => {
+        state.campaginListLoading = true;
+      })
+      .addCase(getCampaignsList.fulfilled, (state, { payload }) => {
+        state.campaginListLoading = false;
+        state.campaginListArr = payload?.data;
+        state.total = payload?.total;
+        state.totalPages = payload?.totalPages;
+      })
+      .addCase(getCampaignsList.rejected, (state, { payload }) => {
+        state.campaginListLoading = false;
         state.error = payload;
       }),
 });
