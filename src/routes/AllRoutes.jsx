@@ -9,6 +9,7 @@ import CreateCampaigner from "@/pages/Admin/Campaigners/CreateCampaigner";
 import ThankYouPage from "@/components/Campaigners/ThankYouPage";
 import AddNewSeva from "@/pages/Admin/Seva/AddNewSeva";
 import SevaList from "@/pages/Admin/Seva/SevaList";
+import NotFound from "@/pages/NotFound";
 
 const AllRoutes = () => {
   return (
@@ -30,6 +31,8 @@ const AllRoutes = () => {
         <Route path="/admin/seva-list" element={<SevaList />} />
         <Route path="/admin/seva/:id/:sevaname/edit" element={<AddNewSeva />} />
       </Route>
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
