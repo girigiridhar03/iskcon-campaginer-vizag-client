@@ -21,15 +21,48 @@ import {
   Tooltip,
 } from "recharts";
 
-import { Wallet, Users, HeartHandshake, Target } from "lucide-react";
+import {
+  Wallet,
+  Users,
+  HeartHandshake,
+  Target,
+  Crown,
+  Award,
+  Medal,
+} from "lucide-react";
 import api from "@/api/api";
+import { useDispatch, useSelector } from "react-redux";
+import { getCampainer } from "@/store/campaigners/campaigners.service";
+import { getCurrentCampaign } from "@/store/campaign/campaign.service";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
 
 export default function Dashboard() {
   const [summary, setSummary] = useState(null);
   const [trend, setTrend] = useState([]);
-  const [campaigners, setCampaigners] = useState([]);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
+  const { campaginers } = useSelector((state) => state.campaginer);
+  const { currentCampaign } = useSelector((state) => state.campaign);
+
+  useEffect(() => {
+    dispatch(getCurrentCampaign());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!currentCampaign?._id) return;
+
+    dispatch(
+      getCampainer({
+        id: currentCampaign?._id,
+        status: "active",
+        page: 1,
+        pageSize: 10,
+        sort: "raised_desc",
+      }),
+    );
+  }, [currentCampaign?._id, dispatch]);
   useEffect(() => {
     loadDashboard();
   }, []);
@@ -49,6 +82,26 @@ export default function Dashboard() {
       setLoading(false);
     }
   };
+
+  const sevaBadges = [
+    "SEVA SHIROMANI", // Top 1
+    "SEVA RATNA", // Top 2
+    "SEVA BHUSHAN", // Top 3
+    "SEVA VIBHUSHAN", // Top 4
+    "SEVA VIBHAVA", // Top 5
+    "SEVA SHRESHTA", // Top 6
+    "SEVA PRAMUKH", // Top 7
+    "SEVA SAMARPIT", // Top 8
+    "SEVA SADHAK", // Top 9
+    "SEVA BANDHU", // Top 10
+  ];
+
+  const topThreeIcons = [<Crown />, <Award />, <Medal />];
+  const rankStyles = [
+    "text-yellow-500", // 🥇 Gold
+    "text-gray-400", // 🥈 Silver
+    "text-amber-700", // 🥉 Bronze
+  ];
 
   return (
     <div className="space-y-6 p-6">
@@ -72,7 +125,9 @@ export default function Dashboard() {
 
           <CardContent>
             <div className="text-2xl font-bold">
-              {loading ? "..." : `₹${summary?.targetAmount?.toLocaleString("en-IN") || 0}`}
+              {loading
+                ? "..."
+                : `₹${summary?.targetAmount?.toLocaleString("en-IN") || 0}`}
             </div>
           </CardContent>
         </Card>
@@ -84,7 +139,9 @@ export default function Dashboard() {
 
           <CardContent>
             <div className="text-2xl font-bold">
-              {loading ? "..." : `₹${summary?.totalRaised?.toLocaleString("en-IN") || 0}`}
+              {loading
+                ? "..."
+                : `₹${summary?.totalRaised?.toLocaleString("en-IN") || 0}`}
             </div>
           </CardContent>
         </Card>
@@ -159,7 +216,7 @@ export default function Dashboard() {
         </CardHeader>
 
         <CardContent>
-          {campaigners.length === 0 ? (
+          {campaginers?.length === 0 ? (
             <div className="text-center text-muted-foreground py-10 text-sm">
               No campaigner performance data
             </div>
@@ -167,25 +224,63 @@ export default function Dashboard() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Target</TableHead>
-                  <TableHead>Raised</TableHead>
-                  <TableHead>Progress</TableHead>
+                  <TableHead className="w-17.5">Rank</TableHead>
+                  <TableHead className="w-40">Name</TableHead>
+                  <TableHead className="w-40">Target</TableHead>
+                  <TableHead className="w-40">Raised</TableHead>
+                  <TableHead className="w-65">Progress</TableHead>
+                  <TableHead className="w-65">Badge</TableHead>
                 </TableRow>
               </TableHeader>
 
               <TableBody>
-                {campaigners.map((c, i) => (
-                  <TableRow key={i}>
-                    <TableCell className="font-medium">{c.name}</TableCell>
+                {campaginers?.map((c, i) => {
+                  const isTop = i < 3;
 
-                    <TableCell>₹{c.targetAmount}</TableCell>
+                  return (
+                    <TableRow
+                      key={i}
+                      className={isTop ? "bg-primary/5 font-medium" : ""}
+                    >
+                      <TableCell className="font-semibold">
+                        #{i + 1}
+                      </TableCell>
 
-                    <TableCell>₹{c.raisedAmount}</TableCell>
+                      <TableCell className="font-medium">{c.name}</TableCell>
 
-                    <TableCell>{c.percentage}%</TableCell>
-                  </TableRow>
-                ))}
+                      <TableCell>
+                        ₹{c.targetAmount?.toLocaleString("en-IN")}
+                      </TableCell>
+
+                      <TableCell className="font-semibold text-primary">
+                        ₹{c.raisedAmount?.toLocaleString("en-IN")}
+                      </TableCell>
+
+                      <TableCell>
+                        <div className="flex flex-col gap-1 w-55">
+                          <Progress
+                            value={c?.percentage}
+                            className="h-2 bg-muted"
+                          />
+                          <span className="text-xs text-muted-foreground">
+                            {c?.percentage}%
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          {i < 3 && (
+                            <span className={`text-lg ${rankStyles[i]}`}>
+                              {topThreeIcons[i]}
+                            </span>
+                          )}
+
+                          <Badge variant="secondary">{sevaBadges[i]}</Badge>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           )}
