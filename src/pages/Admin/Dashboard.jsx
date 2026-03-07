@@ -57,6 +57,7 @@ export default function Dashboard() {
       getCampainer({
         id: currentCampaign?._id,
         status: "active",
+        campStatus:"active",
         page: 1,
         pageSize: 10,
         sort: "raised_desc",

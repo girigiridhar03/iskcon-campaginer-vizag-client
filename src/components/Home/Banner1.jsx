@@ -3,78 +3,56 @@ import { Sparkles } from "lucide-react";
 
 const Banner1 = () => {
   return (
-    <section className="w-full px-4 md:px-8 my-8">
+    <section className="w-full my-4">
       <div
         className="
-        relative
-        overflow-hidden
+        w-full mx-auto
         rounded-3xl
-        p-6 md:p-10
-        shadow-2xl
-        transition-all duration-500
-        hover:shadow-3xl
-        bg-gradient-to-r 
-        from-[#1fa2ff] 
-        via-[#12d8fa] 
-        to-[#f5af19]
+        border border-yellow-200
+        bg-linear-to-r from-[#faf6e6] via-[#f6eed2] to-[#f2e6b8]
+        shadow-lg
+        px-6 py-8 md:px-10 md:py-10
       "
       >
-        {/* Dark Overlay for Text Readability */}
-        <div className="absolute inset-0 bg-black/20" />
-
-        {/* Glow Effect */}
-        <div className="absolute -top-32 -right-32 w-96 h-96 bg-yellow-400/30 rounded-full blur-3xl opacity-40" />
-
-        <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
-          {/* Logo Card */}
-          <div className="flex-shrink-0">
-            <div
-              className="
-              bg-white
-              rounded-2xl
-              p-5
-              shadow-xl
-              transition-transform duration-500
-              hover:scale-105
-            "
-            >
+        <div
+          className="
+          flex flex-col md:flex-row
+          items-center
+          gap-6 md:gap-10
+        "
+        >
+          {/* Logo */}
+          <div className="shrink-0">
+            <div className="bg-white rounded-xl shadow-md p-4">
               <img
                 src="https://storage.googleapis.com/campaigners-images/Temple%20Images/hkm%20logo%20png%20-%20black%20font.jpg"
-                alt="HARE KRISHNA MOMMENT VIZAG"
-                className="h-28 md:h-32 object-contain"
+                alt="Hare Krishna Movement Vizag"
+                className="h-20 md:h-24 object-contain"
               />
             </div>
           </div>
 
-          {/* Vertical Divider (Desktop Only) */}
-          <div className="hidden md:block w-[3px] h-28 bg-white/40 rounded-full" />
+          {/* Divider */}
+          <div className="hidden md:block w-px h-20 bg-yellow-300" />
 
           {/* Content */}
-          <div className="flex-1 text-center md:text-left space-y-5">
+          <div className="flex-1 text-center md:text-left space-y-4">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 text-yellow-300 font-semibold text-sm tracking-wider">
+            <div className="flex items-center justify-center md:justify-start gap-2 text-yellow-700 font-semibold text-sm">
               <Sparkles className="h-4 w-4" />
-              DIVINE PROMISE
+              Divine Promise
             </div>
 
-            {/* Main Heading */}
-            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold leading-snug text-white">
-              If you build a temple of Lord Krishna in this world,
-            </h2>
+            {/* Main Message */}
+            <p className="text-lg md:text-xl font-semibold text-gray-800 leading-relaxed">
+              If you help build a temple for Lord Krishna in this world,
+            </p>
 
-            {/* Highlight Line */}
-            <h3
-              className="
-              text-lg md:text-2xl lg:text-3xl 
-              font-extrabold
-              bg-gradient-to-r from-yellow-300 to-yellow-500
-              bg-clip-text text-transparent
-              drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]
-            "
-            >
-              Krishna will build a palace for you in the spiritual world –
-              Vaikuntha
-            </h3>
+            {/* Highlight Message */}
+            <p className="text-xl md:text-2xl font-bold text-yellow-700 leading-snug">
+              Krishna will build a palace for you in the spiritual world —
+              Vaikuntha.
+            </p>
           </div>
         </div>
       </div>

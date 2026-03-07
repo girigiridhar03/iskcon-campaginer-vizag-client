@@ -38,12 +38,10 @@ const CampaignerDetails = () => {
 
   useEffect(() => {
     if (!campaignerId) return;
-    console.log("singleuseeffect", campaignerId);
     dispatch(getSingleCampaignerDetails(campaignerId));
   }, [campaignerId, dispatch]);
   useEffect(() => {
     if (!campaignerId || !currentCampaign?._id) return;
-    console.log("lastest donor");
     dispatch(
       getLastestDonors({
         campId: currentCampaign._id,
@@ -61,15 +59,15 @@ const CampaignerDetails = () => {
   return (
     <>
       <Banner />
-      <div className="container mx-auto px-2 pt-8 space-y-2">
+      <div className="container mx-auto px-2 pt-8 space-y-1">
         <CampaignSideBySide />
         <RecentContributors />
-        <YoutubeIframe />
         <TempleHighlights />
         <ProjectOverviewSection />
         <DidYouKnowBanner />
         <TempleSpacesSection />
         <ArchitecturalVisionGallery />
+        <YoutubeIframe />
         <TestimonialsSection />
         <MajesticAltarsBanner />
         <DonorPrivileges />

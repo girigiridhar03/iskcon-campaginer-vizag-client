@@ -24,7 +24,7 @@ const Banner = () => {
       />
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/20" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/80 to-black/80" />
 
       {/* Content */}
       <div className="relative z-10 h-full flex items-center">

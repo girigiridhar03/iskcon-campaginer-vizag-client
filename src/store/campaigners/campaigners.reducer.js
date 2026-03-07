@@ -39,9 +39,18 @@ const campaginersReducer = createSlice({
       })
       .addCase(getCampainer.fulfilled, (state, { payload }) => {
         state.campainerLoading = false;
-        state.campaginers = payload?.campaigners;
-        state.campaginerTotalPages = payload?.totalPages;
-        state.campainersCount = payload?.count;
+
+        const { campaigners, totalPages, count, page, infiniteScroll } =
+          payload;
+
+        if (infiniteScroll && page !== 1) {
+          state.campaginers = [...state.campaginers, ...campaigners];
+        } else {
+          state.campaginers = campaigners;
+        }
+
+        state.campaginerTotalPages = totalPages;
+        state.campainersCount = count;
       })
       .addCase(getCampainer.rejected, (state, { payload }) => {
         state.campainerLoading = false;

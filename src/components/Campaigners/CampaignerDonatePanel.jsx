@@ -29,27 +29,45 @@ const CampaignDonatePanel = ({ details, sevas = [], sevaLoading }) => {
   const numericValue = Number(inputValue);
 
   const filteredSevas = useMemo(() => {
-    if (!inputValue) return [];
-    return sevas.filter((s) => s.sevaAmount.toString().includes(inputValue));
-  }, [inputValue, sevas]);
+    const num = Number(inputValue);
 
+    if (!num) return [];
+
+    return [...sevas]
+      .sort((a, b) => a.sevaAmount - b.sevaAmount)
+      .filter((s) => s.sevaAmount >= num);
+  }, [inputValue, sevas]);
   const handleInputChange = (value) => {
+    const num = Number(value);
+
     setInputValue(value);
     setOpenPopover(true);
 
-    const matched = sevas.find((s) => s.sevaAmount === Number(value));
-
-    if (matched) {
-      setSelectedSeva(matched);
-    } else {
+    if (!num) {
       setSelectedSeva(null);
+      return;
     }
+
+    const sorted = [...sevas].sort((a, b) => a.sevaAmount - b.sevaAmount);
+
+    let matched = null;
+
+    for (let i = 0; i < sorted.length; i++) {
+      const current = sorted[i];
+      const next = sorted[i + 1];
+
+      if (num >= current.sevaAmount && (!next || num < next.sevaAmount)) {
+        matched = current;
+        break;
+      }
+    }
+
+    setSelectedSeva(matched);
 
     requestAnimationFrame(() => {
       inputRef.current?.focus();
     });
   };
-
   const handleSelect = (seva) => {
     setInputValue(seva.sevaAmount);
     setSelectedSeva(seva);
@@ -62,46 +80,55 @@ const CampaignDonatePanel = ({ details, sevas = [], sevaLoading }) => {
         id="donation-card"
         className="h-full w-full flex flex-col rounded-3xl overflow-hidden bg-card shadow-xl border border-border"
       >
-        <div className="relative px-6 py-8 bg-linear-to-br from-secondary via-secondary/90 to-secondary/80 text-secondary-foreground">
-          <div className="absolute inset-0 bg-black/5 pointer-events-none" />
+        {/* TOP BLUE SECTION */}
+        <div className="relative px-6 py-8 bg-linear-to-br from-secondary via-secondary/95 to-secondary/80 text-secondary-foreground">
+          {/* subtle overlay */}
+          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
 
-          <div className="relative space-y-6">
+          <div className="relative space-y-7">
+            {/* AMOUNT + GOAL */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-2xl bg-white/15 px-5 py-4 backdrop-blur-sm">
+              <div className="rounded-2xl bg-white/12 border border-white/20 px-5 py-4 backdrop-blur-md shadow-sm">
                 <p className="text-xs uppercase tracking-wide text-emerald-300">
                   Amount Raised
                 </p>
+
                 <p className="text-2xl font-bold mt-1">
                   ₹{details?.campaginers?.raisedAmount?.toLocaleString("en-IN")}
                 </p>
               </div>
 
-              <div className="rounded-2xl bg-white/10 px-5 py-4 text-right backdrop-blur-sm">
+              <div className="rounded-2xl bg-white/12 border border-white/20 px-5 py-4 text-right backdrop-blur-md shadow-sm">
                 <p className="text-xs uppercase tracking-wide text-white/70">
                   Campaign Goal
                 </p>
+
                 <p className="text-xl font-semibold mt-1">
                   ₹{details?.campaginers?.targetAmount?.toLocaleString("en-IN")}
                 </p>
               </div>
             </div>
 
-            <div className="space-y-2">
+            {/* PROGRESS */}
+            <div className="space-y-3">
               <Progress
                 value={details?.campaginers?.percentage}
-                className="h-3 bg-white/30"
+                className="h-4 rounded-full bg-white/25"
               />
-              <p className="text-xs text-white/70">
+
+              <p className="text-sm text-white/80">
                 {details?.campaginers?.percentage?.toFixed(2)}% achieved
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white/10 px-6 py-5 backdrop-blur-sm">
-              <div className="grid grid-cols-2 divide-x divide-white/20 text-center">
+            {/* DAYS + FUNDERS */}
+            <div className="rounded-2xl bg-white/12 border border-white/20 px-6 py-5 backdrop-blur-md shadow-sm">
+              <div className="grid grid-cols-2 divide-x divide-white/30 text-center">
                 <div>
                   <p className="text-xs uppercase tracking-wide text-white/70">
                     Days Left
                   </p>
+
                   <p className="text-3xl font-bold mt-2">{diffDays}</p>
                 </div>
 
@@ -109,18 +136,49 @@ const CampaignDonatePanel = ({ details, sevas = [], sevaLoading }) => {
                   <p className="text-xs uppercase tracking-wide text-white/70">
                     Funders
                   </p>
+
                   <p className="text-3xl font-bold mt-2">{details?.count}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {/* SPIRITUAL QUOTE */}
+        <div className="px-6 pt-5">
+          <div
+            className="
+      rounded-xl
+      border border-border
+      bg-muted/40
+      px-5 py-4
+      text-sm
+      leading-relaxed
+      text-muted-foreground
+      shadow-sm
+    "
+          >
+            <p className="font-semibold text-foreground mb-1">
+              ✨ Lord Krishna says in Bhagavad-Gita 9.27
+            </p>
 
+            <p className="italic">
+              “Whatever you give in charity – do that as an offering unto Me.”
+            </p>
+
+            <p className="text-xs mt-2">
+              Every contribution becomes a sacred offering toward building Lord
+              Krishna’s temple.
+            </p>
+          </div>
+        </div>
+        {/* BOTTOM SECTION */}
         <div className="flex flex-col gap-5 px-6 py-8 mt-auto">
-          <div className="rounded-xl border border-border px-4 py-3 text-sm text-muted-foreground bg-muted/40">
+          {/* NOTICE */}
+          <div className="rounded-xl border border-border px-4 py-3 text-sm text-muted-foreground bg-muted/60 shadow-sm">
             🇮🇳 Accepts funds from Indian Passport / ID holders only
           </div>
 
+          {/* INPUT + SUGGESTIONS */}
           <Popover open={openPopover} onOpenChange={setOpenPopover}>
             <PopoverTrigger asChild>
               <Input
@@ -145,6 +203,9 @@ const CampaignDonatePanel = ({ details, sevas = [], sevaLoading }) => {
                       <CommandItem
                         key={seva._id}
                         onSelect={() => handleSelect(seva)}
+                        className={
+                          selectedSeva?._id === seva._id ? "bg-muted" : ""
+                        }
                       >
                         ₹ {seva.sevaAmount} — {seva.sevaName}
                       </CommandItem>
@@ -155,9 +216,11 @@ const CampaignDonatePanel = ({ details, sevas = [], sevaLoading }) => {
             )}
           </Popover>
 
+          {/* SEVA DETAILS */}
           {selectedSeva && (
-            <div className="rounded-xl border p-4 bg-muted/40 text-sm">
+            <div className="rounded-xl border border-border p-4 bg-muted/60 text-sm shadow-sm">
               <p className="font-semibold mb-2">{selectedSeva.sevaName}</p>
+
               <ul className="space-y-1 text-muted-foreground">
                 {selectedSeva.sevaPoints.map((point, index) => (
                   <li key={index}>• {point}</li>
@@ -166,17 +229,19 @@ const CampaignDonatePanel = ({ details, sevas = [], sevaLoading }) => {
             </div>
           )}
 
+          {/* DONATE BUTTON */}
           <Button
             onClick={() => setOpen(true)}
             size="lg"
             disabled={numericValue < 100}
-            className="w-full h-14 text-lg font-semibold rounded-xl bg-linear-to-r from-primary to-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition"
+            className="w-full h-14 text-lg font-semibold rounded-xl bg-linear-to-r from-primary via-primary to-yellow-400 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
           >
             🙏 Contribute Now
           </Button>
         </div>
       </div>
 
+      {/* DONATION MODAL */}
       {open && (
         <DonationDialog
           open={open}

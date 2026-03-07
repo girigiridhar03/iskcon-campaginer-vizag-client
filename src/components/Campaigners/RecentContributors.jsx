@@ -12,18 +12,21 @@ const podium = [
     accent: "bg-yellow-400",
     ring: "ring-yellow-400/40",
     gradient: "from-yellow-50 to-transparent",
+    textColor: "text-yellow-500",
   },
   {
     icon: Medal,
     accent: "bg-gray-300",
     ring: "ring-gray-300/40",
     gradient: "from-gray-50 to-transparent",
+    textColor: "text-gray-400",
   },
   {
     icon: Medal,
     accent: "bg-amber-600",
     ring: "ring-amber-600/40",
     gradient: "from-amber-50 to-transparent",
+    textColor: "ext-amber-700",
   },
 ];
 
@@ -153,7 +156,9 @@ export default function RecentContributors() {
                       )}
                     >
                       {isTop ? (
-                        <style.icon className="h-6 w-6 text-primary" />
+                        <style.icon
+                          className={`h-6 w-6 text-primary ${style.textColor}`}
+                        />
                       ) : (
                         item?.donorName?.charAt(0) || "?"
                       )}

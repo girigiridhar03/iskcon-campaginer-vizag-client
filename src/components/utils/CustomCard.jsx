@@ -16,16 +16,16 @@ const CustomCard = ({ campainer, index }) => {
     : 0;
 
   const sevaBadges = [
-    "SEVA SHIROMANI", // Top 1
-    "SEVA RATNA", // Top 2
-    "SEVA BHUSHAN", // Top 3
-    "SEVA VIBHUSHAN", // Top 4
-    "SEVA VIBHAVA", // Top 5
-    "SEVA SHRESHTA", // Top 6
-    "SEVA PRAMUKH", // Top 7
-    "SEVA SAMARPIT", // Top 8
-    "SEVA SADHAK", // Top 9
-    "SEVA BANDHU", // Top 10
+    "SEVA SHIROMANI",
+    "SEVA RATNA",
+    "SEVA BHUSHAN",
+    "SEVA VIBHUSHAN",
+    "SEVA VIBHAVA",
+    "SEVA SHRESHTA",
+    "SEVA PRAMUKH",
+    "SEVA SAMARPIT",
+    "SEVA SADHAK",
+    "SEVA BANDHU",
   ];
 
   return (
@@ -45,20 +45,7 @@ const CustomCard = ({ campainer, index }) => {
         py-0
       "
       >
-        {/* {index < 3 && (
-          <span
-            className={`
-      pointer-events-none
-      absolute inset-0
-      rounded-2xl
-      glow-border
-      ${index === 0 ? "glow-gold" : ""}
-      ${index === 1 ? "glow-silver" : ""}
-      ${index === 2 ? "glow-bronze" : ""}
-    `}
-          />
-        )} */}
-
+        {/* IMAGE */}
         <div className="relative w-[96%] mx-auto mt-3 h-80 rounded-xl overflow-hidden bg-secondary">
           {index < 10 && (
             <div className="absolute top-3 left-4 z-10 h-12 w-12 rounded-lg bg-primary flex items-center justify-center shadow-lg">
@@ -67,6 +54,7 @@ const CustomCard = ({ campainer, index }) => {
               </span>
             </div>
           )}
+
           {index < 10 && (
             <div
               className="
@@ -75,7 +63,7 @@ const CustomCard = ({ campainer, index }) => {
       right-3 
       z-10
       rounded-full 
-      bg-linear-to-r 
+      bg-gradient-to-r 
       from-primary 
       to-secondary
       px-4 
@@ -89,14 +77,17 @@ const CustomCard = ({ campainer, index }) => {
               {sevaBadges[index]}
             </div>
           )}
+
           <img
             src={campainer?.image?.url}
             alt={`Campaigner-${campainer?.image?.filename}`}
             className="h-full w-full object-cover"
           />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-card to-transparent" />
+
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-card to-transparent" />
         </div>
 
+        {/* CONTENT */}
         <CardContent className="flex-1 px-5 py-1 space-y-2">
           <h3 className="text-sm font-medium leading-relaxed text-foreground">
             <span className="font-bold uppercase tracking-wide">
@@ -119,79 +110,98 @@ const CustomCard = ({ campainer, index }) => {
           </div>
         </CardContent>
 
-        <CardFooter className="relative px-5 py-5 overflow-hidden rounded-b-2xl border-t border-border">
+        {/* FOOTER */}
+        <CardFooter className="relative px-5 pt-6 pb-7 overflow-hidden rounded-b-2xl border-t border-border">
+          {/* PREMIUM GRADIENT */}
           <div
             className="
-      absolute inset-0
-      bg-linear-to-br
-      from-secondary
-      via-secondary/85
-      to-secondary/70
-    "
+            absolute inset-0
+            bg-gradient-to-br
+            from-secondary
+            via-secondary/95
+            to-secondary/80
+          "
           />
 
+          {/* DEPTH OVERLAY */}
+          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+
+          {/* LIGHT HIGHLIGHT */}
           <div
             className="
-      absolute inset-0
-      bg-linear-to-t
-      from-black/10
-      via-transparent
-      to-white/10
-    "
+            absolute inset-0
+            bg-gradient-to-t
+            from-black/20
+            via-transparent
+            to-white/10
+          "
           />
-          <div className="relative z-10 space-y-6 w-full text-primary-foreground">
+
+          <div className="relative z-10 w-full text-primary-foreground space-y-5">
+            {/* RAISED + GOAL */}
             <div className="flex justify-between items-end">
               <div>
-                <div className="text-xs uppercase tracking-wide opacity-80">
+                <div className="text-xs uppercase tracking-wider opacity-80">
                   Raised
                 </div>
+
                 <div className="text-2xl font-bold">
                   ₹{campainer?.raisedAmount?.toLocaleString("en-IN")}
                 </div>
               </div>
 
               <div className="text-right">
-                <div className="text-xs uppercase tracking-wide opacity-80">
+                <div className="text-xs uppercase tracking-wider opacity-80">
                   Goal
                 </div>
+
                 <div className="text-xl font-semibold opacity-90">
                   ₹{campainer?.targetAmount?.toLocaleString("en-IN")}
                 </div>
               </div>
             </div>
-            <div className="space-y-4">
-              <div className="h-3 rounded-full bg-white/30 overflow-hidden">
+
+            {/* PROGRESS */}
+            <div className="relative">
+              <div className="h-3 rounded-full bg-white/25 overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-primary"
+                  className="h-full rounded-full bg-primary transition-all duration-500"
                   style={{ width: `${campainer?.percentage}%` }}
                 />
               </div>
+            </div>
 
-              <div className="flex justify-between items-center">
-                <span
-                  className="
-            px-4 py-1.5
-            rounded-lg
-            bg-white/20
-            text-sm font-bold
-            backdrop-blur-sm
-          "
-                >
-                  {campainer?.percentage?.toFixed(2)}%
-                </span>
+            {/* PERCENTAGE + DAYS */}
+            <div className="flex items-center justify-between">
+              <span
+                className="
+                px-5 py-2
+                rounded-xl
+                text-sm font-semibold
+                bg-white/12
+                backdrop-blur-md
+                border border-white/30
+                shadow-[0_6px_16px_rgba(0,0,0,0.25),inset_0_1px_2px_rgba(255,255,255,0.35)]
+              "
+              >
+                {campainer?.percentage?.toFixed(2)}%
+              </span>
 
-                <span
-                  className="
-            px-4 py-1.5
-            rounded-lg
-            bg-white/20
-            text-sm font-bold
-            backdrop-blur-sm
-          "
-                >
-                  {diffDays} Days
-                </span>
-              </div>
+              <div className="w-10 h-3 rounded-full bg-blue-900/40 shadow-inner" />
+
+              <span
+                className="
+                px-5 py-2
+                rounded-xl
+                text-sm font-semibold
+                bg-white/12
+                backdrop-blur-md
+                border border-white/30
+                shadow-[0_6px_16px_rgba(0,0,0,0.25),inset_0_1px_2px_rgba(255,255,255,0.35)]
+              "
+              >
+                {diffDays} Days
+              </span>
             </div>
           </div>
         </CardFooter>

@@ -4,23 +4,28 @@ import { toast } from "react-toastify";
 
 export const getCampainer = createAsyncThunk(
   "getCampaigner",
-  async ({ id, page, pageSize, search, sort, status }, { rejectWithValue }) => {
+  async (
+    { id, page, pageSize, search, sort, status, campStatus },
+    { rejectWithValue },
+  ) => {
     let url = `/campaigner/${id}?status=${status}&page=${page}&pageSize=${pageSize}`;
 
-    if (search) {
-      url += `&search=${search}`;
-    }
-
-    if (sort) {
-      url += `&sort=${sort}`;
-    }
+    if (search) url += `&search=${search}`;
+    if (sort) url += `&sort=${sort}`;
+    if (campStatus) url += `&campStatus=${campStatus}`;
 
     try {
       const response = await api.get(url);
-      return response?.data?.data;
+
+      return {
+        ...response?.data?.data,
+        page,
+      };
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
-      return rejectWithValue(error.response?.data?.message || "Internal Server error");
+      return rejectWithValue(
+        error.response?.data?.message || "Internal Server error",
+      );
     }
   },
 );
@@ -33,7 +38,9 @@ export const getSingleCampaignerDetails = createAsyncThunk(
       return response?.data?.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
-      return rejectWithValue(error.response?.data?.message || "Internal Server error");
+      return rejectWithValue(
+        error.response?.data?.message || "Internal Server error",
+      );
     }
   },
 );
@@ -46,7 +53,9 @@ export const getTopDonors = createAsyncThunk(
       return response?.data?.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
-      return rejectWithValue(error.response?.data?.message || "Internal Server error");
+      return rejectWithValue(
+        error.response?.data?.message || "Internal Server error",
+      );
     }
   },
 );
@@ -61,7 +70,9 @@ export const getLastestDonors = createAsyncThunk(
       return response?.data?.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
-      return rejectWithValue(error.response?.data?.message || "Internal Server error");
+      return rejectWithValue(
+        error.response?.data?.message || "Internal Server error",
+      );
     }
   },
 );
@@ -79,7 +90,9 @@ export const createCampaigner = createAsyncThunk(
       return response?.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
-      return rejectWithValue(error.response?.data?.message || "Internal Server error");
+      return rejectWithValue(
+        error.response?.data?.message || "Internal Server error",
+      );
     }
   },
 );
@@ -93,7 +106,9 @@ export const getTempleDevotesList = createAsyncThunk(
       return response?.data?.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
-      return rejectWithValue(error.response?.data?.message || "Internal Server error");
+      return rejectWithValue(
+        error.response?.data?.message || "Internal Server error",
+      );
     }
   },
 );
@@ -107,7 +122,9 @@ export const getMediaList = createAsyncThunk(
       return response?.data?.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
-      return rejectWithValue(error.response?.data?.message || "Internal Server error");
+      return rejectWithValue(
+        error.response?.data?.message || "Internal Server error",
+      );
     }
   },
 );

@@ -14,19 +14,12 @@ const Home = () => {
   useEffect(() => {
     dispatch(getCurrentCampaign());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (!currentCampaign?._id) return;
-
-    dispatch(getCampainer({ id: currentCampaign?._id, status: "active" }));
-  }, [currentCampaign?._id, dispatch]);
-
   return (
     <div className="container mx-auto px-3">
       <Banner1 />
       <ProgressBanner />
       <Banner />
-      <CardSection />
+      <CardSection currentCampaign={currentCampaign} />
     </div>
   );
 };

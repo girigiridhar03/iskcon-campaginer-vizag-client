@@ -19,7 +19,6 @@ import { Funnel, Pencil, Trash2 } from "lucide-react";
 import {
   Popover,
   PopoverContent,
-  PopoverDescription,
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
@@ -42,7 +41,7 @@ import {
 export default function CampaignersTable() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { campaginers, campaginerTotalPages } = useSelector(
+  const { campaginers, campaginerTotalPages, campainerLoading } = useSelector(
     (state) => state.campaginer,
   );
   const { currentCampaign } = useSelector((state) => state.campaign);
@@ -62,6 +61,7 @@ export default function CampaignersTable() {
       getCampainer({
         id: currentCampaign?._id,
         status: "active",
+        campStatus: "active",
         page,
         pageSize,
         sort,
@@ -100,54 +100,56 @@ export default function CampaignersTable() {
   return (
     <div className="space-y-6">
       {/* FILTER BAR */}
-      <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
-        <Input
-          placeholder="Search campaigner..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="max-w-sm"
-        />
-        <div className="flex items-center gap-3.5">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button size="icon-sm" className="relative">
-                <Funnel />
+      {campaginers?.length > 5 && (
+        <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+          <Input
+            placeholder="Search campaigner..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="max-w-sm"
+          />
+          <div className="flex items-center gap-3.5">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button size="icon-sm" className="relative">
+                  <Funnel />
 
-                {sort && (
-                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
-                )}
-              </Button>
-            </PopoverTrigger>{" "}
-            <PopoverContent>
-              <PopoverHeader>
-                <PopoverTitle>Sort by</PopoverTitle>
-                <FieldGroup className="gap-4 px-1 py-2">
-                  {CAMPAIGN_SORT_OPTIONS?.map((item) => (
-                    <Field
-                      key={item?.value}
-                      orientation="horizontal"
-                      className="gap-2"
-                    >
-                      <Checkbox
-                        id={item?.value}
-                        checked={sort === item?.value}
-                        onCheckedChange={(checked) => {
-                          handleCategoryChange(item?.value, checked);
-                        }}
-                      />
-                      <Label htmlFor={item?.value} className="capitalize">
-                        {item.label}
-                      </Label>
-                    </Field>
-                  ))}
-                </FieldGroup>
-              </PopoverHeader>
-            </PopoverContent>
-          </Popover>
+                  {sort && (
+                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
+                  )}
+                </Button>
+              </PopoverTrigger>{" "}
+              <PopoverContent>
+                <PopoverHeader>
+                  <PopoverTitle>Sort by</PopoverTitle>
+                  <FieldGroup className="gap-4 px-1 py-2">
+                    {CAMPAIGN_SORT_OPTIONS?.map((item) => (
+                      <Field
+                        key={item?.value}
+                        orientation="horizontal"
+                        className="gap-2"
+                      >
+                        <Checkbox
+                          id={item?.value}
+                          checked={sort === item?.value}
+                          onCheckedChange={(checked) => {
+                            handleCategoryChange(item?.value, checked);
+                          }}
+                        />
+                        <Label htmlFor={item?.value} className="capitalize">
+                          {item.label}
+                        </Label>
+                      </Field>
+                    ))}
+                  </FieldGroup>
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover>
 
-          {/* <Button variant="outline">Export CSV</Button> */}
+            {/* <Button variant="outline">Export CSV</Button> */}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* TABLE */}
       <div className="rounded-2xl border shadow-sm overflow-hidden">
@@ -169,97 +171,113 @@ export default function CampaignersTable() {
           </TableHeader>
 
           <TableBody>
-            {campaginers?.map((item) => {
-              return (
-                <TableRow
-                  key={item._id}
-                  className="hover:bg-muted/40 transition"
-                >
-                  <TableCell className="font-medium">{item.name}</TableCell>
+            {campainerLoading ? (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center py-6">
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : campaginers?.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center py-6">
+                  No Campaigners found
+                </TableCell>
+              </TableRow>
+            ) : (
+              campaginers?.map((item) => {
+                return (
+                  <TableRow
+                    key={item._id}
+                    className="hover:bg-muted/40 transition"
+                  >
+                    <TableCell className="font-medium">{item.name}</TableCell>
 
-                  <TableCell>{item.phoneNumber}</TableCell>
+                    <TableCell>{item.phoneNumber}</TableCell>
 
-                  <TableCell>
-                    ₹{item.targetAmount.toLocaleString("en-IN")}
-                  </TableCell>
+                    <TableCell>
+                      ₹{item.targetAmount.toLocaleString("en-IN")}
+                    </TableCell>
 
-                  <TableCell>
-                    ₹{item.raisedAmount.toLocaleString("en-IN")}
-                  </TableCell>
+                    <TableCell>
+                      ₹{item.raisedAmount.toLocaleString("en-IN")}
+                    </TableCell>
 
-                  <TableCell className="w-40">
-                    <div className="space-y-2">
-                      <Progress value={item?.percentage} />
-                      <span className="text-xs text-muted-foreground">
-                        {item?.percentage}%
-                      </span>
-                    </div>
-                  </TableCell>
+                    <TableCell className="w-40">
+                      <div className="space-y-2">
+                        <Progress value={item?.percentage} />
+                        <span className="text-xs text-muted-foreground">
+                          {item?.percentage}%
+                        </span>
+                      </div>
+                    </TableCell>
 
-                  <TableCell className="w-32 text-center">
-                    {item?.funderCount}
-                  </TableCell>
+                    <TableCell className="w-32 text-center">
+                      {item?.funderCount}
+                    </TableCell>
 
-                  <TableCell>
-                    <Button
-                      size="sm"
-                      onClick={() => navigate(`/admin/funders?id=${item?._id}`)}
-                    >
-                      View Funders
-                    </Button>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <div className="flex justify-center gap-2">
-                      {/* EDIT */}
+                    <TableCell>
                       <Button
-                        size="icon-sm"
-                        variant="outline"
+                        size="sm"
                         onClick={() =>
-                          navigate(`/admin/campaigner/edit/${item._id}`)
+                          navigate(`/admin/funders?id=${item?._id}`)
                         }
                       >
-                        <Pencil size={16} />
+                        View Funders
                       </Button>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <div className="flex justify-center gap-2">
+                        {/* EDIT */}
+                        <Button
+                          size="icon-sm"
+                          variant="outline"
+                          onClick={() =>
+                            navigate(`/admin/campaigner/edit/${item._id}`)
+                          }
+                        >
+                          <Pencil size={16} />
+                        </Button>
 
-                      {/* DELETE MODAL */}
-                      {item?.raisedAmount < 0 && (
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button size="icon-sm" variant="destructive">
-                              <Trash2 size={16} />
-                            </Button>
-                          </AlertDialogTrigger>
+                        {/* DELETE MODAL */}
+                        {item?.raisedAmount < 0 && (
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button size="icon-sm" variant="destructive">
+                                <Trash2 size={16} />
+                              </Button>
+                            </AlertDialogTrigger>
 
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>
-                                Delete Campaigner
-                              </AlertDialogTitle>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Delete Campaigner
+                                </AlertDialogTitle>
 
-                              <AlertDialogDescription>
-                                This action cannot be undone. This will
-                                permanently delete the campaigner and their
-                                data.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
+                                <AlertDialogDescription>
+                                  This action cannot be undone. This will
+                                  permanently delete the campaigner and their
+                                  data.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
 
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
 
-                              <AlertDialogAction
-                                onClick={() => handleDelete(item._id)}
-                              >
-                                Delete
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      )}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                                <AlertDialogAction
+                                  onClick={() => handleDelete(item._id)}
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            )}
           </TableBody>
         </Table>
       </div>

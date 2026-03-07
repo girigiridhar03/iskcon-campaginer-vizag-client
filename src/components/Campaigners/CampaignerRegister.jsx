@@ -18,6 +18,7 @@ const CampaignerRegister = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleImage = (e) => {
@@ -97,7 +98,7 @@ const CampaignerRegister = () => {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* NAME */}
-            <div>
+            <div className="flex flex-col gap-1.5">
               <Label>Name</Label>
               <Input
                 name="name"
@@ -111,7 +112,7 @@ const CampaignerRegister = () => {
             </div>
 
             {/* TARGET */}
-            <div>
+            <div className="flex flex-col gap-1.5">
               <Label>Target Amount</Label>
               <Input
                 name="targetAmount"
@@ -128,7 +129,7 @@ const CampaignerRegister = () => {
             </div>
 
             {/* PHONE */}
-            <div>
+            <div className="flex flex-col gap-1.5">
               <Label>Phone Number</Label>
               <Input
                 name="phoneNumber"
@@ -144,7 +145,7 @@ const CampaignerRegister = () => {
             </div>
 
             {/* DEVOTE */}
-            <div>
+            <div className="flex flex-col gap-1.5">
               <Label>Temple Devote In Touch</Label>
               <Input
                 name="templeDevoteInTouch"
@@ -160,7 +161,7 @@ const CampaignerRegister = () => {
             </div>
 
             {/* IMAGE */}
-            <div>
+            <div className="flex flex-col gap-1.5">
               <Label>Campaigner Image</Label>
 
               <label className="flex flex-col items-center justify-center border border-dashed rounded-lg p-6 cursor-pointer hover:bg-muted transition">

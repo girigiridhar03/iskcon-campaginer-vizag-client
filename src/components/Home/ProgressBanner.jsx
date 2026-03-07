@@ -28,76 +28,86 @@ const ProgressBanner = () => {
     requestAnimationFrame(animate);
   }, [currentCampaign]);
 
+  const handleClick = () => {
+    const el = document.getElementById("card-sections");
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   return (
-    <section className="px-4 my-6">
+    <section className="my-5">
       <div
         className="
-        relative
+        w-full mx-auto
         rounded-3xl
-        p-6 sm:p-8
-        bg-gradient-to-br 
-        from-[#f3e6c0] 
-        via-[#e8d7a3] 
-        to-[#d9c27c]
-        border border-yellow-500/40
-        shadow-[0_20px_50px_rgba(0,0,0,0.15)]
-        overflow-hidden
+        border border-yellow-200
+        bg-linear-to-r from-[#faf6e6] via-[#f6eed2] to-[#f2e6b8]
+        shadow-lg
+        px-6 py-7
       "
       >
-        {/* Soft gold glow */}
-        <div className="absolute -top-24 -right-24 w-72 h-72 bg-yellow-400/20 blur-3xl rounded-full" />
+        <div
+          className="
+          flex flex-col md:flex-row
+          items-center
+          justify-between
+          gap-8
+        "
+        >
+          {/* LEFT : Progress Circle */}
+          <div className="flex items-center gap-5">
+            <CircularProgress value={progress} />
 
-        {/* Inner glass layer for readability */}
-        <div className="relative z-10 bg-white/40 backdrop-blur-sm rounded-2xl p-6 sm:p-8 flex flex-col items-center text-center gap-6">
-          {/* HEADER */}
-          <div>
-            <p className="uppercase text-xs tracking-widest text-[#555] font-medium">
-              Fundraising Goal
+            <div>
+              <p className="text-sm text-gray-600 font-medium">
+                Fundraising Goal
+              </p>
+
+              <p className="text-2xl font-bold text-gray-900">
+                ₹{currentCampaign?.targetAmount?.toLocaleString("en-IN")}
+              </p>
+            </div>
+          </div>
+
+          {/* CENTER : Raised Amount */}
+          <div className="text-center">
+            <p className="text-sm text-gray-600 font-medium">Amount Raised</p>
+
+            <p className="text-3xl md:text-4xl font-bold text-[#b7791f] mt-1">
+              ₹{animatedAmount.toLocaleString("en-IN")}
             </p>
 
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-black mt-2">
-              ₹{currentCampaign?.targetAmount?.toLocaleString("en-IN")}
-            </h2>
-
-            <div className="mt-4 text-[#b45309] text-2xl sm:text-3xl font-bold">
-              ₹{animatedAmount.toLocaleString("en-IN")}
-            </div>
-
-            <p className="text-sm text-[#444] mt-1 font-medium">
-              Raised so far
+            <p className="text-xs text-gray-500 mt-1">
+              ({currentCampaign?.percentage?.toFixed(2)}% completed)
             </p>
           </div>
 
-          {/* PROGRESS */}
-          <CircularProgress value={progress} />
-
-          {/* TITLE */}
-          <div>
-            <h3 className="text-2xl sm:text-3xl font-bold text-[#d4a017] drop-shadow-sm">
+          {/* RIGHT : Message + CTA */}
+          <div className="text-center md:text-right max-w-sm">
+            <h3 className="text-lg font-semibold text-gray-900">
               Mandir Nirmana Seva
             </h3>
 
-            <p className="text-base text-[#3a3a3a] font-medium mt-3 px-2">
-              Become part of a sacred mission to build a divine legacy.
+            <p className="text-sm text-gray-600 mt-1">
+              Join devotees in building a sacred temple that will serve
+              generations to come.
             </p>
-          </div>
 
-          {/* CTA */}
-          <button
-            className="
-            mt-4
-            px-8 py-3
-            rounded-full
-            bg-gradient-to-r from-yellow-400 to-yellow-500
-            text-black font-bold
-            shadow-lg
-            transition-all duration-300
-            hover:scale-105
-            hover:shadow-xl
-          "
-          >
-            Donate Now
-          </button>
+            <button
+              onClick={handleClick}
+              className="
+                mt-4
+                px-6 py-2.5
+                rounded-full
+                bg-linear-to-r from-yellow-400 to-yellow-500
+                text-black font-semibold
+                shadow
+                hover:shadow-md
+                transition
+              "
+            >
+              Donate Now
+            </button>
+          </div>
         </div>
       </div>
     </section>
