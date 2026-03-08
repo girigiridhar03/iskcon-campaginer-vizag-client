@@ -37,6 +37,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import CampaignerDetailsModal from "@/components/utils/CampaignerDetailsModal";
 
 export default function CampaignersTable() {
   const navigate = useNavigate();
@@ -49,6 +50,7 @@ export default function CampaignersTable() {
   const [sort, setSort] = useState("");
   const [page, setPage] = useState(1);
   const pageSize = 15;
+  const [campaigner, setSelectedCampaigner] = useState(null);
 
   useEffect(() => {
     dispatch(getCurrentCampaign());
@@ -188,7 +190,8 @@ export default function CampaignersTable() {
                 return (
                   <TableRow
                     key={item._id}
-                    className="hover:bg-muted/40 transition"
+                    className="cursor-pointer hover:bg-muted/50 transition"
+                    onClick={() => setSelectedCampaigner(item)}
                   >
                     <TableCell className="font-medium">{item.name}</TableCell>
 
@@ -289,6 +292,12 @@ export default function CampaignersTable() {
             onPageChange={setPage}
           />
         </div>
+      )}
+      {campaigner && (
+        <CampaignerDetailsModal
+          campaigner={campaigner}
+          onClose={() => setSelectedCampaigner(null)}
+        />
       )}
     </div>
   );

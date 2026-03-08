@@ -7,12 +7,51 @@ import {
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BookOpen } from "lucide-react";
+import { useState } from "react";
 
 export default function PowerOfGivingSection() {
   const handleDonateClick = () => {
     const el = document.getElementById("donation-card");
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
+
+  const [showAll, setShowAll] = useState(false);
+  const faqs = [
+    {
+      q: "What is the goal of this campaign?",
+      a: "To raise donations for the construction of Dakshina Dwaraka Dham in Chennai.",
+    },
+    {
+      q: "How does my donation help?",
+      a: "Your contribution supports temple construction, education, and cultural programs.",
+    },
+    {
+      q: "When will I receive Prasadam?",
+      a: "You can expect to receive prasadam within one month of your donation. Prasadam will be sent only to donors within India.",
+    },
+    {
+      q: "Will I get 80G tax exemption?",
+      a: "Yes, all donations qualify for 80G tax exemption as per government regulations.",
+    },
+    {
+      q: "Who is the inspiration behind this project?",
+      a: `His Divine Grace Vishwa Guru Srila Prabhupada, Founder-Acarya of the Worldwide Hare Krishna Movement, is the inspiration behind this project.`,
+    },
+    {
+      q: "Where is Dakshina Dwaraka Dham located?",
+      a: "Thiruvanmiyur, Chennai. Address: Hare Krishna Movement, 63, 1st Seaward Rd, Valmiki Nagar, Chennai - 600041.",
+    },
+    {
+      q: "Is there a minimum donation amount?",
+      a: "Yes, the minimum donation amount is ₹100.",
+    },
+    {
+      q: "When will construction be completed?",
+      a: "If required donations are received, the full construction phase is expected to complete by 2026.",
+    },
+  ];
+
+  const visibleFaqs = showAll ? faqs : faqs.slice(0, 4);
 
   return (
     <section className="space-y-14">
@@ -71,44 +110,59 @@ export default function PowerOfGivingSection() {
       </div>
 
       {/* ================= FAQ ================= */}
-      <div className="max-w-3xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-8">
-          Frequently Asked <span className="text-primary">Questions</span>
-        </h2>
+      <div className="max-w-4xl mx-auto">
+        {/* HEADER */}
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold">
+            Frequently Asked <span className="text-primary">Questions</span>
+          </h2>
 
-        <Accordion type="single" collapsible className="space-y-3">
-          {[
-            {
-              q: "What is the goal of this campaign?",
-              a: "To raise donations for the construction of Dakshina Dwaraka Dham in Chennai.",
-            },
-            {
-              q: "How does my donation help?",
-              a: "Your contribution supports temple construction, education, and cultural programs.",
-            },
-            {
-              q: "Will I get 80G tax exemption?",
-              a: "Yes, eligible donors will receive 80G tax exemption certificates.",
-            },
-            {
-              q: "When will construction be completed?",
-              a: "Construction is progressing in phases and updates are shared regularly.",
-            },
-          ].map((item, i) => (
+          <p className="text-muted-foreground mt-2 text-sm md:text-base">
+            Find answers to common questions about the temple campaign.
+          </p>
+        </div>
+
+        {/* FAQ ACCORDION */}
+        <Accordion type="single" collapsible className="space-y-4">
+          {visibleFaqs.map((item, i) => (
             <AccordionItem
               key={i}
               value={`faq-${i}`}
-              className="bg-muted rounded-xl px-4"
+              className="
+    bg-card
+    border
+    rounded-xl
+    px-5
+    shadow-sm
+    hover:shadow-md
+    transition
+  "
             >
-              <AccordionTrigger className="text-left font-semibold">
+              <AccordionTrigger className="text-left font-semibold text-base md:text-lg">
                 {item.q}
               </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                {item.a}
+
+              <AccordionContent className="pt-2">
+                <div className="border-l-4 border-primary pl-4 text-muted-foreground leading-relaxed">
+                  {item.a}
+                </div>
               </AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
+
+        {/* SHOW MORE BUTTON */}
+        {faqs.length > 4 && (
+          <div className="text-center mt-8">
+            <Button
+              variant="outline"
+              onClick={() => setShowAll(!showAll)}
+              className="px-6"
+            >
+              {showAll ? "Show Less" : "Show More Questions"}
+            </Button>
+          </div>
+        )}
       </div>
 
       <section className="px-4 md:px-10">

@@ -46,8 +46,10 @@ api.interceptors.response.use(
 
     if (error.response.status === 401) {
       handleUnauthorized();
+      return Promise.reject(error);
     }
+    return Promise.reject(error);
   },
 );
 
-export default api
+export default api;

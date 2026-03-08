@@ -23,9 +23,15 @@ import { useEffect, useState } from "react";
 import { getCurrentCampaign } from "@/store/campaign/campaign.service";
 import { getCampainer } from "@/store/campaigners/campaigners.service";
 import { Input } from "@/components/ui/input";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Eye, MoreHorizontal } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Check, Eye, MoreHorizontal, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import CampaignerDetailsModal from "@/components/utils/CampaignerDetailsModal";
 
 const CampaignerRegistrations = () => {
   const { campaginers, campaginerTotalPages, campainerLoading } = useSelector(
@@ -35,6 +41,7 @@ const CampaignerRegistrations = () => {
   const { currentCampaign } = useSelector((state) => state.campaign);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [campaigner, setSelectedCampaigner] = useState(null);
   const pageSize = 15;
 
   useEffect(() => {
@@ -74,9 +81,12 @@ const CampaignerRegistrations = () => {
           <TableHeader className="bg-muted/50">
             <TableRow>
               <TableHead className="w-[20%]">Name</TableHead>
-              <TableHead className="w-[15%]">Phone</TableHead>
-              <TableHead className="w-[15%]">Target</TableHead>
-              <TableHead className="w-[10%] text-center">Status</TableHead>
+              <TableHead className="w-[15%] text-center">Phone</TableHead>
+              <TableHead className="w-[25%] text-center">Target</TableHead>
+              <TableHead className="w-[15%] text-center">
+                Touch With Devote
+              </TableHead>
+              <TableHead className="w-[30%] text-center">Status</TableHead>
               <TableHead className="w-[10%] text-center">Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -99,16 +109,21 @@ const CampaignerRegistrations = () => {
                 return (
                   <TableRow
                     key={item._id}
-                    className="hover:bg-muted/40 transition"
+                    className="hover:bg-muted/50 transition"
                   >
                     <TableCell className="font-medium">{item.name}</TableCell>
 
-                    <TableCell>{item.phoneNumber}</TableCell>
+                    <TableCell className="text-center">
+                      {item.phoneNumber}
+                    </TableCell>
 
-                    <TableCell>
+                    <TableCell className="text-center">
                       ₹{item.targetAmount.toLocaleString("en-IN")}
                     </TableCell>
-                    <TableCell>₹{item.status}</TableCell>
+                    <TableCell className="text-center">
+                      {item?.templeDevoteInTouch?.devoteName}
+                    </TableCell>
+                    <TableCell className="text-center">{item.status}</TableCell>
                     <TableCell className="text-center">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -135,7 +150,7 @@ const CampaignerRegistrations = () => {
                           </DropdownMenuItem>
 
                           <DropdownMenuItem
-                            onClick={() => handleView(item._id)}
+                            onClick={() => setSelectedCampaigner(item)}
                             className="cursor-pointer"
                           >
                             <Eye className="mr-2 h-4 w-4 text-muted-foreground" />
@@ -195,6 +210,12 @@ const CampaignerRegistrations = () => {
             onPageChange={setPage}
           />
         </div>
+      )}
+      {campaigner && (
+        <CampaignerDetailsModal
+          campaigner={campaigner}
+          onClose={() => setSelectedCampaigner(null)}
+        />
       )}
     </div>
   );

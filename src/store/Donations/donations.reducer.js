@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getDonations } from "./donations.service";
+import { getDonations, getDonorDetailsObj } from "./donations.service";
 
 const initialState = {
   getDonationsLoading: false,
+  getDonorDetailsLoading: false,
+  donorDetailsObj: {},
   getDonationsArr: [],
   totalDonations: 0,
   totalPages: 1,
@@ -25,6 +27,17 @@ export const donationReducer = createSlice({
         state.totalDonations = payload?.pagination?.total;
       })
       .addCase(getDonations.rejected, (state, { payload }) => {
+        state.getDonationsLoading = false;
+        state.error = payload;
+      })
+      .addCase(getDonorDetailsObj.pending, (state) => {
+        state.getDonationsLoading = true;
+      })
+      .addCase(getDonorDetailsObj.fulfilled, (state, { payload }) => {
+        state.getDonationsLoading = false;
+        state.donorDetailsObj = payload;
+      })
+      .addCase(getDonorDetailsObj.rejected, (state, { payload }) => {
         state.getDonationsLoading = false;
         state.error = payload;
       }),

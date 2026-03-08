@@ -83,11 +83,11 @@ const openRazorPay = async (payload, navigate) => {
       });
 
       if (result?.status === 200) {
-        navigate("/thankyou");
+        navigate(`/thankyou/${donationId}`);
       }
     },
     theme: {
-      color: "#5B21B6",
+      color: "#ffdf20",
     },
   };
 
