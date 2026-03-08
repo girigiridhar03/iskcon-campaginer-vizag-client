@@ -90,7 +90,10 @@ export default function DonorsTable() {
           {/* Seva Dropdown */}
           <Select
             value={selectedSeva}
-            onValueChange={(value) => setSelectedSeva(value)}
+            onValueChange={(value) => {
+              setPage(1);
+              setSelectedSeva(value);
+            }}
           >
             <SelectTrigger className="w-48">
               <SelectValue placeholder="Filter by Seva" />
@@ -108,7 +111,10 @@ export default function DonorsTable() {
           {/* Campaign Dropdown */}
           <Select
             value={selectedCampaign}
-            onValueChange={(value) => setSelectedCampaign(value)}
+            onValueChange={(value) => {
+              setPage(1);
+              setSelectedCampaign(value);
+            }}
           >
             <SelectTrigger className="w-48">
               <SelectValue placeholder="Filter by Campaign" />
@@ -198,7 +204,7 @@ export default function DonorsTable() {
       </div>
 
       {/* Pagination */}
-      {totalPages > 2 && (
+      {totalPages > 1 && (
         <div>
           <CustomPagination
             totalPages={totalPages}

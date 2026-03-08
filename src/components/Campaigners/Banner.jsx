@@ -1,7 +1,10 @@
-
 const Banner = () => {
   const handleDonateClick = () => {
     const el = document.getElementById("donation-card");
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+  const handleLearnMoreClick = () => {
+    const el = document.getElementById("temple-section");
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
@@ -106,6 +109,7 @@ const Banner = () => {
             </button>
 
             <button
+              onClick={handleLearnMoreClick}
               className="
                 px-6 sm:px-7 
                 py-3 

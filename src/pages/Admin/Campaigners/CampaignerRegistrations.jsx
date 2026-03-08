@@ -21,7 +21,10 @@ import CustomPagination from "@/components/utils/CustomPagination";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getCurrentCampaign } from "@/store/campaign/campaign.service";
-import { getCampainer } from "@/store/campaigners/campaigners.service";
+import {
+  deleteCampaigner,
+  getCampainer,
+} from "@/store/campaigners/campaigners.service";
 import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
@@ -32,6 +35,7 @@ import {
 import { Check, Eye, MoreHorizontal, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CampaignerDetailsModal from "@/components/utils/CampaignerDetailsModal";
+import { toast } from "react-toastify";
 
 const CampaignerRegistrations = () => {
   const { campaginers, campaginerTotalPages, campainerLoading } = useSelector(
@@ -164,7 +168,11 @@ const CampaignerRegistrations = () => {
                         {/* DELETE MODAL */}
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button size="icon-sm" variant="destructive">
+                            <Button
+                              size="icon-sm"
+                              variant="destructive"
+                              onClick={(e) => e.stopPropagation()}
+                            >
                               <Trash2 size={16} />
                             </Button>
                           </AlertDialogTrigger>
@@ -186,7 +194,36 @@ const CampaignerRegistrations = () => {
                               <AlertDialogCancel>Cancel</AlertDialogCancel>
 
                               <AlertDialogAction
-                                onClick={() => handleDelete(item._id)}
+                                onClick={async (e) => {
+                                  e.stopPropagation();
+                                  try {
+                                    const result = await dispatch(
+                                      deleteCampaigner(item?._id),
+                                    ).unwrap();
+
+                                    if (result?.success) {
+                                      toast.success(
+                                        "Campaigner Deleted Successfully",
+                                      );
+
+                                      dispatch(
+                                        getCampainer({
+                                          id: currentCampaign?._id,
+                                          status: "pending",
+                                          campStatus: "active",
+                                          page,
+                                          pageSize,
+                                          sort: "created_desc",
+                                          search,
+                                        }),
+                                      );
+                                    }
+                                  } catch (error) {
+                                    toast.error(
+                                      error || "Failed to delete campaigner",
+                                    );
+                                  }
+                                }}
                               >
                                 Delete
                               </AlertDialogAction>
