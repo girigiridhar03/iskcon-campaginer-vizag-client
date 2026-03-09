@@ -3,6 +3,7 @@ const Banner = () => {
     const el = document.getElementById("donation-card");
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
+
   const handleLearnMoreClick = () => {
     const el = document.getElementById("temple-section");
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -11,45 +12,43 @@ const Banner = () => {
   return (
     <section
       className="
-        relative 
-        w-full 
-        h-[50vh]  xl:h-[60vh]
+        relative
+        w-full
+        min-h-[520px]
+        md:min-h-[600px]
+        lg:min-h-[680px]
         overflow-hidden
       "
     >
-      {/* Image */}
+      {/* Background Image */}
       <img
-        src={
-          "https://storage.googleapis.com/campaigners-images/Temple%20Images/TempleHeader.jpg"
-        }
+        src="https://storage.googleapis.com/campaigners-images/Temple%20Images/TempleHeader.jpg"
         alt="Temple"
-        className="absolute inset-0 w-full h-full object-cover xl:object-[50%_-120px]"
+        className="
+          absolute inset-0
+          w-full h-full
+          object-cover
+          object-center
+        "
       />
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/80 to-black/80" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/70 to-black/60" />
 
       {/* Content */}
-      <div className="relative z-10 h-full flex items-center">
-        <div
-          className="
-            container 
-            mx-auto 
-            px-4 sm:px-6 
-            max-w-5xl
-          "
-        >
+      <div className="relative z-10 flex items-center h-full py-16 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           {/* Badge */}
           <span
             className="
-              inline-block 
-              mb-4 
-              px-4 py-1 
-              rounded-full 
-              bg-primary/20 
-              text-primary 
-              text-xs sm:text-sm 
-              font-medium 
+              inline-block
+              mb-4
+              px-4 py-1
+              rounded-full
+              bg-primary/20
+              text-primary
+              text-xs sm:text-sm
+              font-medium
               tracking-wide
             "
           >
@@ -59,10 +58,14 @@ const Banner = () => {
           {/* Title */}
           <h1
             className="
-              text-white 
-              text-3xl sm:text-3xl lg:text-4xl xl:text-6xl 
-              font-bold 
+              text-white
+              font-bold
               leading-tight
+              text-3xl
+              sm:text-4xl
+              md:text-5xl
+              lg:text-6xl
+              max-w-3xl
             "
           >
             Support the Construction of <br />
@@ -72,10 +75,12 @@ const Banner = () => {
           {/* Subtitle */}
           <p
             className="
-              mt-4 sm:mt-5 
-              max-w-2xl 
-              text-white/80 
-              text-sm sm:text-base md:text-lg 
+              mt-5
+              max-w-xl
+              text-white/80
+              text-sm
+              sm:text-base
+              lg:text-lg
               leading-relaxed
             "
           >
@@ -83,25 +88,18 @@ const Banner = () => {
             Every donation lays a brick in devotion.
           </p>
 
-          {/* CTA */}
-          <div
-            className="
-              mt-6 sm:mt-8 
-              flex flex-col sm:flex-row 
-              gap-3 sm:gap-4
-            "
-          >
+          {/* Buttons */}
+          <div className="mt-7 flex flex-col sm:flex-row gap-3 sm:gap-4">
             <button
               onClick={handleDonateClick}
               className="
-                px-6 sm:px-7 
-                py-3 
-                rounded-xl 
-                bg-primary 
-                text-primary-foreground 
-                font-semibold 
-                shadow-lg 
-                hover:opacity-90 
+                px-6 py-3
+                rounded-xl
+                bg-primary
+                text-primary-foreground
+                font-semibold
+                shadow-lg
+                hover:opacity-90
                 transition
               "
             >
@@ -111,12 +109,11 @@ const Banner = () => {
             <button
               onClick={handleLearnMoreClick}
               className="
-                px-6 sm:px-7 
-                py-3 
-                rounded-xl 
-                border border-white/30 
-                text-white 
-                hover:bg-white/10 
+                px-6 py-3
+                rounded-xl
+                border border-white/30
+                text-white
+                hover:bg-white/10
                 transition
               "
             >
@@ -127,10 +124,10 @@ const Banner = () => {
           {/* Meta Info */}
           <div
             className="
-              mt-8 sm:mt-10 
-              flex flex-wrap 
-              gap-x-6 gap-y-2 
-              text-xs sm:text-sm 
+              mt-10
+              flex flex-wrap
+              gap-x-6 gap-y-2
+              text-xs sm:text-sm
               text-white/70
             "
           >

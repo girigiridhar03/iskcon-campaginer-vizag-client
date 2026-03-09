@@ -117,7 +117,7 @@ export default function Dashboard() {
 
       {/* CARDS */}
 
-      <div className="grid gap-6 md:grid-cols-3 xl:grid-cols-5">
+      <div className="grid gap-3 md:grid-cols-3 xl:grid-cols-5">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-sm">Target Amount</CardTitle>
