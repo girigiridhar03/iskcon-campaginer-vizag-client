@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Loader2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDonorDetailsObj } from "@/store/Donations/donations.service";
+import api from "@/api/api";
 
 const templeQuotes = [
   {
@@ -32,12 +33,11 @@ const templeQuotes = [
 export default function ThankYouPage() {
   const { getDonorDetailsLoading: loading, donorDetailsObj: donation } =
     useSelector((state) => state.donation);
+  const [downloading, setDownloading] = useState(false);
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  console.log(id);
-
+  
   const randomQuote =
     templeQuotes[Math.floor(Math.random() * templeQuotes.length)];
 
@@ -59,6 +59,33 @@ export default function ThankYouPage() {
   }, [id, dispatch, navigate]);
 
   if (loading) return <ThankYouSkeleton />;
+
+  const handleDownloadReceipt = async () => {
+    try {
+      setDownloading(true);
+
+      const response = await api.get(`/receipt/${id}`, {
+        responseType: "blob",
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `receipt-${donation?.receiptNumber || id}.pdf`,
+      );
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("Failed to download receipt", error);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background flex justify-center px-4 py-12">
@@ -177,12 +204,25 @@ export default function ThankYouPage() {
 
         {/* ACTION BUTTONS */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button className="w-full sm:w-auto">Download Receipt</Button>
+          <Button
+            className="w-full sm:w-auto flex items-center gap-2"
+            onClick={handleDownloadReceipt}
+            disabled={downloading}
+          >
+            {downloading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Downloading...
+              </>
+            ) : (
+              "Download Receipt"
+            )}
+          </Button>
 
           <Button
             variant="outline"
             className="w-full sm:w-auto"
-            onClick={() => navigate("-1")}
+            onClick={() => navigate(-1)}
           >
             ← Back to Home
           </Button>
