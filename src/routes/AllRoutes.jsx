@@ -16,6 +16,7 @@ import Dashboard from "@/pages/Admin/Dashboard";
 import CampaignerRegistrations from "@/pages/Admin/Campaigners/CampaignerRegistrations";
 import LoginPage from "@/pages/auth/Login";
 import ProtectedRoute from "./ProtectedRoute";
+import CampaignListPage from "@/pages/Admin/Campaigns/CampaignListPage";
 
 const AllRoutes = () => {
   return (
@@ -39,9 +40,10 @@ const AllRoutes = () => {
         }
       >
         <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/admin/campaigners" element={<Campaigners />} />
         <Route path="/admin/create-campaign" element={<CreateCampaign />} />
+        <Route path="/admin/campaigns" element={<CampaignListPage />} />
         <Route path="/admin/create-campaigner" element={<CreateCampaigner />} />
+        <Route path="/admin/campaigners" element={<Campaigners />} />
         <Route
           path="/admin/campaigner/edit/:campaignerId"
           element={<CreateCampaigner />}

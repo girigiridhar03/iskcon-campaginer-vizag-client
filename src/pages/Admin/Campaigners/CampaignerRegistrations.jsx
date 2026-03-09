@@ -44,6 +44,7 @@ const CampaignerRegistrations = () => {
   const dispatch = useDispatch();
   const { currentCampaign } = useSelector((state) => state.campaign);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [page, setPage] = useState(1);
   const [campaigner, setSelectedCampaigner] = useState(null);
   const pageSize = 15;
@@ -51,6 +52,14 @@ const CampaignerRegistrations = () => {
   useEffect(() => {
     dispatch(getCurrentCampaign());
   }, [dispatch]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
 
   useEffect(() => {
     if (!currentCampaign?._id) return;
@@ -63,21 +72,19 @@ const CampaignerRegistrations = () => {
         page,
         pageSize,
         sort: "created_desc",
-        search,
+        search: debouncedSearch,
       }),
     );
-  }, [currentCampaign?._id, search, page, dispatch]);
+  }, [currentCampaign?._id, debouncedSearch, page, dispatch]);
 
   return (
     <div className="space-y-6">
-      {campaginers?.length > 5 && (
-        <Input
-          placeholder="Search campaigner..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="max-w-sm"
-        />
-      )}
+      <Input
+        placeholder="Search campaigner..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="max-w-sm"
+      />
 
       {/* TABLE */}
       <div className="rounded-2xl border shadow-sm overflow-hidden">

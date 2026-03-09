@@ -51,6 +51,7 @@ export default function CampaignersTable() {
   );
   const { currentCampaign } = useSelector((state) => state.campaign);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [sort, setSort] = useState("");
   const [page, setPage] = useState(1);
   const pageSize = 15;
@@ -59,7 +60,13 @@ export default function CampaignersTable() {
   useEffect(() => {
     dispatch(getCurrentCampaign());
   }, [dispatch]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
 
+    return () => clearTimeout(timer);
+  }, [search]);
   useEffect(() => {
     if (!currentCampaign?._id) return;
 
@@ -71,10 +78,10 @@ export default function CampaignersTable() {
         page,
         pageSize,
         sort,
-        search,
+        search: debouncedSearch,
       }),
     );
-  }, [currentCampaign?._id, search, sort, page, dispatch]);
+  }, [currentCampaign?._id, debouncedSearch, sort, page, dispatch]);
 
   const CAMPAIGN_SORT_OPTIONS = [
     {
@@ -106,57 +113,54 @@ export default function CampaignersTable() {
   return (
     <div className="space-y-6">
       {/* FILTER BAR */}
-      {campaginers?.length > 5 && (
-        <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
-          <Input
-            placeholder="Search campaigner..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="max-w-sm"
-          />
-          <div className="flex items-center gap-3.5">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button size="icon-sm" className="relative">
-                  <Funnel />
+      <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+        <Input
+          placeholder="Search campaigner..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="max-w-sm"
+        />
+        <div className="flex items-center gap-3.5">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button size="icon-sm" className="relative">
+                <Funnel />
 
-                  {sort && (
-                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
-                  )}
-                </Button>
-              </PopoverTrigger>{" "}
-              <PopoverContent>
-                <PopoverHeader>
-                  <PopoverTitle>Sort by</PopoverTitle>
-                  <FieldGroup className="gap-4 px-1 py-2">
-                    {CAMPAIGN_SORT_OPTIONS?.map((item) => (
-                      <Field
-                        key={item?.value}
-                        orientation="horizontal"
-                        className="gap-2"
-                      >
-                        <Checkbox
-                          id={item?.value}
-                          checked={sort === item?.value}
-                          onCheckedChange={(checked) => {
-                            handleCategoryChange(item?.value, checked);
-                          }}
-                        />
-                        <Label htmlFor={item?.value} className="capitalize">
-                          {item.label}
-                        </Label>
-                      </Field>
-                    ))}
-                  </FieldGroup>
-                </PopoverHeader>
-              </PopoverContent>
-            </Popover>
+                {sort && (
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
+                )}
+              </Button>
+            </PopoverTrigger>{" "}
+            <PopoverContent>
+              <PopoverHeader>
+                <PopoverTitle>Sort by</PopoverTitle>
+                <FieldGroup className="gap-4 px-1 py-2">
+                  {CAMPAIGN_SORT_OPTIONS?.map((item) => (
+                    <Field
+                      key={item?.value}
+                      orientation="horizontal"
+                      className="gap-2"
+                    >
+                      <Checkbox
+                        id={item?.value}
+                        checked={sort === item?.value}
+                        onCheckedChange={(checked) => {
+                          handleCategoryChange(item?.value, checked);
+                        }}
+                      />
+                      <Label htmlFor={item?.value} className="capitalize">
+                        {item.label}
+                      </Label>
+                    </Field>
+                  ))}
+                </FieldGroup>
+              </PopoverHeader>
+            </PopoverContent>
+          </Popover>
 
-            {/* <Button variant="outline">Export CSV</Button> */}
-          </div>
+          {/* <Button variant="outline">Export CSV</Button> */}
         </div>
-      )}
-
+      </div>
       {/* TABLE */}
       <div className="rounded-2xl border shadow-sm overflow-hidden">
         <Table>

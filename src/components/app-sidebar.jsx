@@ -42,7 +42,7 @@ const data = {
         },
         {
           title: "All Campaigns",
-          url: "#",
+          url: "/admin/campaigns",
         },
       ],
     },

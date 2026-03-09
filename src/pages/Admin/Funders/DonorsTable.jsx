@@ -27,6 +27,7 @@ import { getCampaignsList } from "@/store/campaign/campaign.service";
 
 export default function DonorsTable() {
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit] = useState(15);
   const [selectedDonor, setSelectedDonor] = useState(null);
@@ -45,21 +46,25 @@ export default function DonorsTable() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const delay = setTimeout(() => {
-      dispatch(
-        getDonations({
-          page,
-          pageSize: limit,
-          search,
-          id,
-          campId: selectedCampaign,
-          sevaId: selectedSeva,
-        }),
-      );
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
     }, 500);
 
-    return () => clearTimeout(delay);
-  }, [search, page, dispatch, id, selectedCampaign, selectedSeva]);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  useEffect(() => {
+    dispatch(
+      getDonations({
+        page,
+        pageSize: limit,
+        search: debouncedSearch,
+        id,
+        campId: selectedCampaign,
+        sevaId: selectedSeva,
+      }),
+    );
+  }, [debouncedSearch, page, dispatch, id, selectedCampaign, selectedSeva]);
 
   useEffect(() => {
     dispatch(getSevaList());
