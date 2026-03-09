@@ -153,7 +153,7 @@ export function DonationDialog({ open, onOpenChange, inputValue, sevaId }) {
   const handleSubmit = async () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) {
+    if (!formData?.anonymous && !formData.name.trim()) {
       newErrors.name = "Name is required";
     }
 
