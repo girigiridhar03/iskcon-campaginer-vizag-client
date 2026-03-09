@@ -24,6 +24,7 @@ import { getCurrentCampaign } from "@/store/campaign/campaign.service";
 import {
   deleteCampaigner,
   getCampainer,
+  updateCampaigner,
 } from "@/store/campaigners/campaigners.service";
 import { Input } from "@/components/ui/input";
 import {
@@ -32,10 +33,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Check, Eye, MoreHorizontal, Trash2, X } from "lucide-react";
+import { Check, Eye, Funnel, MoreHorizontal, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CampaignerDetailsModal from "@/components/utils/CampaignerDetailsModal";
 import { toast } from "react-toastify";
+import {
+  Popover,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Field, FieldGroup } from "@/components/ui/field";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 const CampaignerRegistrations = () => {
   const { campaginers, campaginerTotalPages, campainerLoading } = useSelector(
@@ -47,6 +58,7 @@ const CampaignerRegistrations = () => {
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [page, setPage] = useState(1);
   const [campaigner, setSelectedCampaigner] = useState(null);
+  const [sort, setSort] = useState("pending");
   const pageSize = 15;
 
   useEffect(() => {
@@ -67,7 +79,7 @@ const CampaignerRegistrations = () => {
     dispatch(
       getCampainer({
         id: currentCampaign?._id,
-        status: "pending",
+        status: sort,
         campStatus: "active",
         page,
         pageSize,
@@ -75,16 +87,76 @@ const CampaignerRegistrations = () => {
         search: debouncedSearch,
       }),
     );
-  }, [currentCampaign?._id, debouncedSearch, page, dispatch]);
+  }, [currentCampaign?._id, debouncedSearch, page, sort, dispatch]);
+
+  const handleCategoryChange = (id, checked) => {
+    setPage(1);
+    if (checked) {
+      setSort(id);
+    } else {
+      setSort(null);
+    }
+  };
 
   return (
     <div className="space-y-6">
-      <Input
-        placeholder="Search campaigner..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="max-w-sm"
-      />
+      <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+        <Input
+          placeholder="Search campaigner..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="max-w-sm"
+        />
+        <div className="flex items-center gap-3.5">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button size="icon-sm" className="relative">
+                <Funnel />
+
+                {sort && (
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
+                )}
+              </Button>
+            </PopoverTrigger>{" "}
+            <PopoverContent>
+              <PopoverHeader>
+                <PopoverTitle>Sort by</PopoverTitle>
+                <FieldGroup className="gap-4 px-1 py-2">
+                  {[
+                    {
+                      label: "Pending",
+                      value: "pending",
+                    },
+                    {
+                      label: "Reject",
+                      value: "reject",
+                    },
+                  ]?.map((item) => (
+                    <Field
+                      key={item?.value}
+                      orientation="horizontal"
+                      className="gap-2"
+                    >
+                      <Checkbox
+                        id={item?.value}
+                        checked={sort === item?.value}
+                        onCheckedChange={(checked) => {
+                          handleCategoryChange(item?.value, checked);
+                        }}
+                      />
+                      <Label htmlFor={item?.value} className="capitalize">
+                        {item.label}
+                      </Label>
+                    </Field>
+                  ))}
+                </FieldGroup>
+              </PopoverHeader>
+            </PopoverContent>
+          </Popover>
+
+          {/* <Button variant="outline">Export CSV</Button> */}
+        </div>
+      </div>
 
       {/* TABLE */}
       <div className="rounded-2xl border shadow-sm overflow-hidden">
@@ -145,7 +217,24 @@ const CampaignerRegistrations = () => {
 
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem
-                            onClick={() => handleApprove(item._id)}
+                            onClick={async () => {
+                              await dispatch(
+                                updateCampaigner({
+                                  id: item?._id,
+                                  formData: { status: "active" },
+                                }),
+                              ).unwrap();
+                              dispatch(
+                                getCampainer({
+                                  id: currentCampaign?._id,
+                                  status: sort,
+                                  campStatus: "active",
+                                  page,
+                                  pageSize,
+                                  sort: "created_desc",
+                                }),
+                              );
+                            }}
                             className="cursor-pointer"
                           >
                             <Check className="mr-2 h-4 w-4 text-green-600" />
@@ -153,7 +242,24 @@ const CampaignerRegistrations = () => {
                           </DropdownMenuItem>
 
                           <DropdownMenuItem
-                            onClick={() => handleReject(item._id)}
+                            onClick={async () => {
+                              await dispatch(
+                                updateCampaigner({
+                                  id: item?._id,
+                                  formData: { status: "reject" },
+                                }),
+                              ).unwrap();
+                              dispatch(
+                                getCampainer({
+                                  id: currentCampaign?._id,
+                                  status: sort,
+                                  campStatus: "active",
+                                  page,
+                                  pageSize,
+                                  sort: "created_desc",
+                                }),
+                              );
+                            }}
                             className="cursor-pointer"
                           >
                             <X className="mr-2 h-4 w-4 text-red-600" />
