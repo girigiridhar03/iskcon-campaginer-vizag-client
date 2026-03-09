@@ -3,6 +3,7 @@ import CustomCard from "../utils/CustomCard";
 import CustomCardSkeleton from "../utils/CustomCardSkeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { getCampainer } from "@/store/campaigners/campaigners.service";
+import { Input } from "../ui/input";
 const PAGE_SIZE = 15;
 
 const CardSection = ({ currentCampaign }) => {
@@ -13,8 +14,18 @@ const CardSection = ({ currentCampaign }) => {
   );
 
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const loaderRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
 
   // Initial load
   useEffect(() => {
@@ -29,10 +40,11 @@ const CardSection = ({ currentCampaign }) => {
         campStatus: "active",
         page: 1,
         pageSize: PAGE_SIZE,
+        search: debouncedSearch,
         infiniteScroll: true,
       }),
     );
-  }, [currentCampaign?._id, dispatch]);
+  }, [currentCampaign?._id, debouncedSearch, dispatch]);
 
   // Infinite scroll observer
   useEffect(() => {
@@ -81,9 +93,17 @@ const CardSection = ({ currentCampaign }) => {
 
   return (
     <section className="mt-10" id="card-sections">
-      <h2 className="mb-6 text-2xl font-semibold">
-        Campaigners Supporting This Seva ({campainersCount})
-      </h2>
+      <div className="flex gap-2 flex-col md:flex-row justify-between mb-5 px-3">
+        <h2 className="text md:text-2xl font-semibold">
+          Campaigners Supporting This Seva ({campainersCount})
+        </h2>
+        <Input
+          placeholder="Search campaigner..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="max-w-sm"
+        />
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-stretch mb-3">
         {campaginers?.map((campaginer, index) => (
