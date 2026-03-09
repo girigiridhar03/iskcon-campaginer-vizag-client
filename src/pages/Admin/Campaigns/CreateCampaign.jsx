@@ -9,6 +9,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useDispatch, useSelector } from "react-redux";
+import { createCampaign } from "@/store/campaign/campaign.service";
+import { toast } from "react-toastify";
 
 export default function CreateCampaign() {
   const [formData, setFormData] = useState({
@@ -18,7 +21,10 @@ export default function CreateCampaign() {
     endDate: "",
   });
 
-  const [loading, setLoading] = useState(false);
+  const { createCampaignLoading: loading } = useSelector(
+    (state) => state.campaign,
+  );
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -42,12 +48,17 @@ export default function CreateCampaign() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    const result = await dispatch(createCampaign(formData)).unwrap();
 
-    await new Promise((res) => setTimeout(res, 1000));
-
-    setLoading(false);
-    alert("Campaign created successfully!");
+    if (result?.success) {
+      toast.success("Campaign created successfully");
+    }
+    setFormData({
+      title: "",
+      targetAmount: "",
+      startDate: "",
+      endDate: "",
+    });
   };
 
   return (

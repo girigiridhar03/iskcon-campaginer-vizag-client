@@ -1,9 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCampaignsList, getCurrentCampaign } from "./campaign.service";
+import {
+  createCampaign,
+  getCampaignsList,
+  getCurrentCampaign,
+} from "./campaign.service";
 
 const initialState = {
   campainLoading: false,
   campaginListLoading: false,
+  createCampaignLoading: false,
   campaginListArr: [],
   currentCampaign: {},
   total: 0,
@@ -39,6 +44,16 @@ const campaignReducer = createSlice({
       })
       .addCase(getCampaignsList.rejected, (state, { payload }) => {
         state.campaginListLoading = false;
+        state.error = payload;
+      })
+      .addCase(createCampaign.pending, (state) => {
+        state.createCampaignLoading = true;
+      })
+      .addCase(createCampaign.fulfilled, (state) => {
+        state.createCampaignLoading = false;
+      })
+      .addCase(createCampaign.rejected, (state, { payload }) => {
+        state.createCampaignLoading = false;
         state.error = payload;
       }),
 });

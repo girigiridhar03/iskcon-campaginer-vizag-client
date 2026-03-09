@@ -50,3 +50,18 @@ export const getCampaignsList = createAsyncThunk(
     }
   },
 );
+
+export const createCampaign = createAsyncThunk(
+  "createCampaign",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await api.post(`/campaign`, formData);
+      return response?.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Internal Server Error");
+      return rejectWithValue(
+        error.response?.data?.message || "Internal Server error",
+      );
+    }
+  },
+);
