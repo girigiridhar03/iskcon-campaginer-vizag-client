@@ -232,6 +232,7 @@ export default function CreateCampaigner() {
                 <Label>Select Devote In Touch</Label>
                 <Select
                   value={formData.templeDevoteInTouch}
+                  required
                   onValueChange={(value) =>
                     setFormData((prev) => ({
                       ...prev,

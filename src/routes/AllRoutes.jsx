@@ -14,6 +14,8 @@ import DonorsTable from "@/pages/Admin/Funders/DonorsTable";
 import CampaignerRegister from "@/components/Campaigners/CampaignerRegister";
 import Dashboard from "@/pages/Admin/Dashboard";
 import CampaignerRegistrations from "@/pages/Admin/Campaigners/CampaignerRegistrations";
+import LoginPage from "@/pages/auth/Login";
+import ProtectedRoute from "./ProtectedRoute";
 
 const AllRoutes = () => {
   return (
@@ -27,7 +29,15 @@ const AllRoutes = () => {
       <Route path="/campaigner/register" element={<CampaignerRegister />} />
       <Route path="/thankyou/:id" element={<ThankYouPage />} />
 
-      <Route element={<Admin />}>
+      <Route path="/admin/login" element={<LoginPage />} />
+
+      <Route
+        element={
+          <ProtectedRoute>
+            <Admin />
+          </ProtectedRoute>
+        }
+      >
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/campaigners" element={<Campaigners />} />
         <Route path="/admin/create-campaign" element={<CreateCampaign />} />
