@@ -223,7 +223,7 @@ export function DonationDialog({ open, onOpenChange, inputValue, sevaId }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg rounded-3xl p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-lg rounded-3xl p-1 max-h-150 overflow-hidden">
         <DialogHeader className="px-6 py-5 bg-muted">
           <DialogTitle className="text-lg font-semibold">
             Donation Summary
@@ -235,7 +235,7 @@ export function DonationDialog({ open, onOpenChange, inputValue, sevaId }) {
           </p>
         </DialogHeader>
 
-        <div className="px-6 py-6 space-y-6">
+     <div className="px-2 py-6 pb-10 space-y-6 overflow-y-auto max-h-130 pr-2 custom-scroll">
           {/* Personal Info */}
           <div className="space-y-3">
             <Input

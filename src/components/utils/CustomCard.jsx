@@ -137,7 +137,7 @@ const CustomCard = ({ campainer, index }) => {
             <div className="space-y-2">
               <div className="h-3.5 w-full rounded-full bg-white/35 backdrop-blur-md border border-white/40 shadow-inner overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-linear-to-r from-orange-700 to-amber-600 transition-all duration-700 ease-out"
+                  className="h-full rounded-full bg-linear-to-r from-white to-yellow-400 transition-all duration-700 ease-out"
                   style={{ width: `${campainer?.percentage || 0}%` }}
                 />
               </div>
