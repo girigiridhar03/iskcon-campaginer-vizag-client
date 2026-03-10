@@ -11,8 +11,9 @@ export default function ArchitecturalVisionGallery() {
         </h2>
 
         <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-          A fusion of traditional Pallava craftsmanship and modern engineering.
-          Explore the visualizations of Chennai's Hare Krishna Vaikuntam.
+          A fusion of traditional Dravidian craftsmanship and modern
+          engineering. Explore the visualizations of Vizag's Hare Krishna
+          Vaikuntam.
         </p>
       </div>
 

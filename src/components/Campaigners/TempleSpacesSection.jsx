@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 const spaces = [
   {
     title: "Divine Altar",
-    desc: "Beautifully carved altar of Sri Rukmini Dwarkadish.",
+    desc: "Beautifully carved altar of Sri Srinivasa Govinda",
     image:
       "https://storage.googleapis.com/campaigners-images/Temple%20Images/altar.jpg",
   },
