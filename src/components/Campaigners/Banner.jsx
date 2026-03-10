@@ -14,9 +14,9 @@ const Banner = () => {
       className="
         relative
         w-full
-        min-h-[520px]
-        md:min-h-[600px]
-        lg:min-h-[680px]
+        min-h-130
+        md:min-h-150
+        lg:min-h-170
         overflow-hidden
       "
     >
@@ -30,10 +30,11 @@ const Banner = () => {
           object-cover
           object-center
         "
+        loading="lazy"
       />
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/70 to-black/60" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/70 to-black/60" />
 
       {/* Content */}
       <div className="relative z-10 flex items-center h-full py-16 lg:py-24">
