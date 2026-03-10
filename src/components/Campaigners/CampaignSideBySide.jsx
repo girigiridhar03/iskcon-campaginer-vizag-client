@@ -11,7 +11,7 @@ const CampaignSideBySide = () => {
         className="
         w-full mx-auto max-w-7xl
         grid grid-cols-1 lg:grid-cols-2
-        gap-8 lg:gap-12
+        gap-8 lg:gap-5
         items-stretch
       "
       >

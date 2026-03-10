@@ -65,7 +65,7 @@ export default function PowerOfGivingSection() {
           Sacred scriptures glorify those who support spiritual causes
         </p>
 
-        <div className="grid gap-6 mt-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+        <div className="grid gap-3 mt-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
           {[
             {
               title: "Garuda Purana",

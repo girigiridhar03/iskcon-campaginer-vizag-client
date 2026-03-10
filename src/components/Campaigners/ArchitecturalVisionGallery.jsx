@@ -17,7 +17,7 @@ export default function ArchitecturalVisionGallery() {
       </div>
 
       {/* GRID */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-3">
         {/* LEFT LARGE IMAGE */}
         <Card className="relative lg:col-span-2 h-130 overflow-hidden rounded-3xl shadow-xl group py-0">
           <img
