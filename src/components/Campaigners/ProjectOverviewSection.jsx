@@ -11,7 +11,9 @@ export default function ProjectOverviewSection() {
           <h2 className="text-2xl md:text-3xl font-bold">
             Hare Krishna Vaikuntam:
             <br />
-            <span className="text-primary">Inspiration & Aspiration</span>
+            <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
+              Inspiration & Aspiration
+            </span>
           </h2>
         </div>
         <div className="w-full">
@@ -34,7 +36,7 @@ export default function ProjectOverviewSection() {
 
           <Button
             variant="link"
-            className="text-primary font-semibold mx-auto block"
+            className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold mx-auto block"
             onClick={() => setExpanded(!expanded)}
           >
             {expanded ? "Read less" : "Read more"}

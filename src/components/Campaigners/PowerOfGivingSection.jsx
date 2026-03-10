@@ -58,7 +58,10 @@ export default function PowerOfGivingSection() {
       {/* ================= POWER OF GIVING ================= */}
       <div className="text-center space-y-4 px-4">
         <h2 className="text-3xl md:text-4xl font-bold">
-          The Power of <span className="text-primary">Giving</span>
+          The Power of{" "}
+          <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
+            Giving
+          </span>
         </h2>
 
         <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -115,7 +118,10 @@ export default function PowerOfGivingSection() {
         {/* HEADER */}
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold">
-            Frequently Asked <span className="text-primary">Questions</span>
+            Frequently Asked{" "}
+            <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
+              Questions
+            </span>
           </h2>
 
           <p className="text-muted-foreground mt-2 text-sm md:text-base">
@@ -223,7 +229,10 @@ export default function PowerOfGivingSection() {
 
             {/* Heading */}
             <h2 className="text-3xl md:text-5xl font-bold leading-tight">
-              Building <span className="text-primary">Character</span>
+              Building{" "}
+              <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
+                Character
+              </span>
             </h2>
 
             {/* Divider */}
@@ -275,7 +284,7 @@ export default function PowerOfGivingSection() {
 
           <Button
             size="lg"
-            className="rounded-full px-12 bg-primary text-primary-foreground font-semibold"
+            className="rounded-full px-12 font-semibold text-black bg-linear-to-r from-[#8C6A1D] via-[#FFD700] to-[#B8962E] shadow-[0_6px_20px_rgba(255,215,0,0.35)] hover:brightness-110 transition"
             onClick={handleDonateClick}
           >
             ❤️ Contribute Now

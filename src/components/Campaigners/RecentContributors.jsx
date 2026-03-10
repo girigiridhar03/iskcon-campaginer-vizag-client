@@ -45,7 +45,10 @@ export default function RecentContributors() {
     <section className="py-16 sm:py-24 px-4">
       <div className="text-center max-w-2xl mx-auto space-y-4">
         <h2 className="text-2xl sm:text-4xl font-bold">
-          Recent <span className="text-primary">Contributors</span>
+          Recent{" "}
+          <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
+            Contributors
+          </span>
         </h2>
 
         <p className="text-sm sm:text-base text-muted-foreground">

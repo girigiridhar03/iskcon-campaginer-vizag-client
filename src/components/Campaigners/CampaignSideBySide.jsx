@@ -60,7 +60,7 @@ const CampaignSideBySide = () => {
                 {singleCampaignerDetails?.campaginers?.name}
               </h3>
 
-              <p className="text-sm font-semibold text-primary mt-1">
+              <p className="text-sm font-semibold mt-1 bg-linear-to-r from-yellow-400 via-[#E6C200] to-amber-500 bg-clip-text text-transparent">
                 ISKCON • DEVOTEE
               </p>
             </div>
@@ -69,7 +69,7 @@ const CampaignSideBySide = () => {
             <p className="text-muted-foreground leading-relaxed">
               As a devoted well-wisher, I am leading this sacred campaign to
               support the creation of a magnificent ISKCON{" "}
-              <span className="text-primary font-semibold">
+              <span className="font-semibold bg-linear-to-r from-yellow-400 via-[#E6C200] to-amber-500 bg-clip-text text-transparent">
                 Sri Srinivasa Govinda Temple
               </span>{" "}
               and Cultural Complex in Visakhapatnam.

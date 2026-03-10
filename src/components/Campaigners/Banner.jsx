@@ -44,14 +44,18 @@ const Banner = () => {
       <div className="relative z-10 flex items-center h-full py-16 sm:py-24 lg:py-44">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           {/* Badge */}
-          <span className="inline-block mb-4 px-4 py-1 rounded-full bg-primary/20 text-primary text-xs sm:text-sm font-medium tracking-wide">
-            Divine Opportunity
+          <span className="inline-block mb-4 px-4 py-1 rounded-full text-xs sm:text-sm font-medium tracking-wide border border-[#C6A14A]/60 bg-linear-to-r from-[#8C6A1D]/20 via-[#FFD700]/20 to-[#B8962E]/20">
+            <span className="bg-linear-to-r from-[#C6A14A] via-[#FFD700] to-[#B8962E] bg-clip-text text-transparent">
+              Divine Opportunity
+            </span>
           </span>
 
           {/* Title */}
           <h1 className="text-white font-bold leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl max-w-3xl">
             Support the Construction of <br />
-            <span className="text-primary">Hare Krishna Vaikuntam</span>
+            <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
+              Hare Krishna Vaikuntam
+            </span>
           </h1>
 
           {/* Subtitle */}
@@ -64,16 +68,22 @@ const Banner = () => {
           <div className="mt-7 flex flex-col sm:flex-row gap-3 sm:gap-4">
             <button
               onClick={handleDonateClick}
-              className="px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold shadow-lg hover:opacity-90 transition"
+              className="
+  px-7 py-3
+  rounded-xl
+  font-semibold
+  text-black
+  bg-linear-to-b
+  from-[#FFF3A3]
+  via-[#FFD700]
+  to-[#B8962E]
+  shadow-[0_10px_25px_rgba(255,215,0,0.45)]
+  hover:scale-[1.03]
+  hover:shadow-[0_14px_35px_rgba(255,215,0,0.55)]
+  transition-all duration-300
+  "
             >
               Donate Now
-            </button>
-
-            <button
-              onClick={handleLearnMoreClick}
-              className="px-6 py-3 rounded-xl border border-white/30 text-white hover:bg-white/10 transition"
-            >
-              Learn More
             </button>
           </div>
 

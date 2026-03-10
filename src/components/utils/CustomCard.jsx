@@ -29,7 +29,7 @@ const CustomCard = ({ campainer, index }) => {
   ];
 
   return (
-    <Link to={`/campaigner/${campainer?._id}/${campainer?.name}`}>
+    <Link to={`/Mandir-Nirmana-Seva/${campainer?.slug}`}>
       <Card className="relative flex flex-col h-full rounded-2xl bg-card shadow-md transition-all duration-300 hover:shadow-[0_15px_40px_rgba(0,0,0,0.15)] hover:-translate-y-1 py-0">
         {/* IMAGE */}
         <div className="relative w-[96%] mx-auto mt-3 aspect-4/4 rounded-xl overflow-hidden bg-muted">
@@ -82,14 +82,16 @@ const CustomCard = ({ campainer, index }) => {
               {campainer?.name}&apos;S
             </span>{" "}
             campaign to build a magnificent{" "}
-            <span className="text-primary font-semibold">
+            <span className="font-semibold bg-linear-to-r from-yellow-400 via-[#E6C200] to-amber-500 bg-clip-text text-transparent">
               Sri Srinivasa Govinda Temple
             </span>{" "}
             and cultural complex in Visakhapatnam
           </h3>
 
           <div className="flex items-center gap-2 text-sm">
-            <span className="font-bold text-primary">ISKCON VIZAG</span>
+            <span className="font-bold bg-linear-to-r from-yellow-400 via-[#E6C200] to-amber-500 bg-clip-text text-transparent">
+              ISKCON VIZAG
+            </span>
             <span className="text-muted-foreground">•</span>
             <div className="flex items-center gap-1 text-muted-foreground">
               <MapPin className="h-4 w-4" />

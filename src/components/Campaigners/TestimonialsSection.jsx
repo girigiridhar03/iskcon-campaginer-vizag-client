@@ -37,8 +37,10 @@ export default function TestimonialsSection() {
             TESTIMONIALS
           </span>
           <h2 className="text-3xl md:text-4xl font-bold">
-            <span className="text-primary">5,000+</span> Supporters have already
-            contributed
+            <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
+              5,000+
+            </span>{" "}
+            Supporters have already contributed
           </h2>
         </div>
 

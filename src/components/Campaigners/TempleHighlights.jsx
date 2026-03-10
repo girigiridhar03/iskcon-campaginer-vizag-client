@@ -66,7 +66,10 @@ const TempleHighlights = () => {
             mb-14 sm:mb-20
           "
         >
-          Temple <span className="text-primary">Highlights</span>
+          Temple{" "}
+          <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
+            Highlights
+          </span>
         </h2>
 
         {/* TIMELINE */}
@@ -89,16 +92,17 @@ const TempleHighlights = () => {
                 {/* ICON */}
                 <div
                   className="
-                    relative z-10 
-                    flex 
-                    h-11 w-11 sm:h-14 sm:w-14
-                    items-center justify-center 
-                    rounded-full 
-                    border-2 border-primary/50 
-                    bg-white 
-                    text-primary
-                    shrink-0
-                  "
+    relative z-10 
+    flex 
+    h-11 w-11 sm:h-14 sm:w-14
+    items-center justify-center 
+    rounded-full 
+    border border-yellow-500/60
+    bg-linear-to-br from-yellow-300 via-yellow-400 to-amber-500
+    text-black
+    shadow-lg
+    shrink-0
+  "
                 >
                   <item.icon size={20} className="sm:hidden" />
                   <item.icon size={24} className="hidden sm:block" />

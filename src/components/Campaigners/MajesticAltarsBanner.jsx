@@ -20,7 +20,7 @@ export default function MajesticAltarsBanner() {
         />
 
         <div className="relative z-10 text-center px-6">
-          <p className="uppercase text-primary font-semibold mb-3 tracking-wide">
+          <p className="uppercase bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold mb-3 tracking-wide">
             The Heart of Hare Krishna Vaikuntam
           </p>
 
@@ -33,7 +33,7 @@ export default function MajesticAltarsBanner() {
             creating a powerful spiritual epicenter.
           </p>
 
-          <p className="mt-6 text-primary font-semibold">
+          <p className="mt-6 bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
             Contribute to Enable Divine Worship
           </p>
         </div>

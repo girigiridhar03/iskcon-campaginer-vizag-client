@@ -62,10 +62,10 @@ export const getTopDonors = createAsyncThunk(
 
 export const getLastestDonors = createAsyncThunk(
   "lastestDonors",
-  async ({ campId, campaignerId }, { rejectWithValue }) => {
+  async ({ campId, slug }, { rejectWithValue }) => {
     try {
       const response = await api.get(
-        `/campaigner/latestDonors/${campId}/${campaignerId}`,
+        `/campaigner/latestDonors/${campId}/${slug}`,
       );
       return response?.data?.data;
     } catch (error) {

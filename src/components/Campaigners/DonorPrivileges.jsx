@@ -37,7 +37,10 @@ export default function DonorPrivileges() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold">
-            Donor <span className="text-primary">Privileges</span>
+            Donor{" "}
+            <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
+              Privileges
+            </span>
           </h2>
           <p className="text-muted-foreground mt-2">
             Each respected contributor receives these blessings

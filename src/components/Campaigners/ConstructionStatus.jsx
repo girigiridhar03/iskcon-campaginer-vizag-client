@@ -29,7 +29,10 @@ const ConstructionStatus = () => {
         {/* Heading */}
         <div className="text-center mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold">
-            Construction <span className="text-primary">Status</span>
+            Construction{" "}
+            <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
+              Status
+            </span>
           </h2>
 
           <p className="text-sm text-muted-foreground mt-1">

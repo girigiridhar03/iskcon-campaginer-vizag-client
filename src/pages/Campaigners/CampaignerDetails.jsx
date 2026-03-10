@@ -24,12 +24,13 @@ import {
 import { getSevaList } from "@/store/seva/seva.service";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CampaignerDetails = () => {
   const dispatch = useDispatch();
-  const { id: campaignerId } = useParams();
+  const { slug } = useParams();
   const { currentCampaign } = useSelector((state) => state.campaign);
+  const navigate = useNavigate();
 
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [minTimeDone, setMinTimeDone] = useState(false);
@@ -122,22 +123,29 @@ const CampaignerDetails = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!campaignerId) return;
-    dispatch(getSingleCampaignerDetails(campaignerId));
-  }, [campaignerId, dispatch]);
+    if (!slug) return;
+    dispatch(getSingleCampaignerDetails(slug))
+      .unwrap()
+      .catch((err) => {
+        console.log(err);
+        if (err === "Campaigner not found") {
+          navigate("/404");
+        }
+      });
+  }, [slug, dispatch]);
 
   useEffect(() => {
-    if (!campaignerId || !currentCampaign?._id) return;
+    if (!slug || !currentCampaign?._id) return;
 
     dispatch(
       getLastestDonors({
         campId: currentCampaign._id,
-        campaignerId,
+        slug,
       }),
     );
 
     dispatch(getTopDonors(currentCampaign?._id));
-  }, [campaignerId, currentCampaign?._id, dispatch]);
+  }, [slug, currentCampaign?._id, dispatch]);
 
   useEffect(() => {
     dispatch(getSevaList());

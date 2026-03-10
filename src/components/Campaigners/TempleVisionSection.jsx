@@ -9,11 +9,12 @@ export default function TempleVisionSection() {
         <div className="absolute inset-0 bg-linear-to-r from-blue-950 via-blue-900 to-blue-950 opacity-95" />
 
         <div className="relative z-10 py-8 md:py-10 text-center text-white px-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-yellow-400 text-yellow-400 text-[10px] md:text-xs tracking-widest">
-            WITNESS THE DIVINE VISION
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#C6A14A] bg-linear-to-r from-[#8C6A1D]/20 via-[#FFD700]/20 to-[#B8962E]/20 text-[10px] md:text-xs tracking-widest">
+            <span className="bg-linear-to-r from-[#C6A14A] via-[#FFD700] to-[#B8962E] bg-clip-text text-transparent font-semibold">
+              WITNESS THE DIVINE VISION
+            </span>
           </div>
-
-          <h2 className="mt-3 md:mt-4 text-2xl md:text-4xl font-bold text-yellow-400">
+          <h2 className="mt-3 md:mt-4 text-2xl md:text-4xl font-bold bg-linear-to-r from-[#C6A14A] via-[#FFD700] to-[#B8962E] bg-clip-text text-transparent">
             Experience the Making of
           </h2>
 
@@ -22,7 +23,23 @@ export default function TempleVisionSection() {
           </h1>
 
           <div className="mt-3 md:mt-4 text-xs md:text-sm text-yellow-300 tracking-widest">
-            SCROLL ↓
+            SCROLL
+            <span
+              style={{
+                display: "block",
+                animation: "scrollBounce 1.6s ease-in-out infinite",
+              }}
+            >
+              ↓
+            </span>
+            <style>
+              {`
+      @keyframes scrollBounce {
+        0%,100% { transform: translateY(0); }
+        50% { transform: translateY(8px); }
+      }
+    `}
+            </style>
           </div>
         </div>
       </div>
@@ -32,7 +49,7 @@ export default function TempleVisionSection() {
         <img
           src="https://storage.googleapis.com/campaigners-images/Temple%20Images/govindaFrontView.jpg"
           alt="ISKCON Vizag Temple"
-          className="w-full h-80 sm:h-105 md:h-130 object-cover zoom-soft"
+          className="w-full h-150 sm:h-105 md:h-130 object-cover zoom-soft"
           loading="lazy"
         />
 
@@ -47,7 +64,7 @@ export default function TempleVisionSection() {
 
           <p className="text-sm sm:text-lg md:text-xl font-semibold text-gray-200 mt-2">
             Cultural & Spiritual Center to Preserve
-            <span className="text-yellow-400 font-semibold">
+            <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
               {" "}
               Sanatana Dharma
             </span>
@@ -60,9 +77,9 @@ export default function TempleVisionSection() {
             Leave your family’s sacred mark on this divine landmark.
             <br />
             Contribute to the construction of the
-            <span className="text-yellow-400 font-semibold">
+            <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
               {" "}
-              Sri Srinivasa Govinda Temple
+              Sri Srinivasa Govinda Temple{" "}
             </span>
             and help spread Krishna consciousness for generations to come.
           </p>

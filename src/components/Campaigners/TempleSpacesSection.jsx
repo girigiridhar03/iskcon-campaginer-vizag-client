@@ -8,10 +8,10 @@ const spaces = [
       "https://storage.googleapis.com/campaigners-images/Temple%20Images/govinda.jpg",
   },
   {
-    title: "Cultural Hall",
-    desc: "300-seater hall for devotional performances.",
+    title: "Vedic Planetarium",
+    desc: "To awaken timeless wisdom through the light of modern technology.",
     image:
-      "https://storage.googleapis.com/campaigners-images/Temple%20Images/kala_madhuryam.jpg",
+      "https://storage.googleapis.com/campaigners-images/Temple%20Images/vedic.jpg",
   },
   {
     title: "Prasadam Hall",
@@ -32,7 +32,7 @@ const spaces = [
       "https://storage.googleapis.com/campaigners-images/Temple%20Images/harinaam_mandap.jpg",
   },
   {
-    title: "ICVK Kids Program",
+    title: "Bala Samskriti Program",
     desc: "Value-based cultural learning for children.",
     image:
       "https://storage.googleapis.com/campaigners-images/Temple%20Images/icvk.jpg",
@@ -72,7 +72,10 @@ export default function TempleSpacesSection() {
     <section className="py-14 px-4">
       <div className="max-w-5xl mx-auto text-center mb-14">
         <h2 className="text-3xl md:text-4xl font-bold">
-          Inside Hare Krishna <span className="text-primary">Vaikuntam</span>
+          Inside Hare Krishna{" "}
+          <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
+            Vaikuntam
+          </span>
         </h2>
         <p className="text-muted-foreground mt-3">
           Each contribution helps build sacred spaces that uplift hearts.
@@ -93,7 +96,9 @@ export default function TempleSpacesSection() {
             <div className="absolute inset-0 bg-black/50" />
 
             <div className="relative z-10 p-6 text-white">
-              <h3 className="text-xl font-bold text-primary">{item.title}</h3>
+              <h3 className="text-xl bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
+                {item.title}
+              </h3>
               <p className="mt-2 text-white/80 max-w-md">{item.desc}</p>
             </div>
           </Card>
