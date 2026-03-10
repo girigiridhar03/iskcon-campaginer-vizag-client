@@ -3,9 +3,9 @@ import { Card } from "@/components/ui/card";
 const testimonials = [
   {
     name: "Senthil Kumar Mothilal",
-    role: "Founder & Managing Director – iTrident, Chennai",
+    role: "Founder & Managing Director – iTrident, Vizag",
     image: "https://i.pravatar.cc/100?img=12",
-    text: "Donating to Hare Krishna Vaikuntam Chennai has brought a real positive change in my life. Every contribution is utilized well and gives deep satisfaction.",
+    text: "Donating to Hare Krishna Vaikuntam Vizag has brought a real positive change in my life. Every contribution is utilized well and gives deep satisfaction.",
   },
   {
     name: "Srinivasan V",

@@ -211,19 +211,20 @@ export default function PowerOfGivingSection() {
             {/* Badge */}
             <div
               className="
-              inline-flex items-center gap-2
-              py-1.5
-              rounded-full
-              border border-primary/50
-              bg-black/40
-              text-primary
-              text-xs md:text-sm
-              font-semibold
-              tracking-wide
-              mb-6
-            "
+  inline-flex items-center gap-1.5 sm:gap-2
+  px-3 sm:px-4
+  py-1 sm:py-1.5
+  rounded-full
+  border border-primary/50
+  bg-black/40
+  text-primary
+  text-[10px] sm:text-xs md:text-sm
+  font-semibold
+  tracking-wide
+  mb-4 sm:mb-6
+  "
             >
-              <BookOpen className="h-4 w-4" />
+              <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               NURTURING MINDS
             </div>
 
