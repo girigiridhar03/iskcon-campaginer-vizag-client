@@ -16,19 +16,19 @@ const Banner = () => {
         w-full
         min-h-130
         md:min-h-150
-        lg:min-h-170
+        lg:min-h-220
         overflow-hidden
       "
     >
       {/* Background Image */}
       <img
-        src="https://storage.googleapis.com/campaigners-images/Temple%20Images/TempleHeader.jpg"
+        src="https://storage.googleapis.com/campaigners-images/Temple%20Images/topview.jpg"
         alt="Temple"
         className="
           absolute inset-0
           w-full h-full
           object-cover
-          object-center
+          object-top
         "
         loading="lazy"
       />
@@ -37,7 +37,7 @@ const Banner = () => {
       <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/70 to-black/60" />
 
       {/* Content */}
-      <div className="relative z-10 flex items-center h-full py-16 lg:py-24">
+      <div className="relative z-10 flex items-center h-full py-16 lg:py-44">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           {/* Badge */}
           <span
@@ -70,7 +70,7 @@ const Banner = () => {
             "
           >
             Support the Construction of <br />
-            <span className="text-primary">ISKCON Vizag Temple</span>
+            <span className="text-primary">Hare Krishna Vaikuntam</span>
           </h1>
 
           {/* Subtitle */}

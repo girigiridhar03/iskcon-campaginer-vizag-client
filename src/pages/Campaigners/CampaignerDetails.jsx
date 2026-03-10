@@ -11,6 +11,7 @@ import ProjectOverviewSection from "@/components/Campaigners/ProjectOverviewSect
 import RecentContributors from "@/components/Campaigners/RecentContributors";
 import TempleHighlights from "@/components/Campaigners/TempleHighlights";
 import TempleSpacesSection from "@/components/Campaigners/TempleSpacesSection";
+import TempleVisionSection from "@/components/Campaigners/TempleVisionSection";
 import TestimonialsSection from "@/components/Campaigners/TestimonialsSection";
 import YoutubeIframe from "@/components/Campaigners/YoutubeIframe";
 import { getCurrentCampaign } from "@/store/campaign/campaign.service";
@@ -151,6 +152,7 @@ const CampaignerDetails = () => {
           <div className="container mx-auto px-2 pt-8 space-y-1">
             <CampaignSideBySide />
             <RecentContributors />
+            <TempleVisionSection />
             <TempleHighlights />
             <ProjectOverviewSection />
             <DidYouKnowBanner />

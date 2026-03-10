@@ -21,7 +21,7 @@ export default function MajesticAltarsBanner() {
 
         <div className="relative z-10 text-center px-6">
           <p className="uppercase text-primary font-semibold mb-3 tracking-wide">
-            The Heart of Dakshina Dwaraka Dham
+            The Heart of Hare Krishna Vaikuntam
           </p>
 
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">

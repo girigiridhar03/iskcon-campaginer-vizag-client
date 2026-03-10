@@ -18,7 +18,7 @@ export default function DidYouKnowBanner() {
           </span>
 
           <h3 className="text-2xl md:text-3xl font-bold leading-14">
-            Dakshina Dwaraka Dham is built with a<br />
+            Hare Krishna Vaikuntam is built with a<br />
             <span className="text-primary"> 300-Seater Cultural Hall</span>
           </h3>
 

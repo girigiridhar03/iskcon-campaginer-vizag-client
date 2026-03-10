@@ -26,7 +26,7 @@ const highlights = [
 
 const TempleHighlights = () => {
   return (
-    <section id="temple-section" className="relative py-6 md:py-7 bg-white overflow-hidden">
+    <section className="relative py-6 md:py-7 bg-white overflow-hidden">
       <div
         className="
           relative 

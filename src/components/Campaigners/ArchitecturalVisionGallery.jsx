@@ -12,7 +12,7 @@ export default function ArchitecturalVisionGallery() {
 
         <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
           A fusion of traditional Pallava craftsmanship and modern engineering.
-          Explore the visualizations of Chennai's Dakshina Dwaraka Dham.
+          Explore the visualizations of Chennai's Hare Krishna Vaikuntam.
         </p>
       </div>
 
@@ -21,13 +21,13 @@ export default function ArchitecturalVisionGallery() {
         {/* LEFT LARGE IMAGE */}
         <Card className="relative lg:col-span-2 h-130 overflow-hidden rounded-3xl shadow-xl group py-0">
           <img
-            src="https://storage.googleapis.com/campaigners-images/Temple%20Images/frontview.jpg"
+            src="https://storage.googleapis.com/campaigners-images/Temple%20Images/govindaFrontView.jpg"
             alt="Grand Front View"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
           />
 
-          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent flex items-end">
+          <div className="absolute inset-0 bg-linear-to-t from-black/20 via-black/20 to-transparent flex items-end">
             <div className="p-8 flex items-center gap-4">
               <div className="bg-white/20 backdrop-blur-md p-3 rounded-full">
                 <Box className="text-primary w-5 h-5" />
@@ -44,13 +44,13 @@ export default function ArchitecturalVisionGallery() {
           {/* TOP RIGHT WIDE */}
           <Card className="relative h-62.5 overflow-hidden rounded-3xl shadow-xl group py-0">
             <img
-              src="https://storage.googleapis.com/campaigners-images/Temple%20Images/Aerial.jpg"
+              src="https://storage.googleapis.com/campaigners-images/Temple%20Images/govindaAerialview.jpg"
               alt="Aerial"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               loading="lazy"
             />
 
-            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent flex items-end">
+            <div className="absolute inset-0 bg-linear-to-t from-black/10 via-black/10 to-transparent flex items-end">
               <div className="p-6 flex items-center gap-3">
                 <div className="bg-white/20 backdrop-blur-md p-2 rounded-full">
                   <Box className="text-primary w-4 h-4" />
@@ -63,20 +63,18 @@ export default function ArchitecturalVisionGallery() {
           </Card>
           <Card className="relative h-62.5 overflow-hidden rounded-3xl shadow-xl group py-0">
             <img
-              src="https://storage.googleapis.com/campaigners-images/Temple%20Images/Exterior.jpg"
-              alt="Exterior"
+              src="https://storage.googleapis.com/campaigners-images/Temple%20Images/govindaSideView.jpg"
+              alt="Side View"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               loading="lazy"
             />
 
-            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent flex items-end">
+            <div className="absolute inset-0 bg-linear-to-t from-black/50 via-black/10 to-transparent flex items-end">
               <div className="p-6 flex items-center gap-3">
                 <div className="bg-white/20 backdrop-blur-md p-2 rounded-full">
                   <Box className="text-primary w-4 h-4" />
                 </div>
-                <h3 className="text-white font-semibold">
-                  Exterior Perspective View
-                </h3>
+                <h3 className="text-white font-semibold">Side View</h3>
               </div>
             </div>
           </Card>

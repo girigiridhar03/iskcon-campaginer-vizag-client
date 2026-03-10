@@ -5,7 +5,7 @@ const testimonials = [
     name: "Senthil Kumar Mothilal",
     role: "Founder & Managing Director – iTrident, Chennai",
     image: "https://i.pravatar.cc/100?img=12",
-    text: "Donating to Dakshina Dwaraka Dham Chennai has brought a real positive change in my life. Every contribution is utilized well and gives deep satisfaction.",
+    text: "Donating to Hare Krishna Vaikuntam Chennai has brought a real positive change in my life. Every contribution is utilized well and gives deep satisfaction.",
   },
   {
     name: "Srinivasan V",

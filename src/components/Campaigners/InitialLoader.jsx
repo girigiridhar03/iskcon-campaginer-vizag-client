@@ -13,7 +13,7 @@ const InitialLoader = ({ visible }) => {
 
         <div className="text-center">
           <h1 className="text-white text-lg tracking-widest font-semibold">
-            DAKSHINA DWARAKA DHAM
+            HARE KRISHNA VAIKUNTAM
           </h1>
 
           <p className="text-primary text-xs tracking-widest">

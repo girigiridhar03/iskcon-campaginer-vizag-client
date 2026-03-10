@@ -19,7 +19,7 @@ export default function PowerOfGivingSection() {
   const faqs = [
     {
       q: "What is the goal of this campaign?",
-      a: "To raise donations for the construction of Dakshina Dwaraka Dham in Chennai.",
+      a: "To raise donations for the construction of Hare Krishna Vaikuntam in Chennai.",
     },
     {
       q: "How does my donation help?",
@@ -38,7 +38,7 @@ export default function PowerOfGivingSection() {
       a: `His Divine Grace Vishwa Guru Srila Prabhupada, Founder-Acarya of the Worldwide Hare Krishna Movement, is the inspiration behind this project.`,
     },
     {
-      q: "Where is Dakshina Dwaraka Dham located?",
+      q: "Where is Hare Krishna Vaikuntam located?",
       a: "Thiruvanmiyur, Chennai. Address: Hare Krishna Movement, 63, 1st Seaward Rd, Valmiki Nagar, Chennai - 600041.",
     },
     {

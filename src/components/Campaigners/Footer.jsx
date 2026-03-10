@@ -18,11 +18,11 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-3">
           {/* ===== LEFT ===== */}
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold">Dakshina Dwaraka Dham</h3>
+            <h3 className="text-xl font-semibold">Hare Krishna Vaikuntam</h3>
 
             <p className="text-sm text-white/80 leading-relaxed">
               Sri Sri Rukmini Dwarakadisha Temple <br />
-              Dakshina Dwaraka Dham <br />
+              Hare Krishna Vaikuntam <br />
               63, 1st Seaward Road, Valmiki Nagar, <br />
               Thiruvanmiyur <br />
               Chennai – 600041, Tamil Nadu
@@ -93,7 +93,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <p className="text-center text-sm text-white/60 mt-6">
-          © 2026 Dakshina Dwaraka Dham — ISKCON Thiruvanmiyur. All Rights
+          © 2026 Hare Krishna Vaikuntam — ISKCON Thiruvanmiyur. All Rights
           Reserved.
         </p>
       </div>

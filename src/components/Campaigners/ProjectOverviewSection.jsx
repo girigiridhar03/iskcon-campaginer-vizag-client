@@ -9,7 +9,7 @@ export default function ProjectOverviewSection() {
       <div className="max-w-4xl mx-auto  space-y-6">
         <div className="text-center">
           <h2 className="text-2xl md:text-3xl font-bold">
-            Dakshina Dwaraka Dham:
+            Hare Krishna Vaikuntam:
             <br />
             <span className="text-primary">Inspiration & Aspiration</span>
           </h2>
@@ -17,7 +17,7 @@ export default function ProjectOverviewSection() {
         <div className="w-full">
           <p className="text-muted-foreground leading-relaxed">
             Nestled along the scenic seashore of the Bay of Bengal in
-            Thiruvanmiyur, Chennai, the Dakshina Dwaraka Dham Cultural Complex
+            Thiruvanmiyur, Chennai, the Hare Krishna Vaikuntam Cultural Complex
             is envisioned as a magnificent center to preserve India’s timeless
             spiritual and cultural heritage.
           </p>
