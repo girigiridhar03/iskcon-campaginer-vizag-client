@@ -4,6 +4,7 @@ import {
   HeartHandshake,
   LayoutDashboard,
   Megaphone,
+  UserCog,
   Users,
   Wallet,
 } from "lucide-react";
@@ -49,7 +50,7 @@ const data = {
     {
       title: "Campaigners",
       url: "#",
-      icon: Users,
+      icon: UserCog,
       items: [
         {
           title: "Create Campaigner",
@@ -60,13 +61,13 @@ const data = {
           url: "/admin/campaigners",
         },
         {
-          title: "Campaigner Registrations",
+          title: "Registration Requests",
           url: "/admin/campaigner/registrations",
         },
       ],
     },
     {
-      title: "Seva's",
+      title: "Sevas",
       url: "#",
       icon: HeartHandshake,
       items: [
@@ -75,8 +76,23 @@ const data = {
           url: "/admin/add-seva",
         },
         {
-          title: "Seva List",
+          title: "All Sevas",
           url: "/admin/seva-list",
+        },
+      ],
+    },
+    {
+      title: "Devotees",
+      url: "#",
+      icon: Users,
+      items: [
+        {
+          title: "Add Devotee",
+          url: "/admin/add-devotee",
+        },
+        {
+          title: "All Devotees",
+          url: "/admin/devotees",
         },
       ],
     },

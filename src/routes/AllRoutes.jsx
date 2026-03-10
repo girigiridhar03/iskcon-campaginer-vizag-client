@@ -17,6 +17,8 @@ import CampaignerRegistrations from "@/pages/Admin/Campaigners/CampaignerRegistr
 import LoginPage from "@/pages/auth/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import CampaignListPage from "@/pages/Admin/Campaigns/CampaignListPage";
+import DevoteForm from "@/pages/Admin/Devotes/DevoteForm";
+import DevoteeList from "@/pages/Admin/Devotes/DevoteList";
 
 const AllRoutes = () => {
   return (
@@ -57,6 +59,8 @@ const AllRoutes = () => {
         <Route path="/admin/seva-list" element={<SevaList />} />
         <Route path="/admin/seva/:id/:sevaname/edit" element={<AddNewSeva />} />
         <Route path="/admin/funders" element={<DonorsTable />} />
+        <Route path="/admin/add-devotee" element={<DevoteForm />} />
+        <Route path="/admin/devotees" element={<DevoteeList />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

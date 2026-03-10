@@ -321,7 +321,27 @@ export default function CreateCampaigner() {
             </div>
 
             {/* Submit */}
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-2">
+              {!isEdit && (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setFormData({
+                      name: "",
+                      phoneNumber: "",
+                      templeDevoteInTouch: "",
+                      imageId: "",
+                      targetAmount: 0,
+                    });
+                    setImage(null);
+                    setSelectedImg(null);
+                    setPreview(null);
+                  }}
+                >
+                  Reset Form
+                </Button>
+              )}
+
               <Button type="submit" disabled={createCampaignerLoading}>
                 {createCampaignerLoading
                   ? isEdit
