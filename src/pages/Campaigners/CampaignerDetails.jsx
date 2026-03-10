@@ -1,6 +1,7 @@
 import ArchitecturalVisionGallery from "@/components/Campaigners/ArchitecturalVisionGallery";
 import Banner from "@/components/Campaigners/Banner";
 import CampaignSideBySide from "@/components/Campaigners/CampaignSideBySide";
+import ConstructionStatus from "@/components/Campaigners/ConstructionStatus";
 import DidYouKnowBanner from "@/components/Campaigners/DidYouKnowBanner";
 import DonorPrivileges from "@/components/Campaigners/DonorPrivileges";
 import Footer from "@/components/Campaigners/Footer";
@@ -158,6 +159,7 @@ const CampaignerDetails = () => {
             <DidYouKnowBanner />
             <TempleSpacesSection />
             <ArchitecturalVisionGallery />
+            <ConstructionStatus />
             <YoutubeIframe />
             <TestimonialsSection />
             <MajesticAltarsBanner />

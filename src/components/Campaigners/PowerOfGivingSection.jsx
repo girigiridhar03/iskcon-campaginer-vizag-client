@@ -19,7 +19,7 @@ export default function PowerOfGivingSection() {
   const faqs = [
     {
       q: "What is the goal of this campaign?",
-      a: "To raise donations for the construction of Hare Krishna Vaikuntam in Chennai.",
+      a: "To raise donations for the construction of Hare Krishna Vaikuntam in Visakhapatnam.",
     },
     {
       q: "How does my donation help?",
@@ -39,7 +39,7 @@ export default function PowerOfGivingSection() {
     },
     {
       q: "Where is Hare Krishna Vaikuntam located?",
-      a: "Thiruvanmiyur, Chennai. Address: Hare Krishna Movement, 63, 1st Seaward Rd, Valmiki Nagar, Chennai - 600041.",
+      a: "Sri Sri Radha Madan Mohan Mandir Door No: 8-22, IIM Rd, near Akshaya Patra Foundation Kitchen Gambhiram, Andhra Pradesh, Visakhapatnam - 531163.",
     },
     {
       q: "Is there a minimum donation amount?",
@@ -47,7 +47,7 @@ export default function PowerOfGivingSection() {
     },
     {
       q: "When will construction be completed?",
-      a: "If required donations are received, the full construction phase is expected to complete by 2026.",
+      a: "If required donations are received, the full construction phase is expected to complete by 2027.",
     },
   ];
 
