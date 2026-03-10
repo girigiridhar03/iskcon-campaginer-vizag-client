@@ -28,8 +28,11 @@ const CampaignerDetails = () => {
   const dispatch = useDispatch();
   const { id: campaignerId } = useParams();
   const { currentCampaign } = useSelector((state) => state.campaign);
+
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [minTimeDone, setMinTimeDone] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
+
   useEffect(() => {
     const images = document.images;
     let loadedCount = 0;
@@ -58,6 +61,7 @@ const CampaignerDetails = () => {
       }
     };
   }, []);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setMinTimeDone(true);
@@ -65,6 +69,11 @@ const CampaignerDetails = () => {
 
     return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+    if (imagesLoaded && minTimeDone) {
+      setShowLoader(false);
+    }
+  }, [imagesLoaded, minTimeDone]);
 
   useEffect(() => {
     const handleLoad = () => {
@@ -93,6 +102,15 @@ const CampaignerDetails = () => {
 
     setTimeout(handleLoad, 100);
   }, []);
+
+  useEffect(() => {
+    const fallback = setTimeout(() => {
+      setImagesLoaded(true);
+    }, 5000);
+
+    return () => clearTimeout(fallback);
+  }, []);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -105,8 +123,10 @@ const CampaignerDetails = () => {
     if (!campaignerId) return;
     dispatch(getSingleCampaignerDetails(campaignerId));
   }, [campaignerId, dispatch]);
+
   useEffect(() => {
     if (!campaignerId || !currentCampaign?._id) return;
+
     dispatch(
       getLastestDonors({
         campId: currentCampaign._id,
@@ -120,27 +140,31 @@ const CampaignerDetails = () => {
   useEffect(() => {
     dispatch(getSevaList());
   }, [dispatch]);
-  if (!imagesLoaded || !minTimeDone) {
-    return <InitialLoader />;
-  }
+
   return (
     <>
-      <Banner />
-      <div className="container mx-auto px-2 pt-8 space-y-1">
-        <CampaignSideBySide />
-        <RecentContributors />
-        <TempleHighlights />
-        <ProjectOverviewSection />
-        <DidYouKnowBanner />
-        <TempleSpacesSection />
-        <ArchitecturalVisionGallery />
-        <YoutubeIframe />
-        <TestimonialsSection />
-        <MajesticAltarsBanner />
-        <DonorPrivileges />
-        <PowerOfGivingSection />
-        <Footer />
-      </div>
+      <InitialLoader visible={showLoader} />
+      {!showLoader && (
+        <>
+          <Banner />
+
+          <div className="container mx-auto px-2 pt-8 space-y-1">
+            <CampaignSideBySide />
+            <RecentContributors />
+            <TempleHighlights />
+            <ProjectOverviewSection />
+            <DidYouKnowBanner />
+            <TempleSpacesSection />
+            <ArchitecturalVisionGallery />
+            <YoutubeIframe />
+            <TestimonialsSection />
+            <MajesticAltarsBanner />
+            <DonorPrivileges />
+            <PowerOfGivingSection />
+            <Footer />
+          </div>
+        </>
+      )}
     </>
   );
 };

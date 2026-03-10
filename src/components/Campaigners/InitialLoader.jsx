@@ -1,9 +1,15 @@
-const InitialLoader = () => {
+const InitialLoader = ({ visible }) => {
   return (
-    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-[#020c1b]">
+    <div
+      className={`
+        fixed inset-0 z-9999 flex items-center justify-center bg-[#020c1b]
+        transition-opacity duration-700 ease-in-out
+        ${visible ? "opacity-100" : "opacity-0 pointer-events-none"}
+      `}
+    >
       <div className="flex flex-col items-center gap-6">
-        {/* Logo / Temple icon */}
-        <div className="text-yellow-500 text-5xl">🛕</div>
+        {/* Temple Icon */}
+        <div className="text-yellow-500 text-5xl animate-bounce">🛕</div>
 
         <div className="text-center">
           <h1 className="text-white text-lg tracking-widest font-semibold">
@@ -15,7 +21,8 @@ const InitialLoader = () => {
           </p>
         </div>
 
-        <div className="w-8 h-8 border-2 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+        {/* Spinner */}
+        <div className="w-8 h-8 border-2 border-yellow-500 border-t-transparent rounded-full animate-spin" />
       </div>
     </div>
   );
