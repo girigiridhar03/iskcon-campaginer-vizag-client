@@ -37,7 +37,9 @@ export default function ThankYouPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const randomQuote =
     templeQuotes[Math.floor(Math.random() * templeQuotes.length)];
 
