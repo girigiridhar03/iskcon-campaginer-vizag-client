@@ -16,18 +16,19 @@ export default function ProjectOverviewSection() {
         </div>
         <div className="w-full">
           <p className="text-muted-foreground leading-relaxed">
-            Nestled along the scenic seashore of the Bay of Bengal in
-            Thiruvanmiyur, Chennai, the Hare Krishna Vaikuntam Cultural Complex
-            is envisioned as a magnificent center to preserve India’s timeless
-            spiritual and cultural heritage.
+            Nestled amidst the serene landscapes of Gambhiram in Visakhapatnam,
+            the Hare Krishna Vaikuntham Cultural Centre (Chaitanya Bhavan) is
+            envisioned as a magnificent sanctuary to preserve and propagate
+            India’s timeless spiritual and cultural heritage.
           </p>
 
           {expanded && (
             <p className="text-muted-foreground leading-relaxed">
-              Designed in the traditional Pallava style of architecture, the
-              temple complex includes divine altars, a cultural hall,
-              classrooms, and a prasadam hall—serving devotion, education, and
-              heritage for generations.
+              Beautifully blending modern utility with traditional Vedic
+              architectural grace, the multi-story complex features divine
+              altars, a vibrant kirtan hall, and dedicated spaces for youth
+              empowerment and spiritual education—serving devotion, peace, and
+              heritage for generations to come.
             </p>
           )}
 

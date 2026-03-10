@@ -5,7 +5,7 @@ const spaces = [
     title: "Divine Altar",
     desc: "Beautifully carved altar of Sri Srinivasa Govinda",
     image:
-      "https://storage.googleapis.com/campaigners-images/Temple%20Images/altar.jpg",
+      "https://storage.googleapis.com/campaigners-images/Temple%20Images/govinda.jpg",
   },
   {
     title: "Cultural Hall",
