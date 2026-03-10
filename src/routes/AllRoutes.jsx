@@ -25,7 +25,7 @@ const AllRoutes = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route
-        path="/Mandir-Nirmana-Seva/:slug"
+        path="/:slug"
         element={<CampaignerDetails />}
       />
       <Route path="/contact" element={<Contact />} />

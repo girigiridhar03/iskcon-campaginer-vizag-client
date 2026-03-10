@@ -29,7 +29,7 @@ const CustomCard = ({ campainer, index }) => {
   ];
 
   return (
-    <Link to={`/Mandir-Nirmana-Seva/${campainer?.slug}`}>
+    <Link to={`/${campainer?.slug}`}>
       <Card className="relative flex flex-col h-full rounded-2xl bg-card shadow-md transition-all duration-300 hover:shadow-[0_15px_40px_rgba(0,0,0,0.15)] hover:-translate-y-1 py-0">
         {/* IMAGE */}
         <div className="relative w-[96%] mx-auto mt-3 aspect-4/4 rounded-xl overflow-hidden bg-muted">
