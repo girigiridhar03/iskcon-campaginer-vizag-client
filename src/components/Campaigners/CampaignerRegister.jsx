@@ -167,7 +167,7 @@ const CampaignerRegister = () => {
         {/* LEFT SIDE */}
         <div className="space-y-6">
           <img
-            src="https://storage.googleapis.com/campaigners-images/Temple%20Images/frontview.jpg"
+            src="https://storage.googleapis.com/campaigners-images/Temple%20Images/govindaFrontView.jpg"
             className="w-full h-72 sm:h-96 object-cover rounded-2xl shadow-xl"
           />
 

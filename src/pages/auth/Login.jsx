@@ -70,7 +70,7 @@ const LoginPage = () => {
         {/* LEFT SIDE */}
         <div className="hidden lg:block space-y-6">
           <img
-            src="https://storage.googleapis.com/campaigners-images/Temple%20Images/frontview.jpg"
+            src="https://storage.googleapis.com/campaigners-images/Temple%20Images/govindaFrontView.jpg"
             className="rounded-2xl shadow-xl w-full h-105 object-cover"
           />
 
