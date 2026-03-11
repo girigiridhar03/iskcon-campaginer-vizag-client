@@ -27,20 +27,41 @@ export default function DonationPopup({ donors }) {
   return (
     <div
       className={`
-    fixed bottom-6 left-1/2 -translate-x-1/2 z-50
-    transition-all duration-500 ease-out
-    ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"}
-  `}
+      fixed bottom-4 left-1/2 -translate-x-1/2 z-50
+      w-[92%] max-w-sm
+      transition-all duration-500 ease-out
+      ${
+        visible
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-10 pointer-events-none"
+      }
+    `}
     >
-      <div className="flex items-center gap-4 rounded-full px-6 py-4 bg-[#062432] text-white shadow-xl border border-[#0e3b50]">
-        <Avatar className="bg-yellow-400 text-black font-bold">
+      <div
+        className="
+        flex items-center gap-3
+        rounded-full
+        px-4 py-3
+        sm:px-6 sm:py-4
+        bg-[#062432]/95
+        backdrop-blur-sm
+        text-white
+        shadow-xl
+        border border-[#0e3b50]
+      "
+      >
+        {/* Avatar */}
+        <Avatar className="bg-yellow-400 text-black font-bold h-9 w-9 sm:h-10 sm:w-10">
           <AvatarFallback>{donor?.donorName?.charAt(0)}</AvatarFallback>
         </Avatar>
 
-        <div className="flex flex-col leading-tight">
-          <span className="font-semibold">{donor?.donorName}</span>
+        {/* Donor Info */}
+        <div className="flex flex-col leading-tight flex-1 min-w-0">
+          <span className="font-semibold text-sm sm:text-base truncate">
+            {donor?.donorName}
+          </span>
 
-          <span className="text-sm text-gray-300">
+          <span className="text-xs sm:text-sm text-gray-300">
             contributed{" "}
             <span className="font-bold text-white">
               ₹{donor?.amount?.toLocaleString("en-IN")}
@@ -48,8 +69,9 @@ export default function DonationPopup({ donors }) {
           </span>
         </div>
 
-        <div className="ml-4 flex items-center gap-1 text-yellow-400 text-xs font-semibold">
-          <Zap size={14} />
+        {/* Badge */}
+        <div className="flex items-center gap-1 text-yellow-400 text-[10px] sm:text-xs font-semibold whitespace-nowrap">
+          <Zap size={12} />
           RECENTLY
         </div>
       </div>
