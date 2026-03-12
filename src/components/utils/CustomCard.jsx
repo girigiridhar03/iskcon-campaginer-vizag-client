@@ -138,7 +138,7 @@ const CustomCard = ({ campainer, index }) => {
             {campainer?.topDonors?.length > 0 && (
               <div className="flex items-center gap-2 text-sm font-semibold">
                 <Trophy size={16} className="text-amber-500" />
-                Top Devotees
+                Top Donors
               </div>
             )}
 
