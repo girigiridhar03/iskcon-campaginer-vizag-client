@@ -1,6 +1,6 @@
 import api from "@/api/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 
 export const getCurrentCampaign = createAsyncThunk(
   "currentCampaign",

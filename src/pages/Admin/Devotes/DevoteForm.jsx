@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDispatch, useSelector } from "react-redux";
 import { addDevote } from "@/store/devotees/devote.service";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 
 export default function DevoteForm() {
   const [formData, setFormData] = useState({

@@ -15,7 +15,7 @@ import api from "@/api/api";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 
 const states = [
   "Andhra Pradesh",
@@ -114,7 +114,9 @@ const openRazorPay = async (payload, navigate, setLoading) => {
     },
     handler: async function (res) {
       try {
-        toast.info("Processing your payment. Please wait...");
+        toast.info(
+          "Payment is being processed. Your transaction is under verification and confirmation will be updated shortly.",
+        );
 
         const result = await api.post("/payment/verify", {
           razorpay_order_id: res?.razorpay_order_id,
@@ -122,20 +124,21 @@ const openRazorPay = async (payload, navigate, setLoading) => {
           razorpay_signature: res?.razorpay_signature,
         });
 
-        if (result?.status === 200) {
-          toast.success(
-            "Payment successful! Thank you for supporting the temple.",
-          );
+        const isVerified =
+          result?.status === 200 &&
+          result?.data?.success !== false &&
+          [
+            "Payment verified successfully",
+            "Payment already processed",
+          ].includes(result?.data?.message);
 
+        if (isVerified) {
+          toast.dismiss();
           navigate(`/thankyou/${donationId}`);
-        } else {
-          toast.warning(
-            "Payment received, but verification is in progress. You will receive confirmation shortly.",
-          );
         }
       } catch (err) {
         toast.error(
-          "Payment verification failed. If the amount was deducted, it will be confirmed shortly.",
+          "We could not confirm your payment immediately. If the amount was debited, the status will be updated shortly.",
         );
       } finally {
         setLoading(false);
@@ -235,7 +238,6 @@ export function DonationDialog({
     setError(newErrors);
 
     if (Object.keys(newErrors).length > 0) return;
-    toast.info("Processing payment. Please don't refresh or close the page.");
     onOpenChange(false);
 
     const payload = {

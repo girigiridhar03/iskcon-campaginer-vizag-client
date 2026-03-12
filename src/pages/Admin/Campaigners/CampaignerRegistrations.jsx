@@ -36,7 +36,7 @@ import {
 import { Check, Eye, Funnel, MoreHorizontal, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CampaignerDetailsModal from "@/components/utils/CampaignerDetailsModal";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 import {
   Popover,
   PopoverContent,

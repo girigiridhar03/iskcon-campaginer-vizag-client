@@ -25,7 +25,7 @@ import {
   updateCampaigner,
 } from "@/store/campaigners/campaigners.service";
 import { getCurrentCampaign } from "@/store/campaign/campaign.service";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export default function CreateCampaigner() {

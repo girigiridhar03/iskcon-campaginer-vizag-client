@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "@/store/auth/auth.service";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import ResetPasswordInputs from "./ResetPasswordInputs";

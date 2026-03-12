@@ -10,7 +10,7 @@ import {
   getSingleSevaDetails,
   updateSeva,
 } from "@/store/seva/seva.service";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const AddNewSeva = () => {

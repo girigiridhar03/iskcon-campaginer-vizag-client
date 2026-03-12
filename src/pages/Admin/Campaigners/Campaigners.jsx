@@ -41,7 +41,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import CampaignerDetailsModal from "@/components/utils/CampaignerDetailsModal";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 
 export default function CampaignersTable() {
   const navigate = useNavigate();

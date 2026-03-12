@@ -1,5 +1,5 @@
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,

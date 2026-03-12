@@ -20,7 +20,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteSeva, getSevaList } from "@/store/seva/seva.service";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 
 const SevaList = () => {
   const dispatch = useDispatch();

@@ -181,6 +181,21 @@ body {
   letter-spacing: var(--tracking-normal);
 }
 
+@keyframes toast-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.toast-progress {
+  animation-name: toast-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
 @keyframes soft-bounce {
   0%,
   100% {
@@ -497,4 +512,3 @@ body {
 .custom-scroll {
   scroll-behavior: smooth;
 }
-

@@ -17,7 +17,7 @@ import {
   createCampaigner,
   getTempleDevotesList,
 } from "@/store/campaigners/campaigners.service";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 
 const CampaignerRegister = () => {
   const dispatch = useDispatch();

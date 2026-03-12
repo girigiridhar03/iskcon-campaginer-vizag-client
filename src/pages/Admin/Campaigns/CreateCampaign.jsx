@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { createCampaign } from "@/store/campaign/campaign.service";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 
 export default function CreateCampaign() {
   const [formData, setFormData] = useState({

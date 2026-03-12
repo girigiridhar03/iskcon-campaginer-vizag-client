@@ -1,5 +1,6 @@
 import api from "@/api/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "@/utils/toast";
 
 export const getDonations = createAsyncThunk(
   "donations/getDonations",

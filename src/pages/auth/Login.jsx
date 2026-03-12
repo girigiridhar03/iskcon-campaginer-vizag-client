@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { useDispatch, useSelector } from "react-redux";
 import { adminLogin } from "@/store/auth/auth.service";
-import { toast } from "react-toastify";
+import { toast } from "@/utils/toast";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
