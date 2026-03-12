@@ -50,22 +50,22 @@ export default function Dashboard() {
   useEffect(() => {
     dispatch(getCurrentCampaign());
   }, [dispatch]);
-
   useEffect(() => {
-    if (!currentCampaign?._id) return;
+    if (!currentCampaign?._id || !details?.role) return;
+    const isDevotee = ["admin", "devotee"].includes(details?.role);
 
     dispatch(
       getCampainer({
-        id: currentCampaign?._id,
+        id: currentCampaign._id,
         status: "active",
         campStatus: "active",
         page: 1,
         pageSize: 10,
         sort: "raised_desc",
-        isDevotee: details?.role === "admin" || details?.role === "devotee",
+        isDevotee,
       }),
     );
-  }, [currentCampaign?._id, details, dispatch]);
+  }, [currentCampaign?._id, details?.role, dispatch]);
   useEffect(() => {
     loadDashboard();
   }, []);

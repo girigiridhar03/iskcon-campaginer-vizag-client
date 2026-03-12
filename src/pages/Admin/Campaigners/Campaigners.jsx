@@ -68,9 +68,10 @@ export default function CampaignersTable() {
 
     return () => clearTimeout(timer);
   }, [search]);
+
   useEffect(() => {
-    if (!currentCampaign?._id) return;
-    const isDevotee = details?.role === "admin" || details?.role === "devotee";
+    if (!currentCampaign?._id || !details?.role) return;
+    const isDevotee = ["admin", "devotee"].includes(details?.role);
     dispatch(
       getCampainer({
         id: currentCampaign?._id,
