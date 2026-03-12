@@ -26,7 +26,12 @@ const handleUnauthorized = () => {
 api.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("token");
-    if (token && token !== "null" && token !== "undefined") {
+    if (
+      token &&
+      token !== "null" &&
+      token !== "undefined" &&
+      !config.skipAuth
+    ) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

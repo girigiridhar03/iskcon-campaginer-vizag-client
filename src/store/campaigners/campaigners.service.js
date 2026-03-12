@@ -9,7 +9,7 @@ export const getCampainer = createAsyncThunk(
     { rejectWithValue },
   ) => {
     let url;
-    console.log(isDevotee)
+    console.log(isDevotee);
     if (isDevotee) {
       url = `/campaigner/admin/${id}?status=${status}&page=${page}&pageSize=${pageSize}`;
     } else {
@@ -85,12 +85,13 @@ export const getLastestDonors = createAsyncThunk(
 
 export const createCampaigner = createAsyncThunk(
   "createCampaigner",
-  async (formData, { rejectWithValue }) => {
+  async ({ formData, skipAuth = false }, { rejectWithValue }) => {
     try {
       const response = await api.post("/campaigner", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
+        skipAuth,
       });
 
       return response?.data;

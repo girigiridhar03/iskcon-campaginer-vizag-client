@@ -135,7 +135,9 @@ export default function CreateCampaigner() {
       }
 
       if (!isEdit) {
-        const result = await dispatch(createCampaigner(data)).unwrap();
+        const result = await dispatch(
+          createCampaigner({ formData: data, skipAuth: false }),
+        ).unwrap();
 
         if (result?.success) {
           toast.success("Campaigner Created Successfully!");

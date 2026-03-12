@@ -102,7 +102,9 @@ const CampaignerRegister = () => {
 
       if (form.image) data.append("image", form.image);
 
-      const result = await dispatch(createCampaigner(data)).unwrap();
+      const result = await dispatch(
+        createCampaigner({ formData: data, skipAuth: true }),
+      ).unwrap();
 
       if (result?.success) {
         toast.success("Campaigner Created Successfully!");
