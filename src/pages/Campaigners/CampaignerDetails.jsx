@@ -23,7 +23,7 @@ import {
   getTopDonors,
 } from "@/store/campaigners/campaigners.service";
 import { getSevaList } from "@/store/seva/seva.service";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -32,6 +32,7 @@ const CampaignerDetails = () => {
   const { slug } = useParams();
   const { currentCampaign } = useSelector((state) => state.campaign);
   const { lastestDonorsArr } = useSelector((state) => state.campaginer);
+  const sidbysideRef = useRef();
   const navigate = useNavigate();
 
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -126,8 +127,13 @@ const CampaignerDetails = () => {
   }, []);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+    if (!showLoader && sidbysideRef.current) {
+      sidbysideRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [showLoader]);
 
   useEffect(() => {
     dispatch(getCurrentCampaign());
@@ -171,7 +177,7 @@ const CampaignerDetails = () => {
           <Banner />
 
           <div className="container mx-auto px-2 pt-8 space-y-1">
-            <CampaignSideBySide />
+            <CampaignSideBySide ref={sidbysideRef} />
             <RecentContributors />
             <TempleVisionSection />
             <TempleHighlights />

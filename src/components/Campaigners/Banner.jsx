@@ -8,11 +8,6 @@ const Banner = () => {
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
-  const handleLearnMoreClick = () => {
-    const el = document.getElementById("temple-section");
-    el?.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
-
   const handleBackHome = () => {
     navigate("/");
   };

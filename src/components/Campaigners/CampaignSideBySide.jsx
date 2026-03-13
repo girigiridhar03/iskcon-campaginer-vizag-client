@@ -1,12 +1,13 @@
+import { forwardRef } from "react";
 import { useSelector } from "react-redux";
 import CampaignDonatePanel from "./CampaignerDonatePanel";
 
-const CampaignSideBySide = () => {
+const CampaignSideBySide = forwardRef((props, ref) => {
   const { singleCampaignerDetails } = useSelector((state) => state.campaginer);
   const { sevaList, sevaLoading } = useSelector((state) => state.seva);
 
   return (
-    <section className="py-6 w-full">
+    <section ref={ref} className="py-6 w-full">
       <div
         className="
         w-full mx-auto max-w-7xl
@@ -125,6 +126,6 @@ const CampaignSideBySide = () => {
       </div>
     </section>
   );
-};
+});
 
 export default CampaignSideBySide;

@@ -9,7 +9,6 @@ export const getCampainer = createAsyncThunk(
     { rejectWithValue },
   ) => {
     let url;
-    console.log(isDevotee);
     if (isDevotee) {
       url = `/campaigner/admin/${id}?status=${status}&page=${page}&pageSize=${pageSize}`;
     } else {
