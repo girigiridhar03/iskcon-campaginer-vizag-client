@@ -291,6 +291,10 @@ export default function CampaignersTable() {
                                   onClick={async (e) => {
                                     e.stopPropagation();
                                     try {
+                                      const isDevotee = [
+                                        "admin",
+                                        "devotee",
+                                      ].includes(details?.role);
                                       const result = await dispatch(
                                         deleteCampaigner(item?._id),
                                       ).unwrap();
@@ -309,6 +313,7 @@ export default function CampaignersTable() {
                                             pageSize,
                                             sort,
                                             search,
+                                            isDevotee,
                                           }),
                                         );
                                       }
