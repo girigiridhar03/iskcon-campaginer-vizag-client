@@ -12,6 +12,7 @@ export default function DevoteForm() {
     name: "",
     phoneNumber: "",
     email: "",
+    shortForm: "",
   });
   const dispatch = useDispatch();
 
@@ -29,7 +30,12 @@ export default function DevoteForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.phoneNumber || !formData.email) {
+    if (
+      !formData.name.trim() ||
+      !formData.phoneNumber.trim() ||
+      !formData.email.trim() ||
+      !formData.shortForm.trim()
+    ) {
       alert("Please fill all fields");
       return;
     }
@@ -43,7 +49,8 @@ export default function DevoteForm() {
     setFormData({
       name: "",
       phoneNumber: "",
-      email : ""
+      email: "",
+      shortForm: "",
     });
   };
 
@@ -89,6 +96,16 @@ export default function DevoteForm() {
                 type="tel"
                 placeholder="Enter phone number"
                 value={formData.phoneNumber}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Devote Short Form</Label>
+              <Input
+                name="shortForm"
+                placeholder="Enter Devote Short Form"
+                value={formData.shortForm}
                 onChange={handleChange}
                 required
               />

@@ -1,94 +1,154 @@
-import { useEffect, useState, useRef } from "react";
-import CustomCard from "../utils/CustomCard";
-import CustomCardSkeleton from "../utils/CustomCardSkeleton";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCampainer } from "@/store/campaigners/campaigners.service";
+import CustomCard from "../utils/CustomCard";
+import CustomCardSkeleton from "../utils/CustomCardSkeleton";
 import { Input } from "../ui/input";
+
 const PAGE_SIZE = 15;
+const INITIAL_QUERY = {
+  page: 1,
+  search: "",
+};
+
+const queryReducer = (state, action) => {
+  switch (action.type) {
+    case "RESET_PAGE":
+      if (state.page === INITIAL_QUERY.page) {
+        return state;
+      }
+
+      return {
+        ...state,
+        page: INITIAL_QUERY.page,
+      };
+
+    case "SET_SEARCH":
+      if (
+        state.search === action.payload &&
+        state.page === INITIAL_QUERY.page
+      ) {
+        return state;
+      }
+
+      return {
+        page: INITIAL_QUERY.page,
+        search: action.payload,
+      };
+
+    case "LOAD_NEXT_PAGE":
+      return {
+        ...state,
+        page: state.page + 1,
+      };
+
+    default:
+      return state;
+  }
+};
 
 const CardSection = ({ currentCampaign }) => {
   const dispatch = useDispatch();
 
-  const { campainersCount, campaginers, campainerLoading } = useSelector(
-    (state) => state.campaginer,
-  );
+  const {
+    campainersCount,
+    campaginers,
+    campainerLoading,
+    campaginerTotalPages,
+  } = useSelector((state) => state.campaginer);
 
-  const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [query, dispatchQuery] = useReducer(queryReducer, INITIAL_QUERY);
 
   const loaderRef = useRef(null);
 
+  const hasMoreCampaigners = useMemo(() => {
+    if (campaginerTotalPages > 0) {
+      return query.page < campaginerTotalPages;
+    }
+
+    return campaginers.length < campainersCount;
+  }, [
+    campaginerTotalPages,
+    campaginers.length,
+    campainersCount,
+    query.page,
+  ]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedSearch(search);
+      const normalizedSearch = searchInput.trim();
+
+      dispatchQuery({
+        type: "SET_SEARCH",
+        payload: normalizedSearch,
+      });
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [search]);
+  }, [searchInput]);
 
-  // Initial load
   useEffect(() => {
-    if (!currentCampaign?._id) return;
+    dispatchQuery({ type: "RESET_PAGE" });
+  }, [currentCampaign?._id]);
 
-    setPage(1);
+  useEffect(() => {
+    if (!currentCampaign?._id) return undefined;
 
-    dispatch(
+    const request = dispatch(
       getCampainer({
         id: currentCampaign._id,
         status: "active",
         campStatus: "active",
-        page: 1,
+        page: query.page,
         pageSize: PAGE_SIZE,
-        search: debouncedSearch,
+        search: query.search,
         infiniteScroll: true,
       }),
     );
-  }, [currentCampaign?._id, debouncedSearch, dispatch]);
-
-  // Infinite scroll observer
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const first = entries[0];
-
-        if (
-          first.isIntersecting &&
-          !campainerLoading &&
-          campaginers.length < campainersCount
-        ) {
-          const nextPage = page + 1;
-
-          dispatch(
-            getCampainer({
-              id: currentCampaign._id,
-              status: "active",
-              campStatus: "active",
-              page: nextPage,
-              limit: PAGE_SIZE,
-            }),
-          );
-
-          setPage(nextPage);
-        }
-      },
-      { threshold: 1 },
-    );
-
-    const currentLoader = loaderRef.current;
-
-    if (currentLoader) observer.observe(currentLoader);
 
     return () => {
-      if (currentLoader) observer.unobserve(currentLoader);
+      request.abort();
+    };
+  }, [currentCampaign?._id, dispatch, query]);
+
+  useEffect(() => {
+    const currentLoader = loaderRef.current;
+
+    if (!currentLoader || !currentCampaign?._id || !hasMoreCampaigners) {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+
+        if (!entry?.isIntersecting || campainerLoading) return;
+
+        if (campaginerTotalPages > 0 && query.page >= campaginerTotalPages) {
+          return;
+        }
+
+        dispatchQuery({ type: "LOAD_NEXT_PAGE" });
+      },
+      {
+        rootMargin: "200px",
+        threshold: 0.1,
+      },
+    );
+
+    observer.observe(currentLoader);
+
+    return () => {
+      observer.unobserve(currentLoader);
+      observer.disconnect();
     };
   }, [
-    campaginers,
     campainerLoading,
-    campainersCount,
-    page,
-    dispatch,
-    currentCampaign,
+    campaginerTotalPages,
+    currentCampaign?._id,
+    hasMoreCampaigners,
+    query.page,
   ]);
 
   return (
@@ -97,13 +157,11 @@ const CardSection = ({ currentCampaign }) => {
         <h2 className="text md:text-2xl font-semibold">
           Campaigners Supporting This Seva ({campainersCount})
         </h2>
+
         <Input
           placeholder="Search campaigner..."
-          value={search}
-          onChange={(e) => {
-            setPage(1);
-            setSearch(e.target.value);
-          }}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           className="max-w-sm"
         />
       </div>
@@ -118,13 +176,12 @@ const CardSection = ({ currentCampaign }) => {
         ))}
 
         {campainerLoading &&
-          Array.from({ length: 4 }).map((_, i) => (
+          Array.from({ length: Math.min(PAGE_SIZE, 4) }).map((_, i) => (
             <CustomCardSkeleton key={i} />
           ))}
       </div>
 
-      {/* Trigger for infinite scroll */}
-      <div ref={loaderRef} className="h-10" />
+      {hasMoreCampaigners && <div ref={loaderRef} className="h-10" />}
 
       {!campainerLoading && campaginers?.length === 0 && (
         <p>No Campaigners Found.</p>

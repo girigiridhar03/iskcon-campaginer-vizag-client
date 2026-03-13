@@ -5,8 +5,18 @@ import { toast } from "@/utils/toast";
 export const getCampainer = createAsyncThunk(
   "getCampaigner",
   async (
-    { id, page, pageSize, search, sort, status, campStatus, isDevotee = false },
-    { rejectWithValue },
+    {
+      id,
+      page,
+      pageSize,
+      search,
+      sort,
+      status,
+      campStatus,
+      isDevotee = false,
+      infiniteScroll = false,
+    },
+    { rejectWithValue, signal },
   ) => {
     let url;
     if (isDevotee) {
@@ -20,13 +30,18 @@ export const getCampainer = createAsyncThunk(
     if (campStatus) url += `&campStatus=${campStatus}`;
 
     try {
-      const response = await api.get(url);
+      const response = await api.get(url, { signal });
 
       return {
         ...response?.data?.data,
+        infiniteScroll,
         page,
       };
     } catch (error) {
+      if (signal.aborted || error?.name === "CanceledError") {
+        throw error;
+      }
+
       toast.error(error.response?.data?.message || "Internal Server Error");
       return rejectWithValue(
         error.response?.data?.message || "Internal Server error",

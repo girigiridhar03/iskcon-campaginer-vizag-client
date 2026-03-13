@@ -28,6 +28,7 @@ const initialState = {
   singleCampaignerDetails: {},
   campainersCount: 0,
   campaginerTotalPages: 0,
+  currentCampainerRequestId: null,
   error: null,
 };
 
@@ -37,17 +38,33 @@ const campaginersReducer = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     builder
-      .addCase(getCampainer.pending, (state) => {
+      .addCase(getCampainer.pending, (state, action) => {
         state.campainerLoading = true;
+        state.currentCampainerRequestId = action.meta.requestId;
+        state.error = null;
       })
-      .addCase(getCampainer.fulfilled, (state, { payload }) => {
-        state.campainerLoading = false;
+      .addCase(getCampainer.fulfilled, (state, action) => {
+        if (state.currentCampainerRequestId !== action.meta.requestId) return;
 
+        state.campainerLoading = false;
+        state.currentCampainerRequestId = null;
+
+        const { payload } = action;
         const { campaigners, totalPages, count, page, infiniteScroll } =
           payload;
 
         if (infiniteScroll && page !== 1) {
-          state.campaginers = [...state.campaginers, ...campaigners];
+          const mergedCampaigners = [...state.campaginers, ...campaigners];
+          const uniqueCampaigners = Array.from(
+            new Map(
+              mergedCampaigners.map((campaigner, index) => [
+                campaigner?._id ?? `${page}-${index}`,
+                campaigner,
+              ]),
+            ).values(),
+          );
+
+          state.campaginers = uniqueCampaigners;
         } else {
           state.campaginers = campaigners;
         }
@@ -55,9 +72,15 @@ const campaginersReducer = createSlice({
         state.campaginerTotalPages = totalPages;
         state.campainersCount = count;
       })
-      .addCase(getCampainer.rejected, (state, { payload }) => {
+      .addCase(getCampainer.rejected, (state, action) => {
+        if (state.currentCampainerRequestId !== action.meta.requestId) return;
+
         state.campainerLoading = false;
-        state.error = payload;
+        state.currentCampainerRequestId = null;
+
+        if (!action.meta.aborted) {
+          state.error = action.payload;
+        }
       })
       .addCase(getTopDonors.pending, (state) => {
         state.topDonorsLoading = true;
