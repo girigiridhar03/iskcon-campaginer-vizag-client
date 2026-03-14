@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getCampainer } from "@/store/campaigners/campaigners.service";
 import CustomCard from "../utils/CustomCard";
 import CustomCardSkeleton from "../utils/CustomCardSkeleton";
@@ -49,16 +49,12 @@ const queryReducer = (state, action) => {
 
 const CardSection = ({ currentCampaign }) => {
   const dispatch = useDispatch();
-
-  const {
-    campainersCount,
-    campaginers,
-    campainerLoading,
-    campaginerTotalPages,
-  } = useSelector((state) => state.campaginer);
-
   const [searchInput, setSearchInput] = useState("");
   const [query, dispatchQuery] = useReducer(queryReducer, INITIAL_QUERY);
+  const [campaigners, setCampaigners] = useState([]);
+  const [campainersCount, setCampainersCount] = useState(0);
+  const [campaginerTotalPages, setCampaginerTotalPages] = useState(0);
+  const [campainerLoading, setCampainerLoading] = useState(false);
 
   const loaderRef = useRef(null);
   const isFetchingNextPageRef = useRef(false);
@@ -68,16 +64,14 @@ const CardSection = ({ currentCampaign }) => {
       return query.page < campaginerTotalPages;
     }
 
-    return campaginers.length < campainersCount;
-  }, [campaginerTotalPages, campaginers.length, campainersCount, query.page]);
+    return campaigners.length < campainersCount;
+  }, [campaginerTotalPages, campaigners.length, campainersCount, query.page]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const normalizedSearch = searchInput.trim();
-
       dispatchQuery({
         type: "SET_SEARCH",
-        payload: normalizedSearch,
+        payload: searchInput.trim(),
       });
     }, 500);
 
@@ -85,6 +79,9 @@ const CardSection = ({ currentCampaign }) => {
   }, [searchInput]);
 
   useEffect(() => {
+    setCampaigners([]);
+    setCampainersCount(0);
+    setCampaginerTotalPages(0);
     dispatchQuery({ type: "RESET_PAGE" });
   }, [currentCampaign?._id]);
 
@@ -94,6 +91,9 @@ const CardSection = ({ currentCampaign }) => {
 
   useEffect(() => {
     if (!currentCampaign?._id) return undefined;
+
+    let isActive = true;
+    setCampainerLoading(true);
 
     const request = dispatch(
       getCampainer({
@@ -107,7 +107,45 @@ const CardSection = ({ currentCampaign }) => {
       }),
     );
 
+    request
+      .unwrap()
+      .then((payload) => {
+        if (!isActive) return;
+
+        const nextCampaigners = payload?.campaigners ?? [];
+        const totalPages = payload?.totalPages ?? 0;
+        const count = payload?.count ?? 0;
+
+        setCampaginerTotalPages(totalPages);
+        setCampainersCount(count);
+        setCampaigners((prev) => {
+          if (query.page === 1) {
+            return nextCampaigners;
+          }
+
+          const mergedCampaigners = [...prev, ...nextCampaigners];
+
+          return Array.from(
+            new Map(
+              mergedCampaigners.map((campaigner, index) => [
+                campaigner?._id ?? `${query.page}-${index}`,
+                campaigner,
+              ]),
+            ).values(),
+          );
+        });
+      })
+      .catch(() => {
+        if (!isActive) return;
+      })
+      .finally(() => {
+        if (!isActive) return;
+
+        setCampainerLoading(false);
+      });
+
     return () => {
+      isActive = false;
       request.abort();
     };
   }, [currentCampaign?._id, dispatch, query]);
@@ -153,12 +191,12 @@ const CardSection = ({ currentCampaign }) => {
 
   return (
     <section className="mt-10" id="card-sections">
-      <div className="flex gap-2 flex-col md:flex-row justify-between mb-5 px-2">
-        <h2 className="text md:text-2xl font-semibold">
+      <div className="mb-5 flex flex-col justify-between gap-2 px-2 md:flex-row">
+        <h2 className="text font-semibold md:text-2xl">
           Campaigners Supporting This Seva ({campainersCount})
         </h2>
 
-        {campaginers?.length > 5 && (
+        {campaigners?.length > 5 && (
           <Input
             placeholder="Search campaigner..."
             value={searchInput}
@@ -168,8 +206,8 @@ const CardSection = ({ currentCampaign }) => {
         )}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-stretch mb-3">
-        {campaginers?.map((campaginer, index) => (
+      <div className="mb-3 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {campaigners?.map((campaginer, index) => (
           <CustomCard
             key={campaginer?._id}
             campainer={campaginer}
@@ -185,7 +223,7 @@ const CardSection = ({ currentCampaign }) => {
 
       {hasMoreCampaigners && <div ref={loaderRef} className="h-10" />}
 
-      {!campainerLoading && campaginers?.length === 0 && (
+      {!campainerLoading && campaigners?.length === 0 && (
         <p>No Campaigners Found.</p>
       )}
     </section>
