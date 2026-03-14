@@ -18,7 +18,7 @@ export default function DidYouKnowBanner() {
             </span>
           </span>
 
-          <h3 className="text-2xl md:text-3xl font-bold leading-14">
+          <h3 className="text-2xl md:text-3xl font-bold leading-8">
             Hare Krishna Vaikuntam is built with a<br />
             <span className="bg-linear-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent font-semibold">
               {" "}

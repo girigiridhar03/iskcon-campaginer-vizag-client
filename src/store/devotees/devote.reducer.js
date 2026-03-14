@@ -1,11 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addDevote, deleteDevote, getDevoteList } from "./devote.service";
+import {
+  addDevote,
+  deleteDevote,
+  getDevoteList,
+  getSingleDevotee,
+  updateDevotee,
+} from "./devote.service";
 
 const initialState = {
   devoteeLoading: false,
   addDevoteLoading: false,
   deleteDevoteLoading: false,
+  singleDevoteeLoading: false,
   devoteeListArr: [],
+  singleDevoteeDetails: {},
   error: null,
 };
 
@@ -44,6 +52,27 @@ export const devoteReducer = createSlice({
       })
       .addCase(deleteDevote.rejected, (state, { payload }) => {
         state.deleteDevoteLoading = false;
+        state.error = payload;
+      })
+      .addCase(updateDevotee.pending, (state) => {
+        state.addDevoteLoading = true;
+      })
+      .addCase(updateDevotee.fulfilled, (state) => {
+        state.addDevoteLoading = false;
+      })
+      .addCase(updateDevotee.rejected, (state, { payload }) => {
+        state.addDevoteLoading = false;
+        state.error = payload;
+      })
+      .addCase(getSingleDevotee.pending, (state) => {
+        state.singleDevoteeLoading = true;
+      })
+      .addCase(getSingleDevotee.fulfilled, (state, { payload }) => {
+        state.singleDevoteeLoading = false;
+        state.singleDevoteeDetails = payload;
+      })
+      .addCase(getSingleDevotee.rejected, (state, { payload }) => {
+        state.singleDevoteeLoading = false;
         state.error = payload;
       }),
 });

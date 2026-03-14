@@ -27,6 +27,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Link } from "react-router-dom";
 
 export default function DevoteeList() {
   const dispatch = useDispatch();
@@ -60,26 +61,35 @@ export default function DevoteeList() {
   };
 
   return (
-    <div className="p-10">
-      <Input
-        placeholder="Search Devote..."
-        // value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="max-w-sm mb-5"
-      />
-      <Card>
+    <section className="w-full space-y-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">Devotees</h1>
+          <p className="text-sm text-muted-foreground">
+            Search, update, and manage temple devotee records.
+          </p>
+        </div>
+        <Input
+          value={search}
+          placeholder="Search devotee..."
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full sm:max-w-sm"
+        />
+      </div>
+      <Card className="min-w-0">
         <CardHeader>
           <CardTitle>Temple Devotees</CardTitle>
         </CardHeader>
 
-        <CardContent>
-          <Table>
+        <CardContent className="min-w-0 px-0 sm:px-6">
+          <Table className="min-w-180">
             <TableHeader>
               <TableRow>
                 <TableHead>#</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Phone Number</TableHead>
                 <TableHead>Email</TableHead>
+                <TableHead>Short Form</TableHead>
                 <TableHead className="text-center">Action</TableHead>
               </TableRow>
             </TableHeader>
@@ -108,15 +118,18 @@ export default function DevoteeList() {
 
                     <TableCell>{item?.phoneNumber}</TableCell>
                     <TableCell>{item?.email}</TableCell>
+                    <TableCell>{item?.shortForm}</TableCell>
 
                     <TableCell className="text-center">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="cursor-pointer"
-                      >
-                        <Pencil className="h-4 w-4" />
-                      </Button>
+                      <Link to={`/admin/devotee/${item?._id}/edit`}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="cursor-pointer"
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                      </Link>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <Button
@@ -163,6 +176,6 @@ export default function DevoteeList() {
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </section>
   );
 }

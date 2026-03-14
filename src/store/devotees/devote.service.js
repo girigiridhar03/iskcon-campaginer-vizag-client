@@ -53,3 +53,35 @@ export const deleteDevote = createAsyncThunk(
     }
   },
 );
+
+export const updateDevotee = createAsyncThunk(
+  "updateDevotee",
+  async ({ id, formData }, { rejectWithValue }) => {
+    try {
+      const response = await api.patch(`/devote/${id}`, formData);
+      return response?.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Internal Server Error");
+
+      return rejectWithValue(
+        error.response?.data?.message || "Internal Server Error",
+      );
+    }
+  },
+);
+
+export const getSingleDevotee = createAsyncThunk(
+  "singleDevotee",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/devote/${id}`);
+      return response?.data?.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Internal Server Error");
+
+      return rejectWithValue(
+        error.response?.data?.message || "Internal Server Error",
+      );
+    }
+  },
+);

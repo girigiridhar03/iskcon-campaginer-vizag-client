@@ -168,8 +168,7 @@ export default function CreateCampaigner() {
   };
 
   return (
-    <div className="p-8 w-full max-w-6xl mx-auto space-y-8">
-      {/* Header */}
+    <div className="mx-auto w-full max-w-6xl space-y-6">
       <div>
         <h1 className="text-3xl font-semibold">
           {isEdit ? "Edit Campaigner" : "Create Campaigner"}
@@ -187,7 +186,7 @@ export default function CreateCampaigner() {
           </CardDescription>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="px-4 pb-6 sm:px-6">
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Row 1 */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -353,11 +352,11 @@ export default function CreateCampaigner() {
               </div>
             </div>
 
-            {/* Submit */}
-            <div className="flex justify-end gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
               {!isEdit && (
                 <Button
                   variant="outline"
+                  className="w-full sm:w-auto"
                   onClick={() => {
                     setFormData({
                       name: "",
@@ -375,7 +374,11 @@ export default function CreateCampaigner() {
                 </Button>
               )}
 
-              <Button type="submit" disabled={createCampaignerLoading}>
+              <Button
+                type="submit"
+                disabled={createCampaignerLoading}
+                className="w-full sm:w-auto"
+              >
                 {createCampaignerLoading
                   ? isEdit
                     ? "Updating..."

@@ -20,9 +20,9 @@ const Admin = () => {
   return (
     <SidebarProvider>
       <AppSidebar details={details} loading={detailsLoading} />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
+      <SidebarInset className="min-w-0">
+        <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b bg-background/95 backdrop-blur transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+          <div className="flex items-center gap-2 px-4 sm:px-6">
             <SidebarTrigger className="-ml-1" />
             <Separator
               orientation="vertical"
@@ -30,7 +30,7 @@ const Admin = () => {
             />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="flex min-w-0 flex-1 flex-col gap-4 px-4 py-4 sm:px-6">
           <Outlet />
         </div>
       </SidebarInset>

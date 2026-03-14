@@ -61,6 +61,7 @@ const AllRoutes = () => {
         <Route path="/admin/funders" element={<DonorsTable />} />
         <Route path="/admin/add-devotee" element={<DevoteForm />} />
         <Route path="/admin/devotees" element={<DevoteeList />} />
+        <Route path="/admin/devotee/:id/edit" element={<DevoteForm />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

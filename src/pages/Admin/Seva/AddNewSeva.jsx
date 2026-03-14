@@ -108,9 +108,9 @@ const AddNewSeva = () => {
   };
 
   return (
-    <section className="py-14 px-4">
-      <div className="max-w-xl mx-auto">
-        <Card className="p-8 space-y-8 shadow-md rounded-2xl">
+    <section className="w-full">
+      <div className="mx-auto w-full max-w-3xl">
+        <Card className="space-y-8 rounded-2xl p-4 shadow-md sm:p-8">
           <div className="space-y-1">
             <h2 className="text-2xl font-semibold tracking-tight">
               {isEdit ? "Edit Seva" : "Add New Seva"}
@@ -145,7 +145,7 @@ const AddNewSeva = () => {
 
           {/* Seva Points */}
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <Label>Seva Benefits</Label>
                 <p className="text-xs text-muted-foreground">
@@ -168,7 +168,7 @@ const AddNewSeva = () => {
               {formData.sevaPoints.map((point, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-3 p-3 border rounded-lg bg-muted/30"
+                  className="flex flex-col gap-3 rounded-lg border bg-muted/30 p-3 sm:flex-row sm:items-center"
                 >
                   <Input
                     placeholder={`Benefit ${index + 1}`}
@@ -183,7 +183,7 @@ const AddNewSeva = () => {
                     size="icon"
                     disabled={formData.sevaPoints.length === 1}
                     onClick={() => removePoint(index)}
-                    className="text-destructive hover:text-destructive"
+                    className="self-end text-destructive hover:text-destructive sm:self-auto"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>

@@ -117,9 +117,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="space-y-6 p-6">
-      {/* PAGE TITLE */}
-
+    <div className="min-w-0 space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">Dashboard</h1>
         <p className="text-muted-foreground text-sm">
@@ -127,9 +125,7 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* CARDS */}
-
-      <div className="grid gap-3 md:grid-cols-3 xl:grid-cols-5">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         {Object.keys(summary)?.map((item) => (
           <Card key={item}>
             <CardHeader className="flex flex-row items-center justify-between">
@@ -149,8 +145,6 @@ export default function Dashboard() {
           </Card>
         ))}
       </div>
-
-      {/* DONATION TREND CHART */}
 
       <Card>
         <CardHeader>
@@ -185,8 +179,6 @@ export default function Dashboard() {
         </CardContent>
       </Card>
 
-      {/* TOP CAMPAIGNERS TABLE */}
-
       <Card>
         <CardHeader>
           <CardTitle>
@@ -202,7 +194,7 @@ export default function Dashboard() {
               No campaigner performance data
             </div>
           ) : (
-            <Table>
+            <Table className="min-w-190">
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-17.5">Rank</TableHead>

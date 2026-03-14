@@ -86,16 +86,14 @@ export default function DonorsTable() {
   }, [dispatch]);
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
+    <div className="min-w-0 space-y-6">
       <div className="flex justify-between items-center gap-4 flex-wrap">
         <h2 className="text-xl font-semibold">Funders ({totalDonations})</h2>
 
-        <div className="flex gap-4 items-center">
-          {/* Search */}
+        <div className="grid w-full gap-4 sm:grid-cols-2 xl:flex xl:w-auto xl:flex-wrap xl:items-center">
           <Input
             placeholder="Search donor, phone..."
-            className="w-60"
+            className="w-full xl:w-60"
             value={search}
             onChange={(e) => {
               setPage(1);
@@ -111,7 +109,7 @@ export default function DonorsTable() {
               setSelectedSeva(value);
             }}
           >
-            <SelectTrigger className="w-48">
+            <SelectTrigger className="w-full xl:w-48">
               <SelectValue placeholder="Filter by Seva" />
             </SelectTrigger>
             <SelectContent>
@@ -133,7 +131,7 @@ export default function DonorsTable() {
                 setSelectedCampaign(value);
               }}
             >
-              <SelectTrigger className="w-48">
+              <SelectTrigger className="w-full xl:w-48">
                 <SelectValue placeholder="Filter by Campaign" />
               </SelectTrigger>
               <SelectContent>
@@ -154,7 +152,7 @@ export default function DonorsTable() {
               setIsPrasadam(value);
             }}
           >
-            <SelectTrigger className="w-56">
+            <SelectTrigger className="w-full xl:w-56">
               <SelectValue placeholder="Prasadam Eligibility" />
             </SelectTrigger>
             <SelectContent>
@@ -165,9 +163,8 @@ export default function DonorsTable() {
         </div>
       </div>
 
-      {/* Table */}
-      <div className="rounded-xl border bg-card overflow-x-auto">
-        <Table>
+      <div className="min-w-0 rounded-xl border bg-card">
+        <Table className="min-w-230">
           <TableHeader>
             <TableRow>
               <TableHead>Donor</TableHead>

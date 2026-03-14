@@ -79,15 +79,12 @@ const CampaignListPage = () => {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      {/* HEADER */}
-      <div className="flex items-center justify-between">
+    <div className="min-w-0 space-y-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-semibold">Campaigns ({total})</h1>
       </div>
 
-      {/* SEARCH + FILTER */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        {/* SEARCH */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative w-full sm:max-w-sm">
           <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
 
@@ -105,7 +102,7 @@ const CampaignListPage = () => {
         {/* FILTER */}
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="gap-2">
+            <Button variant="outline" className="w-full gap-2 sm:w-auto">
               <SlidersHorizontal className="h-4 w-4" />
               Filters
             </Button>
@@ -171,9 +168,8 @@ const CampaignListPage = () => {
         </Popover>
       </div>
 
-      {/* TABLE */}
-      <div className="border rounded-xl overflow-hidden">
-        <Table>
+      <div className="min-w-0 rounded-xl border">
+        <Table className="min-w-245">
           <TableHeader>
             <TableRow>
               <TableHead>Campaign</TableHead>

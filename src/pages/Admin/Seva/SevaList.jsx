@@ -45,11 +45,10 @@ const SevaList = () => {
   };
 
   return (
-    <section className="py-2 px-4">
-      <div className="max-w-7xl mx-auto">
+    <section className="w-full">
+      <div className="mx-auto w-full max-w-7xl">
         <Card className="p-6 shadow-sm rounded-2xl">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-2xl font-semibold">Seva List</h2>
               <p className="text-sm text-muted-foreground">
@@ -69,8 +68,7 @@ const SevaList = () => {
               No seva added yet.
             </div>
           ) : (
-            /* Table */
-            <Table>
+            <Table className="min-w-160">
               <TableHeader>
                 <TableRow>
                   <TableHead>Seva Name</TableHead>

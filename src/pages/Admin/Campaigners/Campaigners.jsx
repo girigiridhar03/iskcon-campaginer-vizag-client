@@ -115,16 +115,15 @@ export default function CampaignersTable() {
     }
   };
   return (
-    <div className="space-y-6">
-      {/* FILTER BAR */}
+    <div className="min-w-0 space-y-6">
       <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
         <Input
           placeholder="Search campaigner..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="max-w-sm"
+          className="w-full sm:max-w-sm"
         />
-        <div className="flex items-center gap-3.5">
+        <div className="flex items-center gap-3.5 self-start sm:self-auto">
           <Popover>
             <PopoverTrigger asChild>
               <Button size="icon-sm" className="relative">
@@ -165,9 +164,8 @@ export default function CampaignersTable() {
           {/* <Button variant="outline">Export CSV</Button> */}
         </div>
       </div>
-      {/* TABLE */}
-      <div className="rounded-2xl border shadow-sm overflow-hidden">
-        <Table>
+      <div className="min-w-0 rounded-2xl border shadow-sm">
+        <Table className="min-w-270">
           <TableHeader className="bg-muted/50">
             <TableRow>
               <TableHead className="w-[20%]">Name</TableHead>

@@ -88,7 +88,7 @@ export default function CreateCampaign() {
       }
     }
 
-    if (!isEdit) {
+    if (!isEdit && !id) {
       const result = await dispatch(createCampaign(formData)).unwrap();
 
       if (result?.success) {
@@ -104,7 +104,7 @@ export default function CreateCampaign() {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto space-y-8">
+    <div className="mx-auto w-full max-w-4xl space-y-6">
       {/* Header */}
       <div className="space-y-1">
         <h1 className="text-3xl font-semibold tracking-tight">
@@ -124,7 +124,7 @@ export default function CreateCampaign() {
           </CardDescription>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="px-4 pb-6 sm:px-6">
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Title */}
             <div className="space-y-2">
@@ -140,7 +140,7 @@ export default function CreateCampaign() {
             </div>
 
             {/* Grid */}
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid gap-6 md:grid-cols-2">
               {/* Target Amount */}
               <div className="space-y-2">
                 <Label>Target Amount</Label>
@@ -196,18 +196,19 @@ export default function CreateCampaign() {
 
             {/* Duration Preview */}
             {duration && (
-              <div className="p-4 rounded-lg bg-muted border text-sm flex justify-between">
+              <div className="flex flex-col gap-1 rounded-lg border bg-muted p-4 text-sm sm:flex-row sm:items-center sm:justify-between">
                 <span>Campaign Duration</span>
                 <span className="font-medium">{duration} days</span>
               </div>
             )}
 
             {/* Buttons */}
-            <div className="flex justify-between items-center pt-4">
+            <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
               {!isEdit && (
                 <Button
                   type="button"
                   variant="outline"
+                  className="w-full sm:w-auto"
                   onClick={() =>
                     setFormData({
                       title: "",
@@ -224,11 +225,15 @@ export default function CreateCampaign() {
               <Button
                 type="submit"
                 disabled={loading || singleCampaignLoading}
-                className="px-6"
+                className="w-full px-6 sm:w-auto"
               >
-                {loading || singleCampaignLoading
-                  ? "Creating..."
-                  : "Create Campaign"}
+                {loading
+                  ? isEdit
+                    ? "Updating..."
+                    : "Creating..."
+                  : isEdit
+                    ? "Update Campaign"
+                    : "Create Campaign"}
               </Button>
             </div>
           </form>
