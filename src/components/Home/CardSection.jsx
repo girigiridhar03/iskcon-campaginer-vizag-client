@@ -68,12 +68,7 @@ const CardSection = ({ currentCampaign }) => {
     }
 
     return campaginers.length < campainersCount;
-  }, [
-    campaginerTotalPages,
-    campaginers.length,
-    campainersCount,
-    query.page,
-  ]);
+  }, [campaginerTotalPages, campaginers.length, campainersCount, query.page]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -158,12 +153,14 @@ const CardSection = ({ currentCampaign }) => {
           Campaigners Supporting This Seva ({campainersCount})
         </h2>
 
-        <Input
-          placeholder="Search campaigner..."
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          className="max-w-sm"
-        />
+        {campaginers?.length > 5 && (
+          <Input
+            placeholder="Search campaigner..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="max-w-sm"
+          />
+        )}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-stretch mb-3">
