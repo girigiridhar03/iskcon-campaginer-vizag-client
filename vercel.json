@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/:slug",
+      "destination": "/api/campaigner-meta?slug=:slug"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
