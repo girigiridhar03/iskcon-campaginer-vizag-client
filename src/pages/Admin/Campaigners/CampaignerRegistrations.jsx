@@ -229,22 +229,25 @@ const CampaignerRegistrations = () => {
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem
                             onClick={async () => {
-                              await dispatch(
+                              const result = await dispatch(
                                 updateCampaigner({
                                   id: item?._id,
                                   formData: { status: "active" },
                                 }),
                               ).unwrap();
-                              dispatch(
-                                getCampainer({
-                                  id: currentCampaign?._id,
-                                  status: sort,
-                                  campStatus: "active",
-                                  page,
-                                  pageSize,
-                                  sort: "created_desc",
-                                }),
-                              );
+                              if (result?.success) {
+                                toast.success("Approved Successfully");
+                                dispatch(
+                                  getCampainer({
+                                    id: currentCampaign?._id,
+                                    status: sort,
+                                    campStatus: "active",
+                                    page,
+                                    pageSize,
+                                    sort: "created_desc",
+                                  }),
+                                );
+                              }
                             }}
                             className="cursor-pointer"
                           >
@@ -254,22 +257,25 @@ const CampaignerRegistrations = () => {
 
                           <DropdownMenuItem
                             onClick={async () => {
-                              await dispatch(
+                              const result = await dispatch(
                                 updateCampaigner({
                                   id: item?._id,
                                   formData: { status: "reject" },
                                 }),
                               ).unwrap();
-                              dispatch(
-                                getCampainer({
-                                  id: currentCampaign?._id,
-                                  status: sort,
-                                  campStatus: "active",
-                                  page,
-                                  pageSize,
-                                  sort: "created_desc",
-                                }),
-                              );
+                              if (result?.success) {
+                                toast.success("Rejected Successfully");
+                                dispatch(
+                                  getCampainer({
+                                    id: currentCampaign?._id,
+                                    status: sort,
+                                    campStatus: "active",
+                                    page,
+                                    pageSize,
+                                    sort: "created_desc",
+                                  }),
+                                );
+                              }
                             }}
                             className="cursor-pointer"
                           >
