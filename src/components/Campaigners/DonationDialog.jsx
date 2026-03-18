@@ -104,6 +104,7 @@ const openRazorPay = async (
 
     toast.error(message);
     setLoading(false);
+    onOpenChange(false);
     return;
   }
 
