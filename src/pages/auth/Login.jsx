@@ -94,9 +94,11 @@ const LoginPage = () => {
         <Card className="border shadow-xl rounded-2xl">
           <CardContent className="p-8">
             <div className="mb-6 text-center">
-              <h1 className="text-2xl font-semibold">Admin Login</h1>
+              <h1 className="text-2xl font-semibold">
+                Access Campaign Dashboard
+              </h1>
               <p className="text-sm text-muted-foreground mt-1">
-                Sign in to manage temple campaigns
+                Access your campaigns and donation details
               </p>
             </div>
 
@@ -174,7 +176,7 @@ const LoginPage = () => {
             </form>
 
             <p className="text-xs text-muted-foreground text-center mt-6">
-              Hare Krishna 🙏 Secure admin access
+              Hare Krishna 🙏 Safe & secure login
             </p>
           </CardContent>
         </Card>
