@@ -229,7 +229,7 @@ const CampaignDonatePanel = ({ details, sevas = [], sevaLoading }) => {
                           selectedSeva?._id === seva._id ? "bg-muted" : ""
                         }
                       >
-                        ₹ {seva.sevaAmount} — {seva.sevaName}
+                        ₹ {seva.sevaAmount} — {seva.sevaCategory}
                       </CommandItem>
                     ))}
                   </CommandGroup>
@@ -255,7 +255,7 @@ const CampaignDonatePanel = ({ details, sevas = [], sevaLoading }) => {
           <Button
             onClick={() => setOpen(true)}
             size="lg"
-            disabled={numericValue < 100 || loading}
+            disabled={loading}
             className="w-full h-14 text-lg font-semibold rounded-xl bg-linear-to-r from-primary via-primary to-yellow-400 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
           >
             {loading ? (
