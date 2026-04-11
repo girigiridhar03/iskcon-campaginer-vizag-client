@@ -117,7 +117,7 @@ const openRazorPay = async (
     amount,
     currency,
     order_id: orderId,
-    name: "ISKCON VIZAG CAMPAIGN",
+    name: "HARE KRISHNA MOMENT",
     description: "Donation",
     modal: {
       ondismiss: function () {
@@ -129,7 +129,9 @@ const openRazorPay = async (
     prefill: {
       name: payload.donorName,
       contact: payload.donorPhone,
-      email: payload.email || "",
+    },
+    hidden: {
+      email: true,
     },
     notes: {
       donationId,

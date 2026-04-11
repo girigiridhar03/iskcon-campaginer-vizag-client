@@ -12,7 +12,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    document.title = `ISKCON Gambiram | Crowdfunding for Sri Srinivasa Govinda Temple`;
+    document.title = `ISKCON Visakhapatnam | Crowdfunding for Sri Srinivasa Govinda Temple`;
   }, []);
 
   useEffect(() => {

@@ -98,7 +98,7 @@ const CampaignSideBySide = forwardRef((props, ref) => {
                 shadow-sm
               "
               >
-                📍 Visakhapatnam, Gambiram
+                📍 Visakhapatnam, Visakhapatnam
               </span>
 
               <span

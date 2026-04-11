@@ -39,7 +39,7 @@ const buildMetaMarkup = ({ title, description, imageUrl, url }) => `
     <meta property="og:description" content="${escapeHtml(description)}" />
     <meta property="og:url" content="${escapeHtml(url)}" />
     <meta property="og:image" content="${escapeHtml(imageUrl)}" />
-    <meta property="og:site_name" content="ISKCON Gambiram" />
+    <meta property="og:site_name" content="ISKCON Visakhapatnam" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
@@ -90,7 +90,7 @@ export default async function handler(req, res) {
       return;
     }
 
-    const title = `${campaigner?.campaignId?.name || "ISKCON Gambiram"} | ${campaigner?.name}`;
+    const title = `${campaigner?.campaignId?.name || "ISKCON Visakhapatnam"} | ${campaigner?.name}`;
     const description = `Join ${campaigner?.name} in supporting the construction of Sri Srinivasa Govinda Temple. Raised: ₹${Number(campaigner?.raisedAmount || 0).toLocaleString("en-IN")} | Goal: ₹${Number(campaigner?.targetAmount || 0).toLocaleString("en-IN")}. Donate today!`;
     const imageUrl =
       campaigner?.image?.url || `${frontendBaseUrl}/hkm_logo.svg`;
