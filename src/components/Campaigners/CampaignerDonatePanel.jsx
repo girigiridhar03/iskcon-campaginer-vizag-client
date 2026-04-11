@@ -255,7 +255,7 @@ const CampaignDonatePanel = ({ details, sevas = [], sevaLoading }) => {
           <Button
             onClick={() => setOpen(true)}
             size="lg"
-            disabled={loading}
+            disabled={numericValue >=1 || loading}
             className="w-full h-14 text-lg font-semibold rounded-xl bg-linear-to-r from-primary via-primary to-yellow-400 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
           >
             {loading ? (
