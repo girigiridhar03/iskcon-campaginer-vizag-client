@@ -157,7 +157,7 @@ export default function DonorsTable() {
               <SelectItem value="all">All Seva's</SelectItem>
               {sevaList?.map((seva) => (
                 <SelectItem value={seva?._id} key={seva?._id}>
-                  {seva?.sevaName}
+                  {seva?.sevaCategory}
                 </SelectItem>
               ))}
             </SelectContent>
