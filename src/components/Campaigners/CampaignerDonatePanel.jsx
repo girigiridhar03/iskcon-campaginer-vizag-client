@@ -321,32 +321,6 @@ const CampaignDonatePanel = ({ details, sevas = [], sevaLoading }) => {
             </div>
           )}
 
-          <div className="grid gap-3 rounded-2xl border border-border bg-muted/40 p-3 shadow-sm sm:grid-cols-2">
-            <div className="rounded-xl bg-background px-4 py-2.5 shadow-sm">
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                Donation Amount
-              </p>
-              <p className="mt-1.5 text-lg font-semibold text-foreground">
-                ₹{isValidAmount ? numericValue.toLocaleString("en-IN") : "0"}
-              </p>
-            </div>
-
-            <div className="rounded-xl bg-background px-4 py-2.5 shadow-sm">
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                Seva
-              </p>
-              <p className="mt-1.5 text-sm font-semibold text-foreground">
-                {selectedSeva?.sevaName || "General donation"}
-              </p>
-              {selectedSeva && (
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  Recommended ₹
-                  {Number(selectedSeva.sevaAmount || 0).toLocaleString("en-IN")}
-                </p>
-              )}
-            </div>
-          </div>
-
           {/* DONATE BUTTON */}
           <Button
             onClick={() => setOpen(true)}
