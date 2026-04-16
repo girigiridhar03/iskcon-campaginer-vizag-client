@@ -269,7 +269,7 @@ const CampaignDonatePanel = ({ details, sevas = [], sevaLoading }) => {
                             <p className="font-medium text-foreground">
                               {seva.sevaName}
                             </p>
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-xs text-muted-foreground font-semibold">
                               {seva.sevaCategory} • ₹
                               {Number(seva.sevaAmount || 0).toLocaleString(
                                 "en-IN",
