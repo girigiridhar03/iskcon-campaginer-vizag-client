@@ -30,7 +30,7 @@ const CampaignDonatePanel = ({ details, sevas = [], sevaLoading }) => {
     : 0;
 
   const numericValue = Number(inputValue);
-  const isValidAmount = Number.isFinite(numericValue) && numericValue >= 1;
+  const isValidAmount = Number.isFinite(numericValue) && numericValue >= 100;
 
   const sortedSevas = useMemo(() => {
     return [...sevas].sort((a, b) => a.sevaAmount - b.sevaAmount);
