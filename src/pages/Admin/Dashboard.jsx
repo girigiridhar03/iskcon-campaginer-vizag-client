@@ -33,55 +33,92 @@ import {
 import api from "@/api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { getCampainer } from "@/store/campaigners/campaigners.service";
-import { getCurrentCampaign } from "@/store/campaign/campaign.service";
+import {
+  getCampaignsList,
+  getCurrentCampaign,
+} from "@/store/campaign/campaign.service";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Dashboard() {
   const [summary, setSummary] = useState({});
   const [trend, setTrend] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCampaignId, setSelectedCampaignId] = useState("all");
   const dispatch = useDispatch();
 
   const { campaginers } = useSelector((state) => state.campaginer);
-  const { currentCampaign } = useSelector((state) => state.campaign);
+  const { currentCampaign, campaginListArr } = useSelector(
+    (state) => state.campaign,
+  );
   const { details } = useSelector((state) => state.auth);
+  const selectedCampaign =
+    details?.role === "admin" && selectedCampaignId !== "all"
+      ? campaginListArr?.find((item) => item?._id === selectedCampaignId)
+      : currentCampaign;
+  const effectiveCampaignId =
+    details?.role === "admin" && selectedCampaignId !== "all"
+      ? selectedCampaignId
+      : currentCampaign?._id;
+  const effectiveCampaignStatus = selectedCampaign?.status || "active";
 
   const ROUTES = {
     "Total Donations": "/admin/funders",
     "Pending Campaigners": "/admin/campaigner/registrations",
     "Active Campaigners": "/admin/campaigners",
+    "Total Campaigners": "/admin/campaigners",
   };
 
   useEffect(() => {
     dispatch(getCurrentCampaign());
   }, [dispatch]);
+
   useEffect(() => {
-    if (!currentCampaign?._id || !details?.role) return;
+    if (details?.role !== "admin") return;
+    dispatch(getCampaignsList({ page: 1, pageSize: 100 }));
+  }, [dispatch, details?.role]);
+
+  useEffect(() => {
+    if (!effectiveCampaignId || !details?.role) return;
     const isDevotee = ["admin", "devotee"].includes(details?.role);
 
     dispatch(
       getCampainer({
-        id: currentCampaign._id,
+        id: effectiveCampaignId,
         status: "active",
-        campStatus: "active",
+        campStatus: effectiveCampaignStatus,
         page: 1,
         pageSize: 10,
         sort: "raised_desc",
         isDevotee,
       }),
     );
-  }, [currentCampaign?._id, details?.role, dispatch]);
+  }, [
+    effectiveCampaignId,
+    details?.role,
+    dispatch,
+    selectedCampaignId,
+    effectiveCampaignStatus,
+  ]);
   useEffect(() => {
-    loadDashboard();
-  }, []);
+    if (!effectiveCampaignId || !details?.role) return;
+    loadDashboard(effectiveCampaignId);
+  }, [effectiveCampaignId, selectedCampaignId, details?.role]);
 
-  const loadDashboard = async () => {
+  const loadDashboard = async (campaignId) => {
     try {
+      setLoading(true);
       const [summaryRes, trendRes] = await Promise.all([
-        api.get("/dashboard/summary"),
-        api.get("/dashboard/donation-trend"),
+        api.get(`/dashboard/summary?campaignId=${campaignId}`),
+        api.get(`/dashboard/donation-trend?campaignId=${campaignId}`),
       ]);
 
       setSummary(summaryRes.data?.data || {});
@@ -125,11 +162,35 @@ export default function Dashboard() {
 
   return (
     <div className="min-w-0 space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Dashboard</h1>
-        <p className="text-muted-foreground text-sm">
-          Campaign performance overview
-        </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold">Dashboard</h1>
+          <p className="text-muted-foreground text-sm">
+            Campaign performance overview
+          </p>
+        </div>
+        {details?.role === "admin" && (
+          <Select
+            value={selectedCampaignId}
+            onValueChange={setSelectedCampaignId}
+          >
+            <SelectTrigger className="w-full sm:w-72">
+              <SelectValue placeholder="Select campaign" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">
+                {currentCampaign?.title || "Current Campaign"}
+              </SelectItem>
+              {campaginListArr?.map((campaign) => (
+                campaign?._id !== currentCampaign?._id ? (
+                  <SelectItem key={campaign?._id} value={campaign?._id}>
+                    {campaign?.title}
+                  </SelectItem>
+                ) : null
+              ))}
+            </SelectContent>
+          </Select>
+        )}
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
@@ -227,7 +288,9 @@ export default function Dashboard() {
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <p className="font-medium">#{i + 1} {c.name}</p>
+                          <p className="font-medium">
+                            #{i + 1} {c.name}
+                          </p>
                           <p className="text-sm text-muted-foreground">
                             {sevaBadges[i] || "Campaigner"}
                           </p>
@@ -240,20 +303,27 @@ export default function Dashboard() {
                       </div>
                       <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
                         <div className="rounded-lg bg-muted/40 px-3 py-2">
-                          <p className="text-xs text-muted-foreground">Target</p>
+                          <p className="text-xs text-muted-foreground">
+                            Target
+                          </p>
                           <p className="font-medium">
                             ₹{c.targetAmount?.toLocaleString("en-IN")}
                           </p>
                         </div>
                         <div className="rounded-lg bg-muted/40 px-3 py-2">
-                          <p className="text-xs text-muted-foreground">Raised</p>
+                          <p className="text-xs text-muted-foreground">
+                            Raised
+                          </p>
                           <p className="font-medium text-primary">
                             ₹{c.raisedAmount?.toLocaleString("en-IN")}
                           </p>
                         </div>
                       </div>
                       <div className="mt-4 space-y-2">
-                        <Progress value={c?.percentage} className="h-2 bg-muted" />
+                        <Progress
+                          value={c?.percentage}
+                          className="h-2 bg-muted"
+                        />
                         <span className="text-xs text-muted-foreground">
                           {c?.percentage}%
                         </span>
@@ -263,73 +333,77 @@ export default function Dashboard() {
                 })}
               </div>
               <div className="hidden overflow-x-auto md:block">
-            <Table className="min-w-190">
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-17.5">Rank</TableHead>
-                  <TableHead className="w-40">Name</TableHead>
-                  <TableHead className="w-40">Target</TableHead>
-                  <TableHead className="w-40">Raised</TableHead>
-                  <TableHead className="w-65">Progress</TableHead>
-                  <TableHead className="w-65">Badge</TableHead>
-                </TableRow>
-              </TableHeader>
+                <Table className="min-w-190">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-17.5">Rank</TableHead>
+                      <TableHead className="w-40">Name</TableHead>
+                      <TableHead className="w-40">Target</TableHead>
+                      <TableHead className="w-40">Raised</TableHead>
+                      <TableHead className="w-65">Progress</TableHead>
+                      <TableHead className="w-65">Badge</TableHead>
+                    </TableRow>
+                  </TableHeader>
 
-              <TableBody>
-                {campaginers?.map((c, i) => {
-                  const isTop = i < 3;
+                  <TableBody>
+                    {campaginers?.map((c, i) => {
+                      const isTop = i < 3;
 
-                  return (
-                    c.raisedAmount >= 100 && (
-                      <TableRow
-                        key={i}
-                        className={isTop ? "bg-primary/5 font-medium" : ""}
-                      >
-                        <TableCell className="font-semibold">
-                          #{i + 1}
-                        </TableCell>
+                      return (
+                        c.raisedAmount >= 100 && (
+                          <TableRow
+                            key={i}
+                            className={isTop ? "bg-primary/5 font-medium" : ""}
+                          >
+                            <TableCell className="font-semibold">
+                              #{i + 1}
+                            </TableCell>
 
-                        <TableCell className="font-medium">{c.name}</TableCell>
+                            <TableCell className="font-medium">
+                              {c.name}
+                            </TableCell>
 
-                        <TableCell>
-                          ₹{c.targetAmount?.toLocaleString("en-IN")}
-                        </TableCell>
+                            <TableCell>
+                              ₹{c.targetAmount?.toLocaleString("en-IN")}
+                            </TableCell>
 
-                        <TableCell className="font-semibold text-primary">
-                          ₹{c.raisedAmount?.toLocaleString("en-IN")}
-                        </TableCell>
+                            <TableCell className="font-semibold text-primary">
+                              ₹{c.raisedAmount?.toLocaleString("en-IN")}
+                            </TableCell>
 
-                        <TableCell>
-                          <div className="flex flex-col gap-1 w-55">
-                            <Progress
-                              value={c?.percentage}
-                              className="h-2 bg-muted"
-                            />
-                            <span className="text-xs text-muted-foreground">
-                              {c?.percentage}%
-                            </span>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-3">
-                            {i < 3 && c.raisedAmount >= 100 && (
-                              <span className={`text-lg ${rankStyles[i]}`}>
-                                {topThreeIcons[i]}
-                              </span>
-                            )}
-                            {c.raisedAmount >= 100 ? (
-                              <Badge variant="secondary">{sevaBadges[i]}</Badge>
-                            ) : (
-                              "-"
-                            )}
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    )
-                  );
-                })}
-              </TableBody>
-            </Table>
+                            <TableCell>
+                              <div className="flex flex-col gap-1 w-55">
+                                <Progress
+                                  value={c?.percentage}
+                                  className="h-2 bg-muted"
+                                />
+                                <span className="text-xs text-muted-foreground">
+                                  {c?.percentage}%
+                                </span>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-3">
+                                {i < 3 && c.raisedAmount >= 100 && (
+                                  <span className={`text-lg ${rankStyles[i]}`}>
+                                    {topThreeIcons[i]}
+                                  </span>
+                                )}
+                                {c.raisedAmount >= 100 ? (
+                                  <Badge variant="secondary">
+                                    {sevaBadges[i]}
+                                  </Badge>
+                                ) : (
+                                  "-"
+                                )}
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        )
+                      );
+                    })}
+                  </TableBody>
+                </Table>
               </div>
             </>
           )}
