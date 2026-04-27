@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentCampaign } from "@/store/campaign/campaign.service";
-import { Landmark, Loader2 } from "lucide-react";
+import { ArrowLeft, Landmark, Loader2 } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -18,9 +18,11 @@ import {
   getTempleDevotesList,
 } from "@/store/campaigners/campaigners.service";
 import { toast } from "@/utils/toast";
+import { useNavigate } from "react-router-dom";
 
 const CampaignerRegister = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { currentCampaign, campaignLoading } = useSelector(
     (state) => state.campaign,
@@ -64,6 +66,10 @@ const CampaignerRegister = () => {
     if (file) {
       setForm((prev) => ({ ...prev, image: file }));
       setPreview(URL.createObjectURL(file));
+      setErrors((prev) => ({
+        ...prev,
+        image: "",
+      }));
     }
   };
 
@@ -110,18 +116,19 @@ const CampaignerRegister = () => {
         toast.success(
           "Hare Krishna 🙏 Your seva as a campaigner has been registered successfully. Please wait for the temple administration to review and approve your request.",
         );
+
+        setForm({
+          name: "",
+          targetAmount: "",
+          phoneNumber: "",
+          templeDevoteInTouch: "",
+          image: null,
+        });
+        setPreview(null);
+        setErrors({});
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setForm({
-        name: "",
-        targetAmount: "",
-        phoneNumber: "",
-        templeDevoteInTouch: "",
-        image: null,
-      });
-      setPreview(null);
     }
   };
 
@@ -156,6 +163,16 @@ const CampaignerRegister = () => {
               “When devotees come together to serve Krishna, great spiritual
               transformations happen.”
             </p>
+
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full gap-2"
+              onClick={() => navigate("/")}
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Home
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -170,6 +187,16 @@ const CampaignerRegister = () => {
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-start">
         {/* LEFT SIDE */}
         <div className="space-y-6">
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full justify-center gap-2 sm:w-auto"
+            onClick={() => navigate("/")}
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to Home
+          </Button>
+
           <img
             src="https://storage.googleapis.com/campaigners-images/Temple%20Images/govindaFrontView.jpg"
             className="w-full h-72 sm:h-96 object-cover rounded-2xl shadow-xl"
@@ -255,12 +282,16 @@ const CampaignerRegister = () => {
               <Label>Select Devote In Touch</Label>
               <Select
                 value={form?.templeDevoteInTouch}
-                onValueChange={(value) =>
+                onValueChange={(value) => {
                   setForm((prev) => ({
                     ...prev,
                     templeDevoteInTouch: value,
-                  }))
-                }
+                  }));
+                  setErrors((prev) => ({
+                    ...prev,
+                    templeDevoteInTouch: "",
+                  }));
+                }}
               >
                 <SelectTrigger className="w-full h-10">
                   <SelectValue

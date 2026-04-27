@@ -73,6 +73,62 @@ const SevaList = () => {
               No seva added yet.
             </div>
           ) : (
+            <>
+              <div className="grid gap-3 md:hidden">
+                {sevaList?.map((seva) => (
+                  <div key={seva?._id} className="rounded-xl border bg-card p-4 shadow-sm">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="font-medium">{seva?.sevaCategory || "-"}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {seva?.sevaSubCategory || "-"}
+                        </p>
+                      </div>
+                      <Badge variant="secondary">
+                        {seva?.sevaPoints?.length} Benefits
+                      </Badge>
+                    </div>
+                    <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                      <div className="rounded-lg bg-muted/40 px-3 py-2">
+                        <p className="text-xs text-muted-foreground">Amount</p>
+                        <p className="font-medium">₹ {seva?.sevaAmount?.toLocaleString()}</p>
+                      </div>
+                      <div className="rounded-lg bg-muted/40 px-3 py-2">
+                        <p className="text-xs text-muted-foreground">Codes</p>
+                        <p className="font-medium">{getSevaCode(seva)} / {getSevaSubCode(seva)}</p>
+                      </div>
+                    </div>
+                    <div className="mt-4 flex items-center justify-end gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-muted-foreground hover:text-primary cursor-pointer"
+                        onClick={() => setSelectedSeva(seva)}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Link to={`/admin/seva/${seva?._id}/${seva?.sevaCategory || "seva"}/edit`}>
+                        <Button variant="ghost" size="icon" className="cursor-pointer">
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-destructive cursor-pointer"
+                        onClick={() => handleDelete(seva?._id)}
+                      >
+                        {deleteLoading ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Trash2 className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="hidden overflow-x-auto md:block">
             <Table className="min-w-160">
               <TableHeader>
                 <TableRow>
@@ -169,6 +225,8 @@ const SevaList = () => {
                 ))}
               </TableBody>
             </Table>
+              </div>
+            </>
           )}
 
           {/* View Dialog */}

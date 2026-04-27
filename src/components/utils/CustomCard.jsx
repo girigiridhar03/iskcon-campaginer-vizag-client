@@ -94,7 +94,7 @@ const CustomCard = ({ campainer, index }) => {
             loading="lazy"
             decoding="async"
             fetchPriority={index < 4 ? "high" : "low"}
-            className="w-full aspect-3/3 object-cover rounded-xl"
+            className="w-full aspect-3/4 object-cover rounded-xl"
           />
         </div>
 

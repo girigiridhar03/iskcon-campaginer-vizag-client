@@ -69,117 +69,139 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-linear-to-b from-background to-muted/40">
-      <div className="w-full max-w-5xl grid lg:grid-cols-2 gap-10 items-center">
-        {/* LEFT SIDE */}
-        <div className="hidden lg:block space-y-6">
-          <img
-            src="https://storage.googleapis.com/campaigners-images/Temple%20Images/govindaFrontView.jpg"
-            className="rounded-2xl shadow-xl w-full h-105 object-cover"
-          />
+    <div className="min-h-screen bg-[linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--muted)/0.45)_100%)]">
+      <div className="mx-auto flex min-h-screen w-full max-w-6xl items-center px-4 py-6 sm:px-6 lg:px-8">
+        <div className="grid w-full gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
+          <div className="order-1 lg:order-1">
+            <div className="overflow-hidden rounded-3xl border bg-card shadow-xl">
+              <div className="relative h-60 sm:h-72 lg:h-[620px]">
+                <img
+                  src="https://storage.googleapis.com/campaigners-images/Temple%20Images/govindaFrontView.jpg"
+                  alt="ISKCON temple"
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-          <div className="bg-card border rounded-xl p-5">
-            <p className="italic text-muted-foreground">
-              “By serving the Lord and helping others serve Him, one attains the
-              highest perfection.”
-            </p>
+                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 lg:p-8">
+                  <div className="max-w-xl space-y-3 text-white">
+                    <p className="text-xs font-medium uppercase tracking-[0.24em] text-white/75">
+                      ISKCON Visakhapatnam
+                    </p>
+                    <h1 className="text-2xl font-semibold leading-tight sm:text-3xl lg:text-4xl">
+                      Support the sacred mission with a clear and secure admin workspace.
+                    </h1>
+                    <p className="max-w-lg text-sm text-white/80 sm:text-base">
+                      Manage campaigners, funders, sevas, and temple outreach from one place.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-            <p className="text-sm text-primary font-semibold mt-3">
-              — Srila Prabhupada
-            </p>
+              <div className="border-t bg-card px-5 py-4 sm:px-6">
+                <p className="text-sm italic text-muted-foreground">
+                  “By serving the Lord and helping others serve Him, one attains the highest perfection.”
+                </p>
+                <p className="mt-2 text-sm font-semibold text-primary">
+                  Srila Prabhupada
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="order-2 flex items-center lg:order-2">
+            <Card className="w-full rounded-3xl border bg-card/95 shadow-xl backdrop-blur">
+              <CardContent className="p-6 sm:p-8 lg:p-10">
+                <div className="mb-6 text-center lg:text-left">
+                  <p className="text-xs font-medium uppercase tracking-[0.22em] text-primary">
+                    Admin Sign In
+                  </p>
+                  <h2 className="mt-2 text-2xl font-semibold sm:text-3xl">
+                    Access Campaign Dashboard
+                  </h2>
+                  <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+                    Access your campaigns, donations, and temple operations securely.
+                  </p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="space-y-1.5">
+                    <Label>Email</Label>
+
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+
+                      <Input
+                        name="email"
+                        placeholder="Enter your email"
+                        value={form.email}
+                        onChange={handleChange}
+                        className="h-11 rounded-xl pl-9"
+                      />
+                    </div>
+
+                    {errors.email && (
+                      <p className="text-destructive text-xs">{errors.email}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label>Password</Label>
+
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        placeholder="Enter password"
+                        value={form.password}
+                        onChange={handleChange}
+                        className="h-11 rounded-xl pl-9 pr-11"
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="absolute right-3 top-3 text-muted-foreground"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+
+                    {errors.password && (
+                      <p className="text-destructive text-xs">{errors.password}</p>
+                    )}
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    className="h-11 w-full rounded-xl text-base font-semibold"
+                  >
+                    {loading ? (
+                      <span className="flex items-center gap-2">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Signing in...
+                      </span>
+                    ) : (
+                      "Sign In"
+                    )}
+                  </Button>
+                </form>
+
+                <div className="mt-6 rounded-2xl border bg-muted/30 px-4 py-3 text-center lg:text-left">
+                  <p className="text-xs text-muted-foreground">
+                    Hare Krishna. Safe and secure access for campaign operations.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
-
-        {/* LOGIN FORM */}
-        <Card className="border shadow-xl rounded-2xl">
-          <CardContent className="p-8">
-            <div className="mb-6 text-center">
-              <h1 className="text-2xl font-semibold">
-                Access Campaign Dashboard
-              </h1>
-              <p className="text-sm text-muted-foreground mt-1">
-                Access your campaigns and donation details
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* EMAIL */}
-              <div className="space-y-1">
-                <Label>Email</Label>
-
-                <div className="relative">
-                  <Mail className="absolute left-3 top-2 h-4 w-4 text-muted-foreground" />
-
-                  <Input
-                    name="email"
-                    placeholder="Enter your email"
-                    value={form.email}
-                    onChange={handleChange}
-                    className="pl-9"
-                  />
-                </div>
-
-                {errors.email && (
-                  <p className="text-destructive text-xs">{errors.email}</p>
-                )}
-              </div>
-
-              {/* PASSWORD */}
-              <div className="space-y-1">
-                <Label>Password</Label>
-
-                <div className="relative">
-                  <Lock className="absolute left-3 top-2 h-4 w-4 text-muted-foreground" />
-
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    placeholder="Enter password"
-                    value={form.password}
-                    onChange={handleChange}
-                    className="pl-9 pr-9"
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                    className="absolute right-3 top-3.5 text-muted-foreground"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
-
-                {errors.password && (
-                  <p className="text-destructive text-xs">{errors.password}</p>
-                )}
-              </div>
-
-              {/* LOGIN BUTTON */}
-              <Button
-                type="submit"
-                disabled={loading}
-                className="w-full h-11 text-base font-semibold"
-              >
-                {loading ? (
-                  <span className="flex items-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Signing in...
-                  </span>
-                ) : (
-                  "Sign In"
-                )}
-              </Button>
-            </form>
-
-            <p className="text-xs text-muted-foreground text-center mt-6">
-              Hare Krishna 🙏 Safe & secure login
-            </p>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

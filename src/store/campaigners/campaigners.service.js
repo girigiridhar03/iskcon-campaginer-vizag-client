@@ -13,6 +13,7 @@ export const getCampainer = createAsyncThunk(
       sort,
       status,
       campStatus,
+      devoteeId,
       isDevotee = false,
       infiniteScroll = false,
     },
@@ -28,6 +29,7 @@ export const getCampainer = createAsyncThunk(
     if (search) url += `&search=${search}`;
     if (sort) url += `&sort=${sort}`;
     if (campStatus) url += `&campStatus=${campStatus}`;
+    if (devoteeId && devoteeId !== "all") url += `&devoteeId=${devoteeId}`;
 
     try {
       const response = await api.get(url, { signal });
@@ -52,9 +54,9 @@ export const getCampainer = createAsyncThunk(
 
 export const getSingleCampaignerDetails = createAsyncThunk(
   "singleDetails",
-  async (id, { rejectWithValue }) => {
+  async ({slugId, campaignId}, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/campaigner/details/${id}`);
+      const response = await api.get(`/campaigner/details/${slugId}/${campaignId}`);
       return response?.data?.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");

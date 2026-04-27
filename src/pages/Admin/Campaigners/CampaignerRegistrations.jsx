@@ -105,7 +105,10 @@ const CampaignerRegistrations = () => {
         <Input
           placeholder="Search campaigner..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setPage(1);
+            setSearch(e.target.value);
+          }}
           className="w-full sm:max-w-sm"
         />
         <div className="flex items-center gap-3.5 self-start sm:self-auto">
@@ -159,7 +162,110 @@ const CampaignerRegistrations = () => {
         </div>
       </div>
 
-      <div className="min-w-0 rounded-2xl border shadow-sm">
+      <div className="grid gap-3 md:hidden">
+        {campainerLoading ? (
+          <div className="rounded-xl border bg-card px-4 py-8 text-center text-sm text-muted-foreground">
+            Loading...
+          </div>
+        ) : campaginers?.length === 0 ? (
+          <div className="rounded-xl border bg-card px-4 py-8 text-center text-sm text-muted-foreground">
+            No Campaigners found
+          </div>
+        ) : (
+          campaginers?.map((item) => (
+            <div key={item._id} className="rounded-xl border bg-card p-4 shadow-sm">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex min-w-0 items-center gap-3">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={item?.image?.url} />
+                    <AvatarFallback>{item?.name?.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <div className="min-w-0">
+                    <p className="truncate font-medium">{item?.name}</p>
+                    <p className="text-sm text-muted-foreground">{item.phoneNumber}</p>
+                  </div>
+                </div>
+                <Button variant="ghost" size="icon" onClick={() => setSelectedCampaigner(item)}>
+                  <Eye className="h-4 w-4" />
+                </Button>
+              </div>
+
+              <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Target</p>
+                  <p className="font-medium">₹{item.targetAmount.toLocaleString("en-IN")}</p>
+                </div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Status</p>
+                  <p className="font-medium capitalize">{item.status}</p>
+                </div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2 col-span-2">
+                  <p className="text-xs text-muted-foreground">Touch With Devotee</p>
+                  <p className="font-medium">{item?.templeDevoteInTouch?.devoteName}</p>
+                </div>
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Button
+                  size="sm"
+                  onClick={async () => {
+                    const result = await dispatch(
+                      updateCampaigner({
+                        id: item?._id,
+                        formData: { status: "active" },
+                      }),
+                    ).unwrap();
+                    if (result?.success) {
+                      toast.success("Approved Successfully");
+                      dispatch(
+                        getCampainer({
+                          id: currentCampaign?._id,
+                          status: sort,
+                          campStatus: "active",
+                          page,
+                          pageSize,
+                          sort: "created_desc",
+                        }),
+                      );
+                    }
+                  }}
+                >
+                  Approve
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={async () => {
+                    const result = await dispatch(
+                      updateCampaigner({
+                        id: item?._id,
+                        formData: { status: "reject" },
+                      }),
+                    ).unwrap();
+                    if (result?.success) {
+                      toast.success("Rejected Successfully");
+                      dispatch(
+                        getCampainer({
+                          id: currentCampaign?._id,
+                          status: sort,
+                          campStatus: "active",
+                          page,
+                          pageSize,
+                          sort: "created_desc",
+                        }),
+                      );
+                    }
+                  }}
+                >
+                  Reject
+                </Button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="hidden min-w-0 overflow-x-auto rounded-2xl border shadow-sm md:block">
         <Table className="min-w-245">
           <TableHeader className="bg-muted/50">
             <TableRow>

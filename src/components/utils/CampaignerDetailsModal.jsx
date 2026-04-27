@@ -78,6 +78,18 @@ const CampaignerDetailsModal = ({ campaigner, onClose }) => {
             label="Devotee Phone"
             value={campaigner?.templeDevoteInTouch?.phoneNumber}
           />
+
+          <Detail
+            label="Created By"
+            value={campaigner?.createdBy?.name || campaigner?.createdBy?.email}
+          />
+
+          <Detail
+            label="Approved By"
+            value={
+              campaigner?.approvedBy?.name || campaigner?.approvedBy?.email
+            }
+          />
         </div>
       </DialogContent>
     </Dialog>

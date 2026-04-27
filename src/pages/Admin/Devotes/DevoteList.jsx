@@ -82,6 +82,91 @@ export default function DevoteeList() {
         </CardHeader>
 
         <CardContent className="min-w-0 px-0 sm:px-6">
+          <div className="grid gap-3 px-4 md:hidden">
+            {devoteeLoading ? (
+              <div className="rounded-xl border bg-card px-4 py-8 text-center text-sm text-muted-foreground">
+                Loading...
+              </div>
+            ) : devotees?.length === 0 ? (
+              <div className="rounded-xl border bg-card px-4 py-8 text-center text-sm text-muted-foreground">
+                No Devotees found
+              </div>
+            ) : (
+              devotees?.map((item, index) => (
+                <div key={item?._id} className="rounded-xl border bg-card p-4 shadow-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="font-medium">
+                        {index + 1}. {item?.devoteName}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {item?.phoneNumber}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Link to={`/admin/devotee/${item?._id}/edit`}>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-destructive"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Devotee?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. This will permanently remove the devotee from the temple list.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              className="bg-destructive text-white hover:bg-destructive/90"
+                              onClick={() => handleDelete(item?._id)}
+                            >
+                              {deleteDevoteLoading ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : (
+                                "Delete"
+                              )}
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                  </div>
+                  <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                    <div className="rounded-lg bg-muted/40 px-3 py-2">
+                      <p className="text-xs text-muted-foreground">Email</p>
+                      <p className="font-medium break-words">{item?.email}</p>
+                    </div>
+                    <div className="rounded-lg bg-muted/40 px-3 py-2">
+                      <p className="text-xs text-muted-foreground">Campaigners</p>
+                      <p className="font-medium">{item?.totalCampaigners}</p>
+                    </div>
+                    <div className="rounded-lg bg-muted/40 px-3 py-2">
+                      <p className="text-xs text-muted-foreground">Short Form</p>
+                      <p className="font-medium">{item?.shortForm}</p>
+                    </div>
+                    <div className="rounded-lg bg-muted/40 px-3 py-2">
+                      <p className="text-xs text-muted-foreground">Devotee ID</p>
+                      <p className="font-medium">{item?.devoteeID}</p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          <div className="hidden overflow-x-auto md:block">
           <Table className="min-w-180">
             <TableHeader>
               <TableRow>
@@ -184,6 +269,7 @@ export default function DevoteeList() {
               )}
             </TableBody>
           </Table>
+          </div>
         </CardContent>
       </Card>
     </section>

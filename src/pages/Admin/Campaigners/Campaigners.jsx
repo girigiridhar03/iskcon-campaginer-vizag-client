@@ -15,8 +15,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteCampaigner,
   getCampainer,
+  getTempleDevotesList,
 } from "@/store/campaigners/campaigners.service";
-import { getCurrentCampaign } from "@/store/campaign/campaign.service";
+import {
+  getCampaignsList,
+  getCurrentCampaign,
+} from "@/store/campaign/campaign.service";
 import CustomPagination from "@/components/utils/CustomPagination";
 import { Funnel, Pencil, Trash2 } from "lucide-react";
 import {
@@ -43,25 +47,59 @@ import {
 import CampaignerDetailsModal from "@/components/utils/CampaignerDetailsModal";
 import { toast } from "@/utils/toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function CampaignersTable() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { campaginers, campaginerTotalPages, campainerLoading } = useSelector(
-    (state) => state.campaginer,
-  );
+  const {
+    campaginers,
+    campaginerTotalPages,
+    campainerLoading,
+    templeDevotesList,
+  } = useSelector((state) => state.campaginer);
   const { details } = useSelector((state) => state.auth);
-  const { currentCampaign } = useSelector((state) => state.campaign);
+  const { currentCampaign, campaginListArr } = useSelector(
+    (state) => state.campaign,
+  );
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [sort, setSort] = useState("");
   const [page, setPage] = useState(1);
   const pageSize = 15;
   const [campaigner, setSelectedCampaigner] = useState(null);
+  const [selectedCampaignId, setSelectedCampaignId] = useState("all");
+  const [selectedCampaignStatus, setSelectedCampaignStatus] =
+    useState("active");
+  const [selectedDevoteeId, setSelectedDevoteeId] = useState("all");
+  const isAdmin = details?.role === "admin";
+  const isDevotee = ["admin", "devotee"].includes(details?.role);
+  const effectiveCampaignId =
+    isAdmin && selectedCampaignId !== "all"
+      ? selectedCampaignId
+      : currentCampaign?._id;
+  const effectiveCampaignStatus =
+    isAdmin && selectedCampaignId !== "all"
+      ? selectedCampaignStatus
+      : currentCampaign?.status || "active";
 
   useEffect(() => {
     dispatch(getCurrentCampaign());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!isAdmin) return;
+
+    dispatch(getCampaignsList({ page: 1, pageSize: 100 }));
+    dispatch(getTempleDevotesList());
+  }, [dispatch, isAdmin]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
@@ -71,21 +109,33 @@ export default function CampaignersTable() {
   }, [search]);
 
   useEffect(() => {
-    if (!currentCampaign?._id || !details?.role) return;
-    const isDevotee = ["admin", "devotee"].includes(details?.role);
+    if (!effectiveCampaignId || !details?.role) return;
+
     dispatch(
       getCampainer({
-        id: currentCampaign?._id,
+        id: effectiveCampaignId,
         status: "active",
-        campStatus: "active",
+        campStatus: effectiveCampaignStatus,
         page,
         pageSize,
         sort,
         search: debouncedSearch,
+        devoteeId: isAdmin ? selectedDevoteeId : undefined,
         isDevotee,
       }),
     );
-  }, [currentCampaign?._id, debouncedSearch, sort, page, details, dispatch]);
+  }, [
+    effectiveCampaignId,
+    effectiveCampaignStatus,
+    selectedCampaignId,
+    selectedDevoteeId,
+    debouncedSearch,
+    sort,
+    page,
+    details?.role,
+    dispatch,
+    isDevotee,
+  ]);
 
   const CAMPAIGN_SORT_OPTIONS = [
     {
@@ -128,14 +178,74 @@ export default function CampaignersTable() {
         <Input
           placeholder="Search campaigner..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setPage(1);
+            setSearch(e.target.value);
+          }}
           className="w-full sm:max-w-sm"
         />
-        <div className="flex items-center gap-3.5 self-start sm:self-auto">
+        <div className="flex w-full flex-col gap-3.5 self-start sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:self-auto">
+          {isAdmin && (
+            <Select
+              value={selectedCampaignId}
+              onValueChange={(value) => {
+                setPage(1);
+                setSelectedCampaignId(value);
+
+                const selectedCampaign =
+                  value === "all"
+                    ? currentCampaign
+                    : campaginListArr?.find(
+                        (campaign) => campaign?._id === value,
+                      );
+
+                setSelectedCampaignStatus(selectedCampaign?.status || "active");
+              }}
+            >
+              <SelectTrigger className="w-full sm:w-56">
+                <SelectValue placeholder="Filter by Campaign" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Current Campaign</SelectItem>
+                {campaginListArr?.map((campaign) => (
+                  <SelectItem key={campaign?._id} value={campaign?._id}>
+                    {campaign?.title}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+
+          {isAdmin && (
+            <Select
+              value={selectedDevoteeId}
+              onValueChange={(value) => {
+                setPage(1);
+                setSelectedDevoteeId(value);
+              }}
+            >
+              <SelectTrigger className="w-full sm:w-56">
+                <SelectValue placeholder="Filter by Devotee" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Devotees</SelectItem>
+                {templeDevotesList?.map((devotee) => (
+                  <SelectItem key={devotee?._id} value={devotee?._id}>
+                    {devotee?.devoteName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+
           <Popover>
             <PopoverTrigger asChild>
-              <Button size="icon-sm" className="relative">
+              <Button
+                variant="outline"
+                className="relative w-full justify-center gap-2 sm:w-auto sm:px-4"
+              >
                 <Funnel />
+                <span className="sm:inline">Sort</span>
 
                 {sort && (
                   <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
@@ -170,7 +280,166 @@ export default function CampaignersTable() {
           </Popover>
         </div>
       </div>
-      <div className="min-w-0 rounded-2xl border shadow-sm">
+      <div className="grid gap-3 md:hidden">
+        {campainerLoading ? (
+          <div className="rounded-xl border bg-card px-4 py-8 text-center text-sm text-muted-foreground">
+            Loading...
+          </div>
+        ) : campaginers?.length === 0 ? (
+          <div className="rounded-xl border bg-card px-4 py-8 text-center text-sm text-muted-foreground">
+            No Campaigners found
+          </div>
+        ) : (
+          campaginers?.map((item) => (
+            <div
+              key={item._id}
+              className="rounded-xl border bg-card p-4 shadow-sm"
+              onClick={() => setSelectedCampaigner(item)}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex min-w-0 items-center gap-3">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={item?.image?.url} />
+                    <AvatarFallback>{item?.name?.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <div className="min-w-0">
+                    <p className="truncate font-medium">{item?.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {item?.phoneNumber}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex shrink-0 items-center gap-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(
+                        `/admin/campaigner/edit/${item._id}?slug=${item?.slug}&campaignId=${item?.campaignId?._id}`,
+                      );
+                    }}
+                  >
+                    <Pencil size={16} />
+                  </Button>
+                  {item?.raisedAmount <= 0 && (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-destructive"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Trash2 size={16} />
+                        </Button>
+                      </AlertDialogTrigger>
+
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete Campaigner</AlertDialogTitle>
+
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently
+                            delete the campaigner and their data.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+
+                        <AlertDialogFooter>
+                          <AlertDialogCancel
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            Cancel
+                          </AlertDialogCancel>
+
+                          <AlertDialogAction
+                            onClick={async (e) => {
+                              e.stopPropagation();
+                              try {
+                                const result = await dispatch(
+                                  deleteCampaigner(item?._id),
+                                ).unwrap();
+
+                                if (result?.success && effectiveCampaignId) {
+                                  toast.success(
+                                    "Campaigner Deleted Successfully",
+                                  );
+
+                                  dispatch(
+                                    getCampainer({
+                                      id: effectiveCampaignId,
+                                      status: "active",
+                                      campStatus: effectiveCampaignStatus,
+                                      page,
+                                      pageSize,
+                                      sort,
+                                      search: debouncedSearch,
+                                      devoteeId: isAdmin
+                                        ? selectedDevoteeId
+                                        : undefined,
+                                      isDevotee,
+                                    }),
+                                  );
+                                }
+                              } catch (error) {
+                                toast.error(
+                                  error || "Failed to delete campaigner",
+                                );
+                              }
+                            }}
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  )}
+                </div>
+              </div>
+
+              <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Target</p>
+                  <p className="font-medium">
+                    ₹{item.targetAmount.toLocaleString("en-IN")}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Raised</p>
+                  <p className="font-medium">
+                    ₹{item.raisedAmount.toLocaleString("en-IN")}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Funders</p>
+                  <p className="font-medium">{item?.funderCount}</p>
+                </div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Progress</p>
+                  <p className="font-medium">{item?.percentage}%</p>
+                </div>
+              </div>
+
+              <div className="mt-4 space-y-2">
+                <Progress value={item?.percentage} />
+                <Button
+                  className="w-full"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/admin/funders?id=${item?._id}`);
+                  }}
+                >
+                  View Funders
+                </Button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="hidden min-w-0 overflow-x-auto rounded-2xl border shadow-sm md:block">
         <Table className="min-w-270">
           <TableHeader className="bg-muted/50">
             <TableRow>
@@ -265,7 +534,9 @@ export default function CampaignersTable() {
                           className="cursor-pointer"
                           onClick={(e) => {
                             e.stopPropagation();
-                            navigate(`/admin/campaigner/edit/${item._id}`);
+                            navigate(
+                              `/admin/campaigner/edit/${item._id}?slug=${item?.slug}&campaignId=${item?.campaignId?._id}`,
+                            );
                           }}
                         >
                           <Pencil size={16} />
@@ -309,28 +580,30 @@ export default function CampaignersTable() {
                                   onClick={async (e) => {
                                     e.stopPropagation();
                                     try {
-                                      const isDevotee = [
-                                        "admin",
-                                        "devotee",
-                                      ].includes(details?.role);
+                                      const campaignId = isAdmin
+                                        ? effectiveCampaignId
+                                        : currentCampaign?._id;
                                       const result = await dispatch(
                                         deleteCampaigner(item?._id),
                                       ).unwrap();
 
-                                      if (result?.success) {
+                                      if (result?.success && campaignId) {
                                         toast.success(
                                           "Campaigner Deleted Successfully",
                                         );
 
                                         dispatch(
                                           getCampainer({
-                                            id: currentCampaign?._id,
+                                            id: campaignId,
                                             status: "active",
-                                            campStatus: "active",
+                                            campStatus: effectiveCampaignStatus,
                                             page,
                                             pageSize,
                                             sort,
-                                            search,
+                                            search: debouncedSearch,
+                                            devoteeId: isAdmin
+                                              ? selectedDevoteeId
+                                              : undefined,
                                             isDevotee,
                                           }),
                                         );

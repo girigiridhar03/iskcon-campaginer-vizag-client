@@ -20,6 +20,12 @@ import React from "react";
 
 export function NavMain({ items }) {
   const { pathname } = useLocation();
+
+  const isRouteActive = (url) => {
+    if (!url || url === "#") return false;
+    return pathname === url || pathname.startsWith(`${url}/`);
+  };
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -29,12 +35,21 @@ export function NavMain({ items }) {
             {item?.items?.length ? (
               <Collapsible
                 asChild
-                defaultOpen={item.isActive}
+                defaultOpen={item.items?.some((subItem) =>
+                  isRouteActive(subItem?.url),
+                )}
                 className="group/collapsible"
               >
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip={item.title}>
+                    <SidebarMenuButton
+                      tooltip={item.title}
+                      className={
+                        item.items?.some((subItem) => isRouteActive(subItem?.url))
+                          ? "bg-primary/10 text-primary"
+                          : ""
+                      }
+                    >
                       {item.icon && <item.icon />}
                       <span>{item.title}</span>
                       {item?.items?.length && (
@@ -48,7 +63,11 @@ export function NavMain({ items }) {
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton
                             asChild
-                            className={`${pathname === subItem?.url && "bg-primary hover:bg-primary"}`}
+                            className={
+                              isRouteActive(subItem?.url)
+                                ? "bg-primary text-primary-foreground hover:bg-primary"
+                                : ""
+                            }
                           >
                             <Link to={subItem.url}>
                               <span>{subItem.title}</span>
@@ -64,7 +83,11 @@ export function NavMain({ items }) {
               <Link to={item?.url}>
                 <SidebarMenuButton
                   tooltip={item.title}
-                  className={`${pathname === item?.url && "bg-primary hover:bg-primary"}`}
+                  className={
+                    isRouteActive(item?.url)
+                      ? "bg-primary text-primary-foreground hover:bg-primary"
+                      : ""
+                  }
                 >
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>

@@ -26,7 +26,12 @@ import {
 } from "@/store/campaigners/campaigners.service";
 import { getCurrentCampaign } from "@/store/campaign/campaign.service";
 import { toast } from "@/utils/toast";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 
 export default function CreateCampaigner() {
   const dispatch = useDispatch();
@@ -42,7 +47,10 @@ export default function CreateCampaigner() {
   );
   const { details } = useSelector((state) => state.auth);
   const { campaignerId } = useParams();
+  const [searchParams] = useSearchParams();
   const { pathname } = useLocation();
+  const slug = searchParams.get("slug");
+  const campaignId = searchParams.get("campaignId");
   const [formData, setFormData] = useState({
     name: "",
     phoneNumber: "",
@@ -69,10 +77,21 @@ export default function CreateCampaigner() {
     dispatch(getMediaList());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (!currentCampaign || !isEdit) return;
-    dispatch(getSingleCampaignerDetails(campaignerId));
-  }, [campaignerId, isEdit, dispatch]);
+   useEffect(() => {
+    const effectiveSlugId = slug || campaignerId;
+    const effectiveCampaignId = campaignId || currentCampaign?._id;
+
+    if (!isEdit || !campaignerId || !effectiveSlugId || !effectiveCampaignId) {
+      return;
+    }
+
+    dispatch(
+      getSingleCampaignerDetails({
+        slugId: effectiveSlugId,
+        campaignId: effectiveCampaignId,
+      }),
+    );
+  }, [campaignerId, slug, campaignId, currentCampaign?._id, isEdit, dispatch]);
 
   useEffect(() => {
     if (
@@ -117,8 +136,8 @@ export default function CreateCampaigner() {
         }
       });
 
-      if (currentCampaign?._id) {
-        data.append("campaignId", currentCampaign._id);
+      if (campaignId || currentCampaign?._id) {
+        data.append("campaignId", campaignId || currentCampaign?._id);
       }
 
       if (details?.role === "devotee") {
@@ -157,7 +176,7 @@ export default function CreateCampaigner() {
         setSelectedImg(null);
       } else if (campaignerId && isEdit) {
         const result = await dispatch(
-          updateCampaigner({ id: campaignerId, formData }),
+          updateCampaigner({ id: campaignerId, formData: data }),
         ).unwrap();
         if (result?.success) {
           toast.success("Campaigner Updated Successfully!");

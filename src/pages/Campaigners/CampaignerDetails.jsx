@@ -140,8 +140,13 @@ const CampaignerDetails = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!slug) return;
-    dispatch(getSingleCampaignerDetails(slug))
+    if (!slug || !currentCampaign?._id) return;
+    dispatch(
+      getSingleCampaignerDetails({
+        slugId: slug,
+        campaignId: currentCampaign._id,
+      }),
+    )
       .unwrap()
       .catch((err) => {
         console.log(err);
@@ -149,7 +154,7 @@ const CampaignerDetails = () => {
           navigate("*");
         }
       });
-  }, [slug, dispatch]);
+  }, [slug, currentCampaign?._id, dispatch]);
 
   useEffect(() => {
     if (!slug || !currentCampaign?._id) return;

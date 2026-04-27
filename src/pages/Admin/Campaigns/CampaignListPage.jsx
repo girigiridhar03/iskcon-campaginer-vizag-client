@@ -36,7 +36,17 @@ import CustomPagination from "@/components/utils/CustomPagination";
 import { Progress } from "@/components/ui/progress";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const PAGE_SIZE = 10;
 
@@ -168,7 +178,134 @@ const CampaignListPage = () => {
         </Popover>
       </div>
 
-      <div className="min-w-0 rounded-xl border">
+      <div className="grid gap-3 md:hidden">
+        {campaigns?.length === 0 ? (
+          <div className="rounded-xl border bg-card px-4 py-8 text-center text-sm text-muted-foreground">
+            No campaigns found
+          </div>
+        ) : (
+          campaigns?.map((campaign) => (
+            <div
+              key={campaign._id}
+              className="rounded-xl border bg-card p-4 shadow-sm"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-medium">{campaign?.title}</p>
+                  <div className="mt-1">
+                    <StatusBadge status={campaign?.status} />
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Link to={`/admin/campaign/${campaign?._id}/edit`}>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="cursor-pointer"
+                    >
+                      <Pen />
+                    </Button>
+                  </Link>
+                  {campaign?.raisedAmount <= 0 && (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-destructive cursor-pointer"
+                        >
+                          <Trash2 size={16} />
+                        </Button>
+                      </AlertDialogTrigger>
+
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete Campaigner</AlertDialogTitle>
+
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently
+                            delete the campaigner and their data.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                          <AlertDialogAction
+                            onClick={async () => {
+                              try {
+                                const result = await dispatch(
+                                  deleteCampaign(campaign?._id),
+                                ).unwrap();
+
+                                if (result?.success) {
+                                  toast.success(
+                                    "Campaign Deleted Successfully",
+                                  );
+
+                                  dispatch(
+                                    getCampaignsList({
+                                      page: 1,
+                                      pageSize: PAGE_SIZE,
+                                    }),
+                                  );
+                                }
+                              } catch (error) {
+                                toast.error(
+                                  error || "Failed to delete campaigner",
+                                );
+                              }
+                            }}
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  )}
+                </div>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Target</p>
+                  <p className="font-medium">
+                    ₹{campaign?.targetAmount?.toLocaleString("en-IN")}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Raised</p>
+                  <p className="font-medium">
+                    ₹{campaign?.raisedAmount?.toLocaleString("en-IN")}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2 col-span-2">
+                  <p className="text-xs text-muted-foreground">Progress</p>
+                  <div className="mt-2 space-y-2">
+                    <Progress value={campaign?.percentage} />
+                    <span className="text-xs text-muted-foreground">
+                      {campaign?.percentage}%
+                    </span>
+                  </div>
+                </div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Start Date</p>
+                  <p className="font-medium">
+                    {new Date(campaign?.startDate).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">End Date</p>
+                  <p className="font-medium">
+                    {new Date(campaign?.endDate).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="hidden min-w-0 overflow-x-auto rounded-xl border md:block">
         <Table className="min-w-245">
           <TableHeader>
             <TableRow>
@@ -253,13 +390,11 @@ const CampaignListPage = () => {
 
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              Delete Campaigner
-                            </AlertDialogTitle>
+                            <AlertDialogTitle>Delete Campaign</AlertDialogTitle>
 
                             <AlertDialogDescription>
                               This action cannot be undone. This will
-                              permanently delete the campaigner and their data.
+                              permanently delete the campaign and their data.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
 

@@ -204,7 +204,83 @@ export default function DonorsTable() {
         </div>
       </div>
 
-      <div className="min-w-0 rounded-xl border bg-card">
+      <div className="grid gap-3 md:hidden">
+        {loading ? (
+          <div className="rounded-xl border bg-card px-4 py-8 text-center text-sm text-muted-foreground">
+            Loading...
+          </div>
+        ) : getDonationsArr?.length === 0 ? (
+          <div className="rounded-xl border bg-card px-4 py-8 text-center text-sm text-muted-foreground">
+            No donors found
+          </div>
+        ) : (
+          getDonationsArr?.map((donor) => (
+            <div
+              key={donor._id}
+              className="rounded-xl border bg-card p-4 shadow-sm"
+              onClick={() => setSelectedDonor(donor)}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="font-medium">
+                    {donor.isAnonymous ? "Anonymous" : donor.donorName}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {donor.donorPhone}
+                  </p>
+                </div>
+                <Badge variant="default" className="capitalize">
+                  {donor.status}
+                </Badge>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Campaign</p>
+                  <p className="font-medium">{donor.campaign?.title || "-"}</p>
+                </div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Campaigner</p>
+                  <p className="font-medium">{donor.campaigner?.name || "-"}</p>
+                </div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Date</p>
+                  <p className="font-medium">
+                    {new Date(donor.createdAt).toLocaleDateString("en-GB", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                  <p className="text-xs text-muted-foreground">Amount</p>
+                  <p className="font-medium text-primary">
+                    ₹{donor.amount.toLocaleString()}
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                className="mt-4 w-full"
+                disabled={downloading?.val}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDownloadReceipt(donor);
+                }}
+              >
+                {downloading?.id === donor?._id && downloading?.val ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Download className="h-4 w-4" />
+                )}
+                <span>Download Receipt</span>
+              </Button>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="hidden min-w-0 overflow-x-auto rounded-xl border bg-card md:block">
         <Table className="min-w-230">
           <TableHeader>
             <TableRow>
