@@ -82,7 +82,7 @@ export default function Dashboard() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (details?.role !== "admin") return;
+    if (!["admin", "devotee"].includes(details?.role)) return;
     dispatch(getCampaignsList({ page: 1, pageSize: 100 }));
   }, [dispatch, details?.role]);
 
@@ -169,7 +169,7 @@ export default function Dashboard() {
             Campaign performance overview
           </p>
         </div>
-        {details?.role === "admin" && (
+        {["admin", "devotee"].includes(details?.role) && (
           <Select
             value={selectedCampaignId}
             onValueChange={setSelectedCampaignId}
