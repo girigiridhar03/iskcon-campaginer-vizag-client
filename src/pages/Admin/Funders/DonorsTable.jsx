@@ -318,9 +318,7 @@ export default function DonorsTable() {
                 >
                   <TableCell>
                     <div className="flex flex-col">
-                      <span className="font-medium">
-                        {donor.isAnonymous ? "Anonymous" : donor.donorName}
-                      </span>
+                      <span className="font-medium">{donor.donorName}</span>
                       <span className="text-xs text-muted-foreground">
                         {donor.donorPhone}
                       </span>
